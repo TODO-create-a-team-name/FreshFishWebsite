@@ -1,26 +1,42 @@
 ﻿using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            if (_signInManager.IsSignedIn(User)) //якщо користувач автентифікований
+            {
+                var user = await _userManager.GetUserAsync(User); //шукаємо його
+                if (user != null) //якщо користувач знайдений
+                {
+                    var model = new ShowUserViewModel
+                    {
+                        Name = user.Name,
+                        Surname = user.Usersurname, //передаємо його дані в модель
+                        Email = user.Email
+                    };
+
+                    return View(model); //повертаємо представлення
+                }
+            }
+            return View(); //в іншому випадку повертаємо представлення без даних
         }
 
         public IActionResult Privacy()
