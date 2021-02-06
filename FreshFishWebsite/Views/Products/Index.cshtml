@@ -1,0 +1,40 @@
+﻿@model IEnumerable<FreshFishWebsite.Models.Product>
+@{
+    ViewBag.Title = "Products List";
+}
+
+<a class="btn btn-sm btn-success" asp-action="Create">Додати продукт</a>
+<table class="table">
+    <tr>
+        <td>Назва</td>
+        <td>Ціна</td>
+        <td>Дата виготовлення</td>
+        <td>Кількість</td>
+        <td>Продано</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>@item.ProductName</td>
+    <td>@item.Price</td>
+    <td>@item.Date</td>
+    <td>@item.Amount</td>
+    @if (item.IsSold)
+    {
+        <td class="text-success">Так</td>
+    }
+    else
+    {
+        <td class="text-danger">Ні</td>
+    }
+    <td>
+        <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>
+            <button type="submit" class="btn btn-sm btn-danger">
+                Видалити
+            </button>
+        </form>
+    </td>
+</tr>
+    }
+</table>

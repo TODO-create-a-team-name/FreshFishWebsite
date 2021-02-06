@@ -7,7 +7,7 @@ namespace FreshFishWebsite.Models
     {
         public FreshFishDbContext(DbContextOptions<FreshFishDbContext> options) : base(options) {}
 
-
+        public DbSet<Product> Products { get; set; }
 
 
     }
