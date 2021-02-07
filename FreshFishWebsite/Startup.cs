@@ -24,6 +24,7 @@ namespace FreshFishWebsite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
             services.AddDbContext<FreshFishDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

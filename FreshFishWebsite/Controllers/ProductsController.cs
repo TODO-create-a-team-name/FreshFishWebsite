@@ -15,6 +15,10 @@ namespace FreshFishWebsite.Controllers
         {
             _repo = repo;
         }
+        public IActionResult ShowAllProducts()
+        {
+            return View(_repo.GetAll());
+        }
         public IActionResult Index()
         {
             return View(_repo.GetAll());

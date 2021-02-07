@@ -8,7 +8,8 @@ namespace FreshFishWebsite.Models
         public FreshFishDbContext(DbContextOptions<FreshFishDbContext> options) : base(options) {}
 
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
 
     }
 }

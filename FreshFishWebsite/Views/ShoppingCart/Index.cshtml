@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ShoppingCartProduct>
+
+<table class="table">
+    <tr>
+        <td>Назва</td>
+        <td>Кількість</td>
+    </tr>
+    
+   @foreach (var item in Model)
+   {
+<tr>
+    <td>@item.Product.ProductName</td>
+    <td>@item.Quantity</td>
+</tr>
+   }
+</table>
