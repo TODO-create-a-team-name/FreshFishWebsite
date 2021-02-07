@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreshFishWebsite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/mainPage.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/mainPage.css")" />
 </head>
 <body>
     <header>
@@ -18,8 +18,8 @@
                        </a>
                    </li>
                    <li  class="list-item">
-                       <a class="menu-links">
-                           <p class="text-parents">Продукція</p>
+                       <a class="menu-links" asp-controller="Products" asp-action="Index">
+                           <p class="text-parents" >Продукція</p>
                        </a>
                    </li>
                     <li  class="list-item">
@@ -28,7 +28,7 @@
                        </a>
                     </li>
                    <li  class="list-item">
-                       <a class="menu-links">
+                       <a class="menu-links" href="/#about">
                            <p class="text-parents">Про нас</p>
                        </a>
                    </li>
@@ -43,30 +43,28 @@
                            <p class="text-parents">LOGo</p>
                </a>
                <div class="mobile-menu-btn">
-                   <div class="menu-btn-position">
+                   <label class="menu-btn-position">
                        <input class="menu-btn" type="checkbox" />
                     <span></span>
                     <span></span>
                     <span></span>
-                   </div>
+                   </label>
                    
-               </div>
-
-               
+               </div>       
        </nav>
         <div class="welcome-container">
             <div class="welcome-container-title">
                 <p>Свіжа риба</p>
             </div>
            <p class="welcome-container-subtitle">
-               Бездоганна риба на столі за декілька кіліки!<br />
+               Бездоганна риба на столі за декілька кліків!<br />
                Чудовий та широкий асортимент риби і високоякісного сервісу.
            </p>
         </div>
         <object data="~/img/mainPage/downArrow.svg" type="image/svg+xml" class="arrowImage"></object>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="home-container">
+        <main role="main">
             @RenderBody()
         </main>
     </div>

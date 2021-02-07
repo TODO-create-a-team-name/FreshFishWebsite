@@ -1,8 +1,68 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Головна сторінка";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="about-container" id="about">
+    <object data="~/img/mainPage/_1Fish.svg" type="image/svg+xml" class="fish-img"></object>
+    <div class="paper-box">
+        <div class="paper-box-title">
+            <h3>Про нас</h3>
+        </div>
+        <p>
+            Ми відповідально підходимо до підбору видів риби, предсталених на нашому сайті. Тут ви побачете тільки
+            якісну продукцію рибного виробництва,
+            дотримуються усіх стандартів елкологічних ферм.
+        </p>
+        <p>
+            Завдяки ситему сучасних складів риба не тільки довго зберігається але й швидко доставляється до замовника
+        </p>
+    </div>
+    <img src="~/img/mainPage/fisherman.jpg" class="about-img" />
+</div>
+<div class="work-map-container">
+    <h1>Части по типу як ми праціює і які ми класні.</h1>
+</div>
+<div class="products-container">
+    <h1>Частина про продукцію</h1>
+</div>
+<div class="contacts-container">
+    <h1>Контактна інформація</h1>
+</div>
+<div class="footer-clean">
+    <footer>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>Про компанію</h3>
+                    <ul>
+                        <li><a href="#">Історія</a></li>
+                        <li><a href="#">Ліцензія</a></li>
+                        <li><a href="#">Партнери</a></li>
+                        <li><a href="#">Ваканції</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>Продкуція</h3>
+                    <ul>
+                        <li><a href="#">Риба</a></li>
+                        <li><a href="#">Море продукти</a></li>
+                        <li><a href="#">Ікра</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>FAQ</h3>
+                    <ul>
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Оплата</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 item social">
+                    <a href="#"><i class="icon ion-social-facebook"></i></a><a href="#">
+                        <i class="icon ion-social-twitter"></i>
+                    </a><a href="#"><i
+                </div></i>
+            </div>
+        </div>
+        <object data="~/img/mainPage/_2Fish.svg" type="image/svg+xml" class="footer-fish"></object>
+    </footer>
 </div>
