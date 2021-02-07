@@ -1,4 +1,6 @@
 ﻿function initMap() {
+    var start = new google.maps.places.Autocomplete(document.getElementById('start'));
+    var end = new google.maps.places.Autocomplete(document.getElementById('end'));
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -10,6 +12,7 @@
     const onChangeHandler = function () {
         calculateAndDisplayRoute(directionsService, directionsRenderer);
     };
+
     document
         .getElementById("start")
         .addEventListener("change", onChangeHandler);
