@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+$font-sans: "Open Sans", sans-serif;
+
+//Colors
+$black: #34435e;
+$white: #ffffff;
+
 * {
     margin: 0px;
     padding: 0px;
@@ -119,6 +126,220 @@ header {
     animation: floatAnim 2s ease-in-out infinite;
 }
 
+.products-container {
+    position: relative;
+    height: 100%;
+    margin: {
+        top: 100px;
+    }
+    background: {
+        color: #182a58;
+    }
+    // display: flex;
+    &-title {
+        font: {
+            family: "Comfortaa", cursive;
+            weight: 400;
+        }
+        margin: {
+            left: 30px;
+        }
+        padding: {
+            top: 20px;
+        }
+        color: #fff;
+        border-bottom: 2px solid #ba181b;
+        width: 400px;
+    }
+    .products-under-img {
+        position: absolute;
+        object-fit: cover;
+        height: 100%;
+        width: 16vw;
+        filter: saturate(var(--value, 3));
+        --value: 3;
+        right: 21vw;
+        z-index: 0;
+    }
+    &-view {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        &-info {
+            position: relative;
+            margin-top: 7vh;
+            margin-bottom: 100px;
+            width: 40vw;
+            min-width: 550px;
+            padding-top: 20px;
+            padding-bottom: 50px;
+            padding-right: 20px;
+            padding-left: 7vw;
+            height: 350px;
+            background: #ba181b;
+            h2 {
+                color: #fff;
+                font-family: "Cormorant Garamond", serif;
+                font-size: 54px;
+            }
+            p {
+                color: #fff;
+                font: {
+                    family: "Comfortaa", cursive;
+                    weight: 400;
+                    size: 16px;
+                }
+            }
+            &-read {
+                position: relative;
+                display: flex;
+                p {
+                    margin-bottom: 2px;
+                }
+                .products-details {
+                }
+                form {
+                    position: absolute;
+                    right: 15px;
+                    bottom: 10px;
+                    .btn-add {
+                        font: {
+                            family: "Comfortaa", cursive;
+                            weight: 400;
+                            size: 16px;
+                        }
+                        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
+                        padding: 5px 20px;
+                        border-radius: 15px;
+                        background-color: #fff;
+                        border: none;
+                        &:hover {
+                            filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));
+                        }
+                        &:focus {
+                            border: none;
+                            outline: none;
+                        }
+                    }
+                }
+            }
+        }
+        &-img {
+            height: 600px;
+            width: 60%;
+
+            .img-container {
+                filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+                // margin: 10px;
+                margin: {
+                    left: auto;
+                    right: auto;
+                    top: 2vh;
+                }
+                vertical-align: center;
+
+                border-radius: 300px;
+                height: 25vw;
+                width: 25vw;
+                background-color: white;
+                .fish-img {
+                    margin: {
+                        top: -4vh;
+                    }
+                    height: 30vw;
+                }
+            }
+        }
+    }
+    &-preview {
+        position: relative;
+        z-index: 2;
+        // margin: {
+        //     top: 30px;
+        // }
+        padding: {
+            bottom: 40px;
+        }
+        display: flex;
+        &-controll {
+            margin: {
+                left: 20px;
+                bottom: 10px;
+            }
+            width: 300px;
+            height: 150px;
+            background-color: wheat;
+        }
+        &-other {
+            display: flex;
+            // margin: {
+            //     left: 30px;
+            // }
+            .product-card {
+                cursor: pointer;
+                margin: {
+                    top: 10px;
+                    left: 60px;
+                }
+                overflow: hidden;
+                background-color: white;
+                padding: 0px 20px;
+                border-radius: 30px;
+                display: flex;
+                width: 300px;
+                height: 130px;
+                filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.3));
+                &:hover {
+                    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+                }
+                &-img {
+                    margin: {
+                        // top: -5px;
+                        // left: -20px;
+                        right: 20px;
+                    }
+                    height: 130px;
+                    transform: rotate(-45deg);
+                }
+                &-titleAndinfo {
+                    width: 145px;
+                    height: 115px;
+                    margin: {
+                        top: 15px;
+                        left: 5px;
+                    }
+                    position: relative;
+                    font: {
+                        family: "Comfortaa", cursive;
+                        weight: 400;
+                        size: 14px;
+                    }
+                    p {
+                    }
+                    div {
+                        form {
+                            position: absolute;
+                            right: 5px;
+                            bottom: 15px;
+                            .btn-add {
+                                background-color: transparent;
+                                border: none;
+                                &:focus {
+                                    border: none;
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .btn-add-content {
+        height: 18px;
+        width: 18px;
+    }
+}
 .home-container {
     .about-container {
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
@@ -183,7 +404,7 @@ header {
             margin-top: 0;
             margin-bottom: 12px;
             font: {
-                family:  "Comfortaa", cursive;
+                family: "Comfortaa", cursive;
                 weight: 400;
                 size: 18px;
             }
@@ -192,7 +413,7 @@ header {
             list-style: none;
             line-height: 1.6;
             font: {
-                family:  "Comfortaa", cursive;
+                family: "Comfortaa", cursive;
                 size: 16px;
             }
             a {
@@ -256,11 +477,11 @@ header {
         .footer-clean .item.social > a {
             margin-top: 10px;
         }
-        .footer-fish{
+        .footer-fish {
             display: none;
         }
     }
-    .footer-fish{
+    .footer-fish {
         position: absolute;
         height: 50px;
         right: 25%;
@@ -268,6 +489,85 @@ header {
 }
 
 @media only screen and (max-width: 700px) {
+    .products-container {
+        .products-container-title {
+            text-align: center;
+            font: {
+                size: 36px;
+                
+            }
+            width: 300px;
+        }
+        &-view{
+            display: block;
+            &-img{
+                left: 49%;
+                transform: translate(-50%, -50%);
+                margin-right: -50%;
+                position: absolute;
+                height: unset;
+                top: 40px;
+                .img-container{
+                    min-width: 210px;
+                    min-height: 210px;
+                    .fish-img{
+                        min-height: 270px;
+                    }
+                }
+                
+            }
+            &-info{
+                margin-top: 120px;
+                margin-bottom: 20px;
+                min-width: 100%;
+                padding-top: 170px;
+                height: 520px;
+                p{
+                    text-align: center;
+                }
+                h2{
+                    margin-top: 10px;
+                    text-align: center;
+                    font-size: 36px;
+                }
+                &-read{
+                    .products-details{
+                        margin: {
+                            left: auto;
+                            right: auto;
+                        }
+                    }
+                   
+                    form{
+                        right:unset;
+                        left: 49%;
+                        transform: translate(-50%, -50%);
+                        margin-right: -50%;
+                        bottom: -70px;
+                        // position: relative;
+                    }
+                }
+            }
+        }
+        .products-container-preview{
+            height:unset;
+        }
+        .products-under-img {
+            display: none;
+        }
+    }
+
+    .products-container-preview {
+        height: 375px;
+        display: block;
+        &-controll,
+        &-other .product-card {
+            margin: {
+                left: auto;
+                right: auto;
+            }
+        }
+    }
     .home-container {
         .about-container {
             .fish-img {
@@ -295,7 +595,7 @@ header {
             right: 40px;
             display: block;
             .menu-btn-position {
-                z-index: 2;
+                z-index: 30;
                 position: fixed;
             }
             & input {
@@ -349,7 +649,7 @@ header {
                 background-color: rgba(0, 0, 0, 0.75);
                 width: 60%;
                 height: 100%;
-                z-index: 1;
+                z-index: 25;
                 position: absolute;
                 display: none;
                 top: 0;
