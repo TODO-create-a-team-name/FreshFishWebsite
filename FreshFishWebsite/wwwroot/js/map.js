@@ -1,6 +1,7 @@
-﻿function initMap() {
-    var start = new google.maps.places.Autocomplete(document.getElementById('start'));
-    var end = new google.maps.places.Autocomplete(document.getElementById('end'));
+﻿
+function initMap() {
+    var startFiled = new google.maps.places.Autocomplete(document.getElementById('start'));
+    var endFiled= new google.maps.places.Autocomplete(document.getElementById('end'));
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -19,7 +20,11 @@
     document
         .getElementById("end")
         .addEventListener("change", onChangeHandler);
+    
+   
 }
+
+
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
     directionsService.route(
@@ -40,4 +45,14 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
             }
         }
     );
+    document.getElementById("end").addEventListener("change", getURL);
+function getURL() {
+        var url = "https://www.google.com/maps?f=d&saddr=";
+    url += document.getElementById("start").value + "&daddr=" + document.getElementById("end").value + "&dirflg=d";
+    url = url.replace(/\s+/g, '');
+    var input = document.getElementById("url");
+    input.value = url;
+    console.log(url)
 }
+}
+
