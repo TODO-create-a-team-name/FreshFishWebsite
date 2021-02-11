@@ -19,7 +19,11 @@ namespace FreshFishWebsite.Repositories
 
         public IEnumerable<ShoppingCartProduct> GetShoppingCartItems(User user)
         {
-            var shoppingCart = _.ShoppingCarts.Include(p => p.Products).ThenInclude(p => p.Product).FirstOrDefault(u => u.User.Id == user.Id);
+            var shoppingCart = _.ShoppingCarts
+                .Include(p => p.Products)
+                .ThenInclude(p => p.Product)
+                .FirstOrDefault(u => u.User.Id == user.Id);
+
             return shoppingCart.Products;
         }
 

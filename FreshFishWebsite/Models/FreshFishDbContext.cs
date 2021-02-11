@@ -10,6 +10,7 @@ namespace FreshFishWebsite.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+        public DbSet<Storage> Storages { get; set; }
 
     }
 }

@@ -15,11 +15,14 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager) 
+        private readonly FreshFishDbContext _context;
+        public AccountController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            FreshFishDbContext context) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
         [HttpGet]
         public IActionResult Register() => View();
@@ -66,27 +69,90 @@ namespace FreshFishWebsite.Controllers
                 return View(model);
         }
 
-            [HttpGet]
-            [AllowAnonymous]
-            public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterStorageAdmin(int storageId, string adminEmail)
+        {
+            var storage = _context.Storages.FirstOrDefault(s => s.Id == storageId);
+            var model = new RegisterStorageAdminViewModel();
+            if(storage != null)
             {
-                if (userId == null || code == null) 
-                {
-                    return View("Error"); 
-                }
-                
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user == null) 
-                {
-                    return View("Error"); 
-                }
-                
-                var result = await _userManager.ConfirmEmailAsync(user, code);
-                if (result.Succeeded)
-                    return RedirectToAction("Index", "Home"); 
-                else 
-                    return View("Error"); 
+                model.StorageId = storageId;
+                model.StorageAddress = storage.Address;
+                model.StorageAdminEmail = adminEmail;
             }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterStorageAdmin(RegisterStorageAdminViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
+                User user = new User
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    Name = model.Name,
+                    Usersurname = model.Surname,
+                    Company = model.Company,
+                    CompanyAddress = model.CompanyAddress,
+                    Storage = storage
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "AdminAssistant");
+                storage.Workers.Add(user);
+                _context.Storages.Update(storage);
+                await _context.SaveChangesAsync();
+                if (result.Succeeded)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+
+                    await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
+                        $"Підтвердіть свій акаунт за наступним посиланням: <a href='{callbackUrl}'>Підтвердити акаунт</a>");
+
+                    return Content("Для завершення реєстрації, перейдіть за посиланням, яке було надіслане вам на пошту.");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null) 
+            {
+                return View("Error"); 
+            }
+            
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) 
+            {
+                return View("Error"); 
+            }
+            
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home"); 
+            else 
+                return View("Error"); 
+        }
 
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null) 
@@ -301,5 +367,11 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);        
         }
+
+        //[HttpGet]
+        //public IActionResult RegisterStorageAdmin()
+        //{
+
+        //}
     }
 }

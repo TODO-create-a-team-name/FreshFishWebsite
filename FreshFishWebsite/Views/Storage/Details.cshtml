@@ -1,0 +1,59 @@
+﻿@model Storage
+@inject Microsoft.AspNetCore.Identity.UserManager<User> userManager;
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2>Продукція</h2>
+<table class="table">
+    <tr>
+        <td>Назва</td>
+        <td>Ціна</td>
+        <td>Дата виготовлення</td>
+        <td>Кількість</td>
+        <td>Продано</td>
+    </tr>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>@item.ProductName</td>
+            <td>@item.Price</td>
+            <td>@item.Date</td>
+            <td>@item.Amount</td>
+            @if (item.IsSold)
+            {
+                <td class="text-success">Так</td>
+ }
+            else
+            {
+                <td class="text-danger">Ні</td>
+}
+            <td>
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Видалити
+                    </button>
+                </form>
+            </td>
+        </tr>
+}
+</table>
+<h2>Працівники</h2>
+<table>
+    <tr>
+        <td>Ім'я</td>
+        <td>Прізвище</td>
+        <td>Електронна пошта</td>
+        <td>Посада</td>
+    </tr>
+    @foreach (var item in Model.Workers)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Usersurname</td>
+            <td>@item.Email</td>
+            <td>@await userManager.GetRolesAsync(item)</td>
+        </tr>
+    }
+</table>

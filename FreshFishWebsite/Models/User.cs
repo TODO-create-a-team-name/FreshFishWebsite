@@ -18,6 +18,8 @@ namespace FreshFishWebsite.Models
 
         [Required]
         public string CompanyAddress { get; set; }
+
+        public Storage Storage { get; set; }
         
         public ShoppingCart ShoppingCart { get; set; }
 

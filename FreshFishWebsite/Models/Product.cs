@@ -12,6 +12,8 @@ namespace FreshFishWebsite.Models
         public DateTime Date { get; set; }
         public int Amount { get; set; }
         public bool IsSold { get; set; } = false;
+        public int StorageId { get; set; }
+        public Storage Storage { get; set; }
         public List<ShoppingCartProduct> ShoppingCartProducts { get; set; }
             = new List<ShoppingCartProduct>();
     }
