@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreshFishWebsite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="@Url.Content("~/css/mainPage.css")" />
+    <link rel="stylesheet"  href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
 </head>
 <body>
     <header>
@@ -24,7 +24,7 @@
                    </li>
                     <li  class="list-item">
                        <a class="menu-links">
-                           <p class="text-parents">LOGo</p>
+                               <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
                        </a>
                     </li>
                    <li  class="list-item">
@@ -40,7 +40,7 @@
                </ul>
            </div>
               <a class="menu-links mobile-logo">
-                           <p class="text-parents">LOGo</p>
+                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
                </a>
                <div class="mobile-menu-btn">
                    <label class="menu-btn-position">
