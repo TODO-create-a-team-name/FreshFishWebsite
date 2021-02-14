@@ -1,6 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&family=Cormorant+Garamond:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
 * {
   margin: 0px;
@@ -168,8 +167,6 @@ header {
 }
 
 .products-container {
-  -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
-          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
   position: relative;
   height: 100%;
   margin-top: 100px;
@@ -380,9 +377,54 @@ header {
   width: 18px;
 }
 
+.contacts-container {
+  padding-top: 160px;
+  padding-bottom: 160px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.contacts-container-info {
+  margin-left: 10vw;
+}
+
+.contacts-container-info h4 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 44px;
+}
+
+.contacts-container-info p {
+  margin-top: 20px;
+  width: 25vw;
+  min-width: 320px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.contacts-container-info h3 {
+  margin-top: 40px;
+  font-weight: 400;
+}
+
+.contacts-container-logo {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.contacts-container-logo .contact-logo {
+  width: 30vw;
+  display: block;
+  min-width: 280px;
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .home-container .about-container {
-  -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
-          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
   position: relative;
   padding-bottom: 20px;
   padding-top: 20px;
@@ -510,7 +552,7 @@ header {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   .home-container .footer-clean .item.social > a {
     margin-top: 10px;
   }
@@ -520,11 +562,14 @@ header {
   }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
   .products-container .products-container-title {
     text-align: center;
-    font-size: 36px;
-    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    font-size: 32px;
+    width: 260px;
   }
   .products-container-view {
     display: block;
@@ -589,7 +634,7 @@ header {
   }
   .home-container .about-container .fish-img {
     position: absolute;
-    height: 18vw;
+    height: 80px;
     left: 50%;
     margin-right: -50%;
     -webkit-transform: translate(-50%, -50%);
@@ -721,6 +766,32 @@ header {
     margin-right: -50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
+  }
+  .contacts-container {
+    padding-top: 100px;
+    padding-bottom: 80px;
+    display: block;
+  }
+  .contacts-container-info {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contacts-container-info h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+    font-size: 32px;
+  }
+  .contacts-container-info p {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+  }
+  .contacts-container-info h3 {
+    margin-top: 20px;
+  }
+  .contacts-container-logo .contact-logo {
+    margin-top: 30px;
   }
   .arrowImage {
     left: 45%;
