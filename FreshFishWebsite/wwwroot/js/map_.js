@@ -19,11 +19,14 @@ function initMap() {
         .addEventListener("change", onChangeHandler);
     document
         .getElementById("end")
-        .addEventListener("change", onChangeHandler);
-    
-   
+        .addEventListener("change", onChangeHandler); 
 }
 
+function getURL() {
+    var url = "https://www.google.com/maps?f=d&saddr="; url += document.getElementById("start").value + "&daddr=" + document.getElementById("end").value + "&dirflg=d";
+        window.open(url, '_blank');
+      //  document.location.href = url;
+    }
 
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
@@ -45,14 +48,6 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
             }
         }
     );
-    document.getElementById("end").addEventListener("change", getURL);
-function getURL() {
-        var url = "https://www.google.com/maps?f=d&saddr=";
-    url += document.getElementById("start").value + "&daddr=" + document.getElementById("end").value + "&dirflg=d";
-    url = url.replace(/\s+/g, '');
-    var input = document.getElementById("url");
-    input.value = url;
-    console.log(url)
-}
+    
 }
 
