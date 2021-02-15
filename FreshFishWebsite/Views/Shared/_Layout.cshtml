@@ -1,11 +1,9 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<User> signInManager;
 @inject Microsoft.AspNetCore.Identity.UserManager<User> userManager;
 
-@{
-    User user = new FreshFishWebsite.Models.User();
-    if (signInManager.IsSignedIn(User))
-        user = await userManager.FindByNameAsync(User.Identity.Name);
-}
+@{ User user = new FreshFishWebsite.Models.User();
+                if (signInManager.IsSignedIn(User))
+                    user = await userManager.FindByNameAsync(User.Identity.Name); }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreshFishWebsite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet"  href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
+    <link rel="stylesheet" href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
 </head>
 <body>
     <header>
@@ -27,41 +25,18 @@
                         </a>
                     </li>
                     <li class="list-item">
-                        <a class="menu-links" asp-controller="ShoppingCart" asp-action="ShowAllProducts">
+                        <a class="menu-links" asp-controller="Products" asp-action="Index">
                             <p class="text-parents">Продукція</p>
                         </a>
                     </li>
                     <li class="list-item">
                         <a class="menu-links">
-                            <p class="text-parents">LOGo</p>
+                            <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
                         </a>
                     </li>
-                   <li  class="list-item">
-                       <a class="menu-links" href="/#about">
-                           <p class="text-parents">Про нас</p>
-                       </a>
-                   </li>
-                   <li  class="list-item">
-                       <a class="menu-links">
-                           <p class="text-parents">Контакти</p>
-                       </a>
-                   </li>
-               </ul>
-           </div>
-              <a class="menu-links mobile-logo">
-                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
-               </a>
-               <div class="mobile-menu-btn">
-                   <label class="menu-btn-position">
-                       <input class="menu-btn" type="checkbox" />
                     <li class="list-item">
                         <a class="menu-links" href="/#about">
                             <p class="text-parents">Про нас</p>
-                        </a>
-                    </li>
-                    <li class="list-item">
-                        <a class="menu-links" asp-action="Index" asp-controller="ShoppingCart">
-                            <p class="text-parents">Корзина</p>
                         </a>
                     </li>
                     <li class="list-item">
@@ -81,7 +56,7 @@
                     {
                         <li class="list-item">
                             <form method="post" asp-action="Logout" asp-controller="Account">
-                                <input type="submit" value="Вийти"/>
+                                <input type="submit" value="Вийти" />
                             </form>
                         </li>
                     }
@@ -96,7 +71,7 @@
                 </ul>
             </div>
             <a class="menu-links mobile-logo">
-                <p class="text-parents">LOGo</p>
+                <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
             </a>
             <div class="mobile-menu-btn">
                 <label class="menu-btn-position">
@@ -114,11 +89,10 @@
             </div>
             <p class="welcome-container-subtitle">
                 Бездоганна риба на столі за декілька кліків!<br />
-                Чудовий та широкий асортимент риби і високоякісний сервісз.
+                Чудовий та широкий асортимент риби і високоякісного сервісу.
             </p>
         </div>
         <object data="~/img/mainPage/downArrow.svg" type="image/svg+xml" class="arrowImage"></object>
-
     </header>
     <div class="home-container">
         <main role="main">

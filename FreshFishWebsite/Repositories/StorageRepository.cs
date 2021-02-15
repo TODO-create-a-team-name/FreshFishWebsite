@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Repositories
 {
-    public class StorageRepository : IRepository<Storage>
+    public class StorageRepository : IStorageRepository
     {
         private readonly FreshFishDbContext _;
         public StorageRepository(FreshFishDbContext context)
@@ -19,6 +19,10 @@ namespace FreshFishWebsite.Repositories
 
         public Storage GetById(int? id)
         => GetAll().FirstOrDefault(x => x.Id == id);
+
+        public async Task<Storage> GetByAdmin(string id)
+        => await _.Storages.Include(w => w.Workers).FirstOrDefaultAsync(x => x.AdminId == id);
+        
         public async Task AddAsync(Storage newItem)
         {
             await _.Storages.AddAsync(newItem);

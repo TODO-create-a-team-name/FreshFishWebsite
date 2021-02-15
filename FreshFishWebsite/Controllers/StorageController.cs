@@ -9,27 +9,30 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
-    [Authorize(Roles = "MainAdmin")]
     public class StorageController : Controller
     {
-        private readonly IRepository<Storage> _repo;
+        private readonly IStorageRepository _repo;
         private readonly UserManager<User> _userManager;
-        public StorageController(IRepository<Storage> repo, UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+        public StorageController(IStorageRepository repo,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _repo = repo;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
-
+        [Authorize(Roles = "MainAdmin")]
         public IActionResult Index()
         {
             return View(_repo.GetAll());
         }
-
+        [Authorize(Roles = "MainAdmin")]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "MainAdmin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateStorageViewModel model)
         {
@@ -44,6 +47,7 @@ namespace FreshFishWebsite.Controllers
                 {
                     await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
                     storage.Workers.Add(storageAdmin);
+                    storage.AdminId = storageAdmin.Id;
                     await _repo.AddAsync(storage);
                     return RedirectToAction("Index");
                 }
@@ -63,7 +67,7 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "MainAdmin")]
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -79,14 +83,14 @@ namespace FreshFishWebsite.Controllers
 
             return View(storage);
         }
-
+        [Authorize(Roles = "MainAdmin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Storage storage)
         {
             await _repo.UpdateAsync(storage);
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "MainAdmin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
@@ -95,11 +99,24 @@ namespace FreshFishWebsite.Controllers
             else
                 return NotFound();
         }
-
+        [Authorize(Roles = "MainAdmin")]
         [HttpGet]
         public IActionResult Details(int id)
         {
             return View(_repo.GetById(id));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> GetStorage()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            //if (await _userManager.IsInRoleAsync(user, "AdminAssistant"))
+            //{
+
+            //}
+
+            return View(await _repo.GetByAdmin(user.Id));
         }
 
     }

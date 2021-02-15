@@ -20,15 +20,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @*@if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin"))
-                        {*@
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin"))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Ролі</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="Index">Склади</a>
                             </li>
-                        @*}*@
+                        }
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("AdminAssistant"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="GetStorage">Склад</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

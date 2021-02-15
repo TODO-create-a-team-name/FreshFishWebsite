@@ -103,6 +103,7 @@ namespace FreshFishWebsite.Controllers
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, "AdminAssistant");
+                storage.AdminId = user.Id;
                 storage.Workers.Add(user);
                 _context.Storages.Update(storage);
                 await _context.SaveChangesAsync();
