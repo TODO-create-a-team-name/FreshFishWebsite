@@ -1,5 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,30 +12,39 @@ namespace FreshFishWebsite.Controllers
     public class ProductsController : Controller
     {
         private IRepository<Product> _repo;
-        public ProductsController(IRepository<Product> repo)
+        private IStorageRepository _storageRepo;
+        public ProductsController(IRepository<Product> repo,
+            IStorageRepository storageRepo)
         {
             _repo = repo;
+            _storageRepo = storageRepo;
         }
-        public IActionResult ShowAllProducts()
+
+        public IActionResult Create(int storageId)
         {
-            return View(_repo.GetAll());
-        }
-        public IActionResult Index()
-        {
-            return View(_repo.GetAll());
-        }
-        public IActionResult Create()
-        {
+            var model = new ProductViewModel
+            {
+                StorageId = storageId
+            };
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductViewModel model)
         {
-            if(ModelState.IsValid)
+            var product = new Product
             {
+                ProductName = model.ProductName,
+                Price = model.Price,
+                Date = model.Date,
+                Amount = model.Amount
+            };
+            if (ModelState.IsValid)
+            {
+                var storage = _storageRepo.GetById(model.StorageId);
+                product.Storage = storage;
                 await _repo.AddAsync(product);
-                return RedirectToAction("Index");
+                return RedirectToAction("GetStorage", "Storage");
             }
             return View(product);
         }
@@ -59,14 +69,14 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> Edit(Product product)
         {
             await _repo.UpdateAsync(product);
-            return RedirectToAction("Index");
+            return RedirectToAction("GetStorage", "Storage");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _repo.DeleteAsync(id))
-                return RedirectToAction("Index");
+                return RedirectToAction("GetStorage", "Storage");
             else
                 return NotFound();
         }

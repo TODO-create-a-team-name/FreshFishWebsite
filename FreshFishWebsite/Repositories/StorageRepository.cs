@@ -21,7 +21,7 @@ namespace FreshFishWebsite.Repositories
         => GetAll().FirstOrDefault(x => x.Id == id);
 
         public async Task<Storage> GetByAdmin(string id)
-        => await _.Storages.Include(w => w.Workers).FirstOrDefaultAsync(x => x.AdminId == id);
+        => await _.Storages.Include(p => p.Products).Include(w => w.Workers).FirstOrDefaultAsync(x => x.AdminId == id);
         
         public async Task AddAsync(Storage newItem)
         {

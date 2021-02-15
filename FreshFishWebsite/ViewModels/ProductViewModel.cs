@@ -13,5 +13,9 @@ namespace FreshFishWebsite.ViewModels
         public DateTime Date { get; set; }
         [Required]
         public int Amount { get; set; }
+        
+        public bool IsSold { get; set; }
+
+        public int StorageId { get; set; }
     }
 }

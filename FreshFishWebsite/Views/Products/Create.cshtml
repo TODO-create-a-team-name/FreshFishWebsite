@@ -1,8 +1,9 @@
-﻿@model FreshFishWebsite.Models.Product
+﻿@model FreshFishWebsite.ViewModels.ProductViewModel
 @{
-    ViewBag.Title = "Додати продукт";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
 <form asp-action="Create" asp-controller="Products">
+    <input type="hidden" asp-for="StorageId" />
     <div class="form-group">
         <label asp-for="ProductName" class="control-label">Назва</label>
         <input type="text" asp-for="ProductName" class="form-control" />
