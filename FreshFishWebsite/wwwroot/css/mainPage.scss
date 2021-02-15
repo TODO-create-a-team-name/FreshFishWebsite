@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&family=Cormorant+Garamond:wght@700&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
 $font-sans: "Open Sans", sans-serif;
 
@@ -182,7 +181,7 @@ header {
 }
 
 .products-container {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+    // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
     position: relative;
     height: 100%;
     margin: {
@@ -396,9 +395,69 @@ header {
         width: 18px;
     }
 }
+.contacts-container{
+    padding: {
+        top: 160px;
+        bottom: 160px;
+    }
+    display: flex;
+    &-info{
+        margin: {
+            left: 10vw;
+        }
+        h4{
+            font: {
+                family: "Cormorant Garamond", serif;
+                weight: 400;
+                size: 44px;
+            }
+        }
+        p{
+            margin: {
+                top: 20px;
+            }
+            width: 25vw;
+            min-width: 320px;
+            font: {
+                family: "Comfortaa", cursive;
+                weight: 600;
+                size: 14px;
+            }
+        }
+        h3{
+            margin: {
+                top: 40px;
+            }
+            font: {
+                weight: 400;
+            }
+        }
+
+    }
+    &-logo{
+        // position: relative;
+        // width: 100%;
+        margin: {
+            left: auto;
+            right: auto;
+        }
+        display: block;
+        .contact-logo{
+            // position: absolute;
+            width: 30vw;
+            display: block;
+            min-width: 280px;
+            margin: {
+                top: -30px;
+                left: auto;
+                right: auto;
+            }
+        }
+    }
+}
 .home-container {
     .about-container {
-        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+        // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
         position: relative;
         padding: {
             bottom: 20px;
@@ -529,7 +588,7 @@ header {
         }
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 800px) {
         .footer-clean .item.social > a {
             margin-top: 10px;
         }
@@ -544,15 +603,20 @@ header {
     }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
     .products-container {
         .products-container-title {
             text-align: center;
+            margin: {
+                left: auto;
+                right: auto;
+            }
+            display: block;
             font: {
-                size: 36px;
+                size: 32px;
                 
             }
-            width: 300px;
+            width: 260px;
         }
         &-view{
             display: block;
@@ -628,7 +692,7 @@ header {
         .about-container {
             .fish-img {
                 position: absolute;
-                height: 18vw;
+                height: 80px;
                 left: 50%;
                 margin-right: -50%;
                 transform: translate(-50%, -50%);
@@ -763,6 +827,47 @@ header {
             position: absolute;
             margin-right: -50%;
             transform: translate(-50%, -50%);
+        }
+    }
+    .contacts-container{
+        padding: {
+            top: 100px;
+            bottom: 80px;
+        }
+        display: block;
+        &-info{
+            text-align: center;
+            margin: {
+                left: auto;
+                right: auto;
+            }
+            h4{
+                font: {
+                    family: "Cormorant Garamond", serif;
+                    weight: 400;
+                    size: 32px;
+                }
+            }
+            p{
+                margin: {
+                    left: auto;
+                    right: auto;
+                    top: 20px;
+                }
+            }
+            h3{
+                margin: {
+                    top: 20px;
+                }
+            }
+    
+        }
+        &-logo{
+            .contact-logo{
+                margin: {
+                    top: 30px;
+                }
+            }
         }
     }
     .arrowImage {
