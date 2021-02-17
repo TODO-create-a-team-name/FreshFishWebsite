@@ -1,7 +1,5 @@
 ﻿
-
 using System.Collections.Generic;
-
 namespace FreshFishWebsite.Models
 {
     public class ShoppingCart

@@ -2,6 +2,7 @@
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -12,31 +13,20 @@ namespace FreshFishWebsite.Controllers
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
+        private readonly FreshFishDbContext _context;
 
-        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public HomeController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            FreshFishDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            if (_signInManager.IsSignedIn(User)) //якщо користувач автентифікований
-            {
-                var user = await _userManager.GetUserAsync(User); //шукаємо його
-                if (user != null) //якщо користувач знайдений
-                {
-                    var model = new ShowUserViewModel
-                    {
-                        Name = user.Name,
-                        Surname = user.Usersurname, //передаємо його дані в модель
-                        Email = user.Email
-                    };
-
-                    return View(model); //повертаємо представлення
-                }
-            }
-            return View(); //в іншому випадку повертаємо представлення без даних
+          return View(_context.Products.AsNoTracking()); 
         }
 
         public IActionResult Privacy()

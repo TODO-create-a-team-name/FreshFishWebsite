@@ -3,7 +3,7 @@ using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -13,10 +13,14 @@ namespace FreshFishWebsite.Controllers
     {
         private SignInManager<User> _signInManager;
         private UserManager<User> _userManager;
-        public AdminController(SignInManager<User> signInManager, UserManager<User> userManager)
+        private readonly FreshFishDbContext _context;
+        public AdminController(SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            FreshFishDbContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
         public async Task<IActionResult> Index()
         { 
@@ -36,6 +40,13 @@ namespace FreshFishWebsite.Controllers
                 }
             }
             return View(); 
+       }
+
+       public IActionResult GetOrders()
+       {
+            return View(_context.Orders
+                .Include(u => u.User)
+                .AsNoTracking());
        }
     }
 }

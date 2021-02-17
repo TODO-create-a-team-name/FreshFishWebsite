@@ -1,4 +1,4 @@
-﻿@model FreshFishWebsite.ViewModels.ShowUserViewModel
+﻿@model IEnumerable<Product>
 @{
     ViewData["Title"] = "Головна сторінка";
 }
@@ -51,22 +51,25 @@
             <div class="products-container-preview-controll">
                 <h3>Контролер</h3>
             </div>
-            <div class="products-container-preview-other">
-                <div class="product-card">
-                    <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                    <div class="product-card-titleAndinfo">
-                        <h5>Дорадо</h5>
-                        <p>280грн/кг</p>
-                        <div>
-                           <form class="">
-                               <button type="submit" class="btn-add"><span class="iconify btn-add-content" data-inline="false" data-icon="akar-icons:plus"></span></button>
-                           </form>
+            @foreach (var p in Model)
+            {
+                <div class="products-container-preview-other">
+                    <div class="product-card">
+                        <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
+                        <div class="product-card-titleAndinfo">
+                            <h5>@p.ProductName</h5>
+                            <p>@p.Price грн\кг</p>
+                            <div>
+                                <form class="">
+                                    <button type="submit" class="btn-add"><span class="iconify btn-add-content" data-inline="false" data-icon="akar-icons:plus"></span></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-                
+            }
             </div>
-        </div>
 </div>
 <div class="contacts-container">
     <div class="contacts-container-info">

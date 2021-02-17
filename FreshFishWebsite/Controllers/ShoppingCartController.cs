@@ -1,8 +1,10 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Repositories;
+using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -10,7 +12,7 @@ namespace FreshFishWebsite.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartRepository _repo;
-        private IRepository<Product> _productsRepo;
+        private readonly IRepository<Product> _productsRepo;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
@@ -40,6 +42,32 @@ namespace FreshFishWebsite.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            //var product = await _repo.GetById(id);
+            //var model = new ShoppingCartProductViewModel
+            //{
+            //    ProductName = product.Product.ProductName,
+            //    Quantity = product.Quantity
+            //};
+
+            return View(await _repo.GetById(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ShoppingCartProduct model)
+        {
+            await _repo.EditProductInShoppingCart(model);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _repo.DeleteProductInShoppingCart(id);
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
@@ -50,6 +78,17 @@ namespace FreshFishWebsite.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderProducts()
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                await _repo.OrderProducts(_userManager.GetUserId(User));
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
