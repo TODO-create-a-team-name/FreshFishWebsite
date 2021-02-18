@@ -296,6 +296,7 @@ header {
 .products-container-preview {
   position: relative;
   z-index: 2;
+  margin-top: 30px;
   padding-bottom: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -305,22 +306,77 @@ header {
 .products-container-preview-controll {
   margin-left: 20px;
   margin-bottom: 10px;
-  width: 300px;
+  position: relative;
+  width: 250px;
   height: 150px;
-  background-color: wheat;
+}
+
+.products-container-preview-controll-block {
+  margin-top: 20%;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.products-container-preview-controll-block h3 {
+  color: #fff;
+  font-size: 42px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: -5px;
+}
+
+.products-container-preview-controll-block .btn-next,
+.products-container-preview-controll-block .btn-previous {
+  background: transparent;
+  border: none;
+}
+
+.products-container-preview-controll-block .btn-next .arrow,
+.products-container-preview-controll-block .btn-previous .arrow {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+}
+
+.products-container-preview-controll-block .btn-next .arrow-right,
+.products-container-preview-controll-block .btn-previous .arrow-right {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.products-container-preview-controll-block .btn-next .arrow-left,
+.products-container-preview-controll-block .btn-previous .arrow-left {
+  -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+}
+
+.products-container-preview-controll-block .btn-next:focus,
+.products-container-preview-controll-block .btn-previous:focus {
+  outline: none;
 }
 
 .products-container-preview-other {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  width: 90%;
+  overflow: hidden;
 }
 
 .products-container-preview-other .product-card {
   cursor: pointer;
   margin-top: 10px;
-  margin-left: 60px;
-  overflow: hidden;
+  margin-left: 5vw;
+  -webkit-transition: all 3s ease;
+  transition: all 3s ease;
   background-color: white;
   padding: 0px 20px;
   border-radius: 30px;
@@ -627,8 +683,29 @@ header {
     height: 375px;
     display: block;
   }
-  .products-container-preview-controll,
+  .products-container-preview-controll {
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+  }
+  .products-container-preview-controll-block {
+    padding-top: 15%;
+    margin-top: unset;
+  }
+  .products-container-preview-controll-block h3 {
+    margin-top: -15px;
+  }
+  .products-container-preview-other {
+    height: 300px;
+    display: block;
+    width: unset;
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+    margin-left: auto;
+    margin-right: auto;
+  }
   .products-container-preview-other .product-card {
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
   }
