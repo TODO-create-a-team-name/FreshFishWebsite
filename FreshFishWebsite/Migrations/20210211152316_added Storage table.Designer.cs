@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210211152316_added Storage table")]
+    partial class addedStoragetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace FreshFishWebsite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
@@ -46,20 +48,20 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
-                    b.Property<double>("PricePerKg")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("QuantityKg")
-                        .HasColumnType("float");
 
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
@@ -97,21 +99,16 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int>("ShoppingCartId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -129,12 +126,6 @@ namespace FreshFishWebsite.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StorageNumber")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -389,10 +380,6 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCartProduct", b =>
                 {
-                    b.HasOne("FreshFishWebsite.Models.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("FreshFishWebsite.Models.Product", "Product")
                         .WithMany("ShoppingCartProducts")
                         .HasForeignKey("ProductId")
@@ -401,9 +388,9 @@ namespace FreshFishWebsite.Migrations
 
                     b.HasOne("FreshFishWebsite.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Products")
-                        .HasForeignKey("ShoppingCartId");
-
-                    b.Navigation("Order");
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
@@ -468,11 +455,6 @@ namespace FreshFishWebsite.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>

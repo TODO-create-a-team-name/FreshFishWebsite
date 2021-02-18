@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210207202525_Added stuff for shopping cart")]
+    partial class Addedstuffforshoppingcart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace FreshFishWebsite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
@@ -46,27 +48,22 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
-                    b.Property<double>("PricePerKg")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("QuantityKg")
-                        .HasColumnType("float");
-
-                    b.Property<int>("StorageId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StorageId");
 
                     b.ToTable("Products");
                 });
@@ -97,48 +94,22 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShoppingCartId")
+                    b.Property<int>("ShoppingCartId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("ShoppingCartId");
 
                     b.ToTable("ShoppingCartProducts");
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StorageNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Storages");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.User", b =>
@@ -198,9 +169,6 @@ namespace FreshFishWebsite.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StorageId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -221,8 +189,6 @@ namespace FreshFishWebsite.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("StorageId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -367,17 +333,6 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
-                {
-                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
-                        .WithMany("Products")
-                        .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Storage");
-                });
-
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCart", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.User", "User")
@@ -389,10 +344,6 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCartProduct", b =>
                 {
-                    b.HasOne("FreshFishWebsite.Models.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("FreshFishWebsite.Models.Product", "Product")
                         .WithMany("ShoppingCartProducts")
                         .HasForeignKey("ProductId")
@@ -401,22 +352,13 @@ namespace FreshFishWebsite.Migrations
 
                     b.HasOne("FreshFishWebsite.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Products")
-                        .HasForeignKey("ShoppingCartId");
-
-                    b.Navigation("Order");
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
                     b.Navigation("ShoppingCart");
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.User", b =>
-                {
-                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
-                        .WithMany("Workers")
-                        .HasForeignKey("StorageId");
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -470,11 +412,6 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
                 {
                     b.Navigation("ShoppingCartProducts");
@@ -483,13 +420,6 @@ namespace FreshFishWebsite.Migrations
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCart", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
-                {
-                    b.Navigation("Products");
-
-                    b.Navigation("Workers");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.User", b =>

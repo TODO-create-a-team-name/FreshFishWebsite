@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Order>
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<table class="table">
+    <tr>
+        <td>Дата замовлення</td>
+        <td>Користувач</td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.OrderDate</td>
+            <td>@item.User.Email</td>
+        </tr>
+    }
+</table>

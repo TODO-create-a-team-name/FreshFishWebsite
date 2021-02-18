@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,5 +18,11 @@ namespace FreshFishWebsite.Models
 
         [Required]
         public string CompanyAddress { get; set; }
+
+        public Storage Storage { get; set; }
+        
+        public ShoppingCart ShoppingCart { get; set; }
+
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

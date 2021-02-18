@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210218114519_Changed some column names in Products table")]
+    partial class ChangedsomecolumnnamesinProductstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,9 +134,6 @@ namespace FreshFishWebsite.Migrations
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StorageNumber")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -1,65 +1,96 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<User> signInManager;
+@inject Microsoft.AspNetCore.Identity.UserManager<User> userManager;
+
+@{ User user = new FreshFishWebsite.Models.User();
+                if (signInManager.IsSignedIn(User))
+                    user = await userManager.FindByNameAsync(User.Identity.Name); }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreshFishWebsite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet"  href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
+    <link rel="stylesheet" href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
 </head>
 <body>
     <header>
-       <nav class="navbar-basic">
-           <div class="navbar-basic-container">
-               <ul class="list-container">
-                   <li class="list-item">
-                       <a class="menu-links" href="/">
-                           <p class="text-parents">Головна</p>
-                       </a>
-                   </li>
-                   <li  class="list-item">
-                       <a class="menu-links" asp-controller="Products" asp-action="Index">
-                           <p class="text-parents" >Продукція</p>
-                       </a>
-                   </li>
-                    <li  class="list-item">
-                       <a class="menu-links">
-                               <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
-                       </a>
+        <nav class="navbar-basic">
+            <div class="navbar-basic-container">
+                <ul class="list-container">
+                    <li class="list-item">
+                        <a class="menu-links" href="/">
+                            <p class="text-parents">Головна</p>
+                        </a>
                     </li>
-                   <li  class="list-item">
-                       <a class="menu-links" href="/#about">
-                           <p class="text-parents">Про нас</p>
-                       </a>
-                   </li>
-                   <li  class="list-item">
-                       <a class="menu-links">
-                           <p class="text-parents">Контакти</p>
-                       </a>
-                   </li>
-               </ul>
-           </div>
-              <a class="menu-links mobile-logo">
-                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
-               </a>
-               <div class="mobile-menu-btn">
-                   <label class="menu-btn-position">
-                       <input class="menu-btn" type="checkbox" />
+                    <li class="list-item">
+                        <a class="menu-links" asp-controller="ShoppingCart" asp-action="ShowAllProducts">
+                            <p class="text-parents">Продукція</p>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a class="menu-links">
+                            <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a class="menu-links" href="/#about">
+                            <p class="text-parents">Про нас</p>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a class="menu-links">
+                            <p class="text-parents">Контакти</p>
+                        </a>
+                    </li>
+                    @if (!signInManager.IsSignedIn(User))
+                    {
+                        <li class="list-item">
+                            <a class="menu-links" asp-action="Login" asp-controller="Account">
+                                <p class="text-parents">Увійти</p>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="list-item">
+                            <form method="post" asp-action="Logout" asp-controller="Account">
+                                <input type="submit" value="Вийти" />
+                            </form>
+                        </li>
+                    }
+                    <li class="list-item">
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") || User.IsInRole("AdminAssistant"))
+                        {
+                            <a class="menu-links" asp-action="Index" asp-controller="Admin">
+                                <p class="text-parents">Адмін панель</p>
+                            </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+            <a class="menu-links mobile-logo">
+                <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+            </a>
+            <div class="mobile-menu-btn">
+                <label class="menu-btn-position">
+                    <input class="menu-btn" type="checkbox" />
                     <span></span>
                     <span></span>
                     <span></span>
-                   </label>
-                   
-               </div>       
-       </nav>
+                </label>
+
+            </div>
+        </nav>
         <div class="welcome-container">
             <div class="welcome-container-title">
                 <p>Свіжа риба</p>
             </div>
-           <p class="welcome-container-subtitle">
-               Бездоганна риба на столі за декілька кліків!<br />
-               Чудовий та широкий асортимент риби і високоякісного сервісу.
-           </p>
+            <p class="welcome-container-subtitle">
+                Бездоганна риба на столі за декілька кліків!<br />
+                Чудовий та широкий асортимент риби і високоякісного сервісу.
+            </p>
         </div>
         <object data="~/img/mainPage/downArrow.svg" type="image/svg+xml" class="arrowImage"></object>
     </header>

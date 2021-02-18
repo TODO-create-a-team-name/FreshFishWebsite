@@ -1,26 +1,32 @@
 ﻿using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
+        private readonly FreshFishDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            FreshFishDbContext context)
         {
-            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+          return View(_context.Products.AsNoTracking()); 
         }
 
         public IActionResult Privacy()

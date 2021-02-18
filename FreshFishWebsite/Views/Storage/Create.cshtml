@@ -1,0 +1,22 @@
+﻿@model FreshFishWebsite.ViewModels.CreateStorageViewModel
+@{
+    ViewBag.Title = "Додати склад";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+<form asp-action="Create" asp-controller="Storage">
+    <div class="form-group">
+        <label asp-for="StorageNumber" class="control-label">Номер складу</label>
+        <input type="number" asp-for="StorageNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">Адреса</label>
+        <input type="text" asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="StorageAdminEmail" class="control-label">Електронна пошта адміністратора складу</label>
+        <input type="text" asp-for="StorageAdminEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Додати" class="btn btn-default" />
+    </div>
+</form>

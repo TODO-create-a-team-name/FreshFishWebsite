@@ -1,0 +1,15 @@
+﻿@model FreshFishWebsite.Models.ShoppingCartProduct
+<form asp-action="Edit" asp-controller="ShoppingCart">
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="ShoppingCartId" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label">Кількість</label>
+        <input type="text" asp-for="Quantity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Зберегти" class="btn btn-default" />
+    </div>
+</form>

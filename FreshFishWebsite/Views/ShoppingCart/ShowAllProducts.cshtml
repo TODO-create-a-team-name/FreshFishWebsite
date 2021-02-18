@@ -1,0 +1,24 @@
+﻿@model IEnumerable<FreshFishWebsite.Models.Product>
+@{ ViewBag.Title = "Products List"; }
+
+<table class="table">
+    <tr>
+        <td>Назва</td>
+        <td>Ціна (грн\кг)</td>
+        <td>Дата виготовлення</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>@item.ProductName</td>
+    <td>@item.PricePerKg</td>
+    <td>@item.Date</td>
+    <td>
+        <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
+            <button type="submit" class="btn btn-sm btn-success">
+                Додати в корзину
+            </button>
+        </form>
+    </td>
+</tr>}
+</table>

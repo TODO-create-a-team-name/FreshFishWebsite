@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217175543_added Products column to Order table")]
+    partial class addedProductscolumntoOrdertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,20 +48,20 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
-                    b.Property<double>("PricePerKg")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("QuantityKg")
-                        .HasColumnType("float");
 
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
@@ -132,9 +134,6 @@ namespace FreshFishWebsite.Migrations
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StorageNumber")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

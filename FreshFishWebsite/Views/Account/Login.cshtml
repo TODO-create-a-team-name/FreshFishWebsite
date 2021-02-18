@@ -1,0 +1,29 @@
+﻿@model FreshFishWebsite.ViewModels.LoginViewModel
+
+<form method="post" class="form" asp-controller="Account" asp-action="Login"
+      asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form_item">
+        <input type="email" placeholder="Електронна пошта" asp-for="Email" class="form_control" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="form_item">
+        <input type="password" placeholder="Пароль" asp-for="Password" class="form_control" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="form_item form_check">
+        <input type="checkbox" class="form_check_input" asp-for="RememberMe">
+        <label class="form_check_label" asp-for="RememberMe">Запам'ятати мене</label>
+    </div><br />
+    <div class="form_item">
+        <a asp-action="ForgotPassword" class="fogot_password cancel_select">Забув пароль?</a>
+    </div><br />
+
+    <div class="form_buttons cancel_select">
+        <a class="cancel_button" asp-controller="Home" asp-action="Index">Скасувати</a>
+        <input type="submit" value="Увійти" />
+    </div>
+</form>
+
+<span class="account_text">В тебе немає акаунта?</span>
+<a asp-controller="Account" asp-action="Register">Реєстрація</a>
