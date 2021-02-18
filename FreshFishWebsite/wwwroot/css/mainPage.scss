@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&family=Cormorant+Garamond:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&family=Cormorant+Garamond:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
 $font-sans: "Open Sans", sans-serif;
 
 //Colors
 $black: #34435e;
 $white: #ffffff;
-
+$transition-time: 0.15s;
 * {
     margin: 0px;
     padding: 0px;
@@ -39,11 +39,11 @@ header {
                     left: 35px;
                 }
                 .menu-links {
-                    .web-logo{
+                    .web-logo {
                         margin: {
                             top: -35px;
                         }
-                        height:150px;
+                        height: 150px;
                     }
                     .text-parents {
                         filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
@@ -112,7 +112,7 @@ header {
         color: #fff;
     }
 }
-.quote-container{
+.quote-container {
     margin: {
         top: 100px;
         left: auto;
@@ -120,7 +120,7 @@ header {
     }
     width: 40vw;
 
-    &-text{
+    &-text {
         text-align: center;
         position: relative;
         font-weight: 900;
@@ -146,9 +146,9 @@ header {
         }
     }
 }
-.social{
-    .web-logo{
-        height:180px;
+.social {
+    .web-logo {
+        height: 180px;
         margin: {
             top: -30px;
         }
@@ -163,11 +163,11 @@ header {
     p {
         color: #fff;
     }
-    .web-logo{
+    .web-logo {
         // margin: {
         //     top: -35px;
         // }
-        height:130px;
+        height: 130px;
     }
 }
 .arrowImage {
@@ -204,7 +204,7 @@ header {
         }
         color: #fff;
         border-bottom: 2px solid #ba181b;
-        display:inline-block;
+        display: inline-block;
     }
     .products-under-img {
         position: absolute;
@@ -309,9 +309,9 @@ header {
     &-preview {
         position: relative;
         z-index: 2;
-        // margin: {
-        //     top: 30px;
-        // }
+        margin: {
+            top: 30px;
+        }
         padding: {
             bottom: 40px;
         }
@@ -321,22 +321,65 @@ header {
                 left: 20px;
                 bottom: 10px;
             }
-            width: 300px;
+            position: relative;
+            width: 250px;
             height: 150px;
-            background-color: wheat;
+            &-block {
+                margin: {
+                    top: 20%;
+                    bottom: auto;
+                    left: auto;
+                    right: auto;
+                }
+                width: 150px;
+                height: 50px;
+                display: flex;
+                h3 {
+                    color: #fff;
+                    font: {
+                        size: 42px;
+                    }
+                    margin: {
+                        left: 10px;
+                        right: 10px;
+                        top: -5px;
+                    }
+                }
+                .btn-next,
+                .btn-previous {
+                    background: transparent;
+                    border: none;
+                    .arrow {
+                        display: inline-block;
+                        width: 30px;
+                        height: 30px;
+                        border-top: 2px solid #fff;
+                        border-right: 2px solid #fff;
+                        &-right {
+                            transform: rotate(45deg);
+                        }
+                        &-left {
+                            transform: rotate(-135deg);
+                        }
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
         }
         &-other {
             display: flex;
-            // margin: {
-            //     left: 30px;
-            // }
+            width: 90%;
+            overflow: hidden;
             .product-card {
                 cursor: pointer;
                 margin: {
                     top: 10px;
-                    left: 60px;
+                    left: 5vw;
                 }
-                overflow: hidden;
+                // overflow: hidden;
+                transition: all 3s ease;
                 background-color: white;
                 padding: 0px 20px;
                 border-radius: 30px;
@@ -347,6 +390,7 @@ header {
                 &:hover {
                     filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
                 }
+
                 &-img {
                     margin: {
                         // top: -5px;
@@ -395,24 +439,24 @@ header {
         width: 18px;
     }
 }
-.contacts-container{
+.contacts-container {
     padding: {
         top: 160px;
         bottom: 160px;
     }
     display: flex;
-    &-info{
+    &-info {
         margin: {
             left: 10vw;
         }
-        h4{
+        h4 {
             font: {
                 family: "Cormorant Garamond", serif;
                 weight: 400;
                 size: 44px;
             }
         }
-        p{
+        p {
             margin: {
                 top: 20px;
             }
@@ -424,7 +468,7 @@ header {
                 size: 14px;
             }
         }
-        h3{
+        h3 {
             margin: {
                 top: 40px;
             }
@@ -432,9 +476,8 @@ header {
                 weight: 400;
             }
         }
-
     }
-    &-logo{
+    &-logo {
         // position: relative;
         // width: 100%;
         margin: {
@@ -442,7 +485,7 @@ header {
             right: auto;
         }
         display: block;
-        .contact-logo{
+        .contact-logo {
             // position: absolute;
             width: 30vw;
             display: block;
@@ -592,9 +635,9 @@ header {
         .footer-clean .item.social > a {
             margin-top: 10px;
         }
-        .social{
-            .web-logo{
-                height:120px;
+        .social {
+            .web-logo {
+                height: 120px;
                 margin: {
                     top: unset;
                 }
@@ -602,7 +645,6 @@ header {
         }
     }
 }
-
 @media only screen and (max-width: 800px) {
     .products-container {
         .products-container-title {
@@ -614,52 +656,50 @@ header {
             display: block;
             font: {
                 size: 32px;
-                
             }
             width: 260px;
         }
-        &-view{
+        &-view {
             display: block;
-            &-img{
+            &-img {
                 left: 49%;
                 transform: translate(-50%, -50%);
                 margin-right: -50%;
                 position: absolute;
                 height: unset;
                 top: 40px;
-                .img-container{
+                .img-container {
                     min-width: 210px;
                     min-height: 210px;
-                    .fish-img{
+                    .fish-img {
                         min-height: 270px;
                     }
                 }
-                
             }
-            &-info{
+            &-info {
                 margin-top: 120px;
                 margin-bottom: 20px;
                 min-width: 100%;
                 padding-top: 170px;
                 height: 520px;
-                p{
+                p {
                     text-align: center;
                 }
-                h2{
+                h2 {
                     margin-top: 10px;
                     text-align: center;
                     font-size: 36px;
                 }
-                &-read{
-                    .products-details{
+                &-read {
+                    .products-details {
                         margin: {
                             left: auto;
                             right: auto;
                         }
                     }
-                   
-                    form{
-                        right:unset;
+
+                    form {
+                        right: unset;
                         left: 49%;
                         transform: translate(-50%, -50%);
                         margin-right: -50%;
@@ -669,8 +709,8 @@ header {
                 }
             }
         }
-        .products-container-preview{
-            height:unset;
+        .products-container-preview {
+            height: unset;
         }
         .products-under-img {
             display: none;
@@ -680,11 +720,41 @@ header {
     .products-container-preview {
         height: 375px;
         display: block;
-        &-controll,
-        &-other .product-card {
+        &-controll {
             margin: {
                 left: auto;
                 right: auto;
+            }
+            height: 100px;
+            &-block{
+                padding: {
+                    top: 15%;
+                }
+                margin: {
+                    top: unset;
+                }
+                h3{
+                    margin: {
+                        top: -15px;
+                    }
+                }
+            }
+        }
+        &-other {
+            height: 300px;
+            display: block;
+            width: unset;
+            transform: scale(0.9);
+            margin: {
+                left: auto;
+                right: auto;
+            }
+            .product-card {
+                margin: {
+                    top: 20px;
+                    left: auto;
+                    right: auto;
+                }
             }
         }
     }
@@ -798,15 +868,15 @@ header {
             }
         }
     }
-    .quote-container{
-        width:80%;
-        &-text{
+    .quote-container {
+        width: 80%;
+        &-text {
             font: {
                 size: 18px;
             }
-            &:before{
+            &:before {
                 font: {
-                    size: 100px
+                    size: 100px;
                 }
             }
         }
@@ -822,48 +892,46 @@ header {
         top: 70px;
         left: 50%;
         width: 40px;
-        .web-logo{
-            
+        .web-logo {
             position: absolute;
             margin-right: -50%;
             transform: translate(-50%, -50%);
         }
     }
-    .contacts-container{
+    .contacts-container {
         padding: {
             top: 100px;
             bottom: 80px;
         }
         display: block;
-        &-info{
+        &-info {
             text-align: center;
             margin: {
                 left: auto;
                 right: auto;
             }
-            h4{
+            h4 {
                 font: {
                     family: "Cormorant Garamond", serif;
                     weight: 400;
                     size: 32px;
                 }
             }
-            p{
+            p {
                 margin: {
                     left: auto;
                     right: auto;
                     top: 20px;
                 }
             }
-            h3{
+            h3 {
                 margin: {
                     top: 20px;
                 }
             }
-    
         }
-        &-logo{
-            .contact-logo{
+        &-logo {
+            .contact-logo {
                 margin: {
                     top: 30px;
                 }
