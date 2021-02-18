@@ -8,7 +8,8 @@ namespace FreshFishWebsite.Models
         public string Address { get; set; } 
         public int StorageNumber { get; set; }
         public string AdminId { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
-        public List<User> Workers { get; set; } = new List<User>();
+        public List<Product> Products { get; set; } = new();
+        public List<User> Workers { get; set; } = new();
+        public List<Order> Orders { get; set; } = new();
     }
 }

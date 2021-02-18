@@ -87,7 +87,7 @@ namespace FreshFishWebsite.Repositories
 
             foreach(var p in user.ShoppingCart.Products)
             {
-                p.Product = null;
+                p.ShoppingCart = null;
             }
 
             user.Orders.Add(order);

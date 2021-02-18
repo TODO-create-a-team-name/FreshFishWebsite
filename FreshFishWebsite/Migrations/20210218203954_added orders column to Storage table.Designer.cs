@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210218203954_added orders column to Storage table")]
+    partial class addedorderscolumntoStoragetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,16 +28,18 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<bool>("IsOrderAssigned")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("StorageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StorageId");
 
                     b.HasIndex("UserId");
 
@@ -361,23 +365,12 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("OrderStorage", b =>
-                {
-                    b.Property<int>("OrdersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StoragesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersId", "StoragesId");
-
-                    b.HasIndex("StoragesId");
-
-                    b.ToTable("OrderStorage");
-                });
-
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
+                    b.HasOne("FreshFishWebsite.Models.Storage", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("StorageId");
+
                     b.HasOne("FreshFishWebsite.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -488,21 +481,6 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderStorage", b =>
-                {
-                    b.HasOne("FreshFishWebsite.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FreshFishWebsite.Models.Storage", null)
-                        .WithMany()
-                        .HasForeignKey("StoragesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.Navigation("Products");
@@ -520,6 +498,8 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Products");
 
                     b.Navigation("Workers");

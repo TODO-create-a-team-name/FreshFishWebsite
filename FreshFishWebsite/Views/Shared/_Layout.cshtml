@@ -44,6 +44,30 @@
                             <p class="text-parents">Контакти</p>
                         </a>
                     </li>
+                    @if (!signInManager.IsSignedIn(User))
+                    {
+                        <li class="list-item">
+                            <a class="menu-links" asp-action="Login" asp-controller="Account">
+                                <p class="text-parents">Увійти</p>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="list-item">
+                            <form method="post" asp-action="Logout" asp-controller="Account">
+                                <input type="submit" value="Вийти" />
+                            </form>
+                        </li>
+                    }
+                    <li class="list-item">
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") || User.IsInRole("AdminAssistant"))
+                        {
+                            <a class="menu-links" asp-action="Index" asp-controller="Admin">
+                                <p class="text-parents">Адмін панель</p>
+                            </a>
+                        }
+                    </li>
                 </ul>
             </div>
             <a class="menu-links mobile-logo">

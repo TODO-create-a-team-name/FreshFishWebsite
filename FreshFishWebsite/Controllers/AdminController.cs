@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -48,5 +49,41 @@ namespace FreshFishWebsite.Controllers
                 .Include(u => u.User)
                 .AsNoTracking());
        }
+
+        [Authorize(Roles = "MainAdmin")]
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            return View( await _context.Orders
+                .Include(u => u.User)
+                .Include(p => p.Products)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(s => s.Storage)
+                .FirstOrDefaultAsync(x => x.Id == id));
+        }
+
+        [Authorize(Roles = "MainAdmin")]
+        [HttpPost] 
+        public async Task<IActionResult> SendOrdersToStorages(int id)
+        {
+            var order = await _context.Orders
+                .Include(u => u.User)
+                .Include(p => p.Products)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(s => s.Storage)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var storages = order.Products.Select(x => x.Product.Storage).Distinct();
+
+            foreach(var s in storages)
+            {
+                s.Orders.Add(order);
+                _context.Storages.Update(s);
+            }
+
+            order.IsOrderAssigned = true;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetOrders");
+        }
     }
 }

@@ -13,6 +13,9 @@
         <tr>
             <td>@item.OrderDate</td>
             <td>@item.User.Email</td>
+            <td>
+                <a class="btn btn-sm btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Деталі</a>
+            </td>
         </tr>
     }
 </table>
