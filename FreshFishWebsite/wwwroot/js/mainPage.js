@@ -30,6 +30,7 @@ function getCountPage() {
     let text = `${dValue[0]}/${currentValue}`;
     return text;
 }
+// check changes size
 countPage.innerHTML = getCountPage();
 setInterval(()=>{countPage.innerHTML = getCountPage()},1000);
 //set new values
@@ -65,7 +66,7 @@ function moveCard(cardArray, position) {
     let temp = countVal[0] - 1;
     moveElement(cardArray, temp, getWindowSize());
 }
-
+//get current WindowSize
 function getWindowSize() {
     let mValue = 0;
     var transformValue = "";
