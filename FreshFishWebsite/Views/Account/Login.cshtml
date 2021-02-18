@@ -1,29 +1,63 @@
 ﻿@model FreshFishWebsite.ViewModels.LoginViewModel
 
-<form method="post" class="form" asp-controller="Account" asp-action="Login"
-      asp-route-returnUrl="@Model.ReturnUrl">
+@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вхід - FreshFishWebsite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/Auth/auth.css" type="text/css" media="screen" runat="server" />
+</head>
+
+@*<form method="post" class="form" asp-controller="Account" asp-action="Login"
+    asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form_item">
-        <input type="email" placeholder="Електронна пошта" asp-for="Email" class="form_control" />
-        <span asp-validation-for="Email"></span>
+    <input type="email" placeholder="Електронна пошта" asp-for="Email" class="form_control" />
+    <span asp-validation-for="Email"></span>
     </div>
     <div class="form_item">
-        <input type="password" placeholder="Пароль" asp-for="Password" class="form_control" />
-        <span asp-validation-for="Password"></span>
+    <input type="password" placeholder="Пароль" asp-for="Password" class="form_control" />
+    <span asp-validation-for="Password"></span>
     </div>
     <div class="form_item form_check">
-        <input type="checkbox" class="form_check_input" asp-for="RememberMe">
-        <label class="form_check_label" asp-for="RememberMe">Запам'ятати мене</label>
+    <input type="checkbox" class="form_check_input" asp-for="RememberMe">
+    <label class="form_check_label" asp-for="RememberMe">Запам'ятати мене</label>
     </div><br />
     <div class="form_item">
-        <a asp-action="ForgotPassword" class="fogot_password cancel_select">Забув пароль?</a>
+    <a asp-action="ForgotPassword" class="fogot_password cancel_select">Забув пароль?</a>
     </div><br />
 
     <div class="form_buttons cancel_select">
-        <a class="cancel_button" asp-controller="Home" asp-action="Index">Скасувати</a>
-        <input type="submit" value="Увійти" />
+    <a class="cancel_button" asp-controller="Home" asp-action="Index">Скасувати</a>
+    <input type="submit" value="Увійти" />
     </div>
-</form>
+    </form>*@
 
-<span class="account_text">В тебе немає акаунта?</span>
-<a asp-controller="Account" asp-action="Register">Реєстрація</a>
+@*<span class="account_text">В тебе немає акаунта?</span>
+    <a asp-controller="Account" asp-action="Register">Реєстрація</a>*@
+<!-- Form Module-->
+
+<div class="module form-module">
+    <form method="post" class="form" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+        <h2>Вхід в акаунт</h2>
+        <div asp-validation-summary="ModelOnly"></div>
+        <input type="email" placeholder="Електронна пошта" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+        <input type="password" placeholder="Пароль" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+        <div class="form_item">
+            <input type="checkbox" class="form_check_input" asp-for="RememberMe">
+            <label class="form_check_label" asp-for="RememberMe">Запам'ятати мене</label>
+        </div>
+        <button type="submit">Увійти</button>
+        <div class="form_item form_check">
+            <span class="account_text">В тебе немає акаунта? </span>
+            <a asp-controller="Account" asp-action="Register"> Реєстрація</a>
+        </div>
+    </form>
+    <div class="cta"><a asp-action="ForgotPassword" class="fogotpassword">Забув пароль?</a></div>
+</div>
