@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
-    [Authorize(Roles = "MainAdmin, AdminAssistant")]
     public class AdminController : Controller
     {
         private SignInManager<User> _signInManager;
@@ -22,6 +21,7 @@ namespace FreshFishWebsite.Controllers
             _userManager = userManager;
             _context = context;
         }
+        [Authorize(Roles = "MainAdmin, AdminAssistant")]
         public async Task<IActionResult> Index()
         { 
             if (_signInManager.IsSignedIn(User)) 
@@ -41,8 +41,8 @@ namespace FreshFishWebsite.Controllers
             }
             return View(); 
        }
-
-       public IActionResult GetOrders()
+        [Authorize(Roles = "MainAdmin")]
+        public IActionResult GetOrders()
        {
             return View(_context.Orders
                 .Include(u => u.User)

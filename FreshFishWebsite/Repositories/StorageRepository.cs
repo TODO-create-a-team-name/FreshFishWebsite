@@ -20,6 +20,12 @@ namespace FreshFishWebsite.Repositories
         public Storage GetById(int? id)
         => GetAll().FirstOrDefault(x => x.Id == id);
 
+        public IEnumerable<Storage> GetStoragesWithWorkers()
+        => _.Storages.Include(d => d.Workers);
+
+        public Storage GetByIdWithWorkers(int id)
+        => GetStoragesWithWorkers().FirstOrDefault(x => x.Id == id);
+
         public async Task<Storage> GetByAdmin(string id)
         => await _.Storages.Include(p => p.Products).Include(w => w.Workers).FirstOrDefaultAsync(x => x.AdminId == id);
         
@@ -48,7 +54,5 @@ namespace FreshFishWebsite.Repositories
                 return false;
             }
         }
-
-
     }
 }

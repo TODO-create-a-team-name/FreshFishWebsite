@@ -4,14 +4,14 @@
 <table class="table">
     <tr>
         <td>Назва</td>
-        <td>Ціна</td>
+        <td>Ціна (грн\кг)</td>
         <td>Дата виготовлення</td>
     </tr>
     @foreach (var item in Model)
     {
 <tr>
     <td>@item.ProductName</td>
-    <td>@item.Price</td>
+    <td>@item.PricePerKg</td>
     <td>@item.Date</td>
     <td>
         <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">

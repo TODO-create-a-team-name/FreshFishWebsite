@@ -35,9 +35,9 @@ namespace FreshFishWebsite.Controllers
             var product = new Product
             {
                 ProductName = model.ProductName,
-                Price = model.Price,
+                PricePerKg = model.Price,
                 Date = model.Date,
-                Amount = model.Amount
+                QuantityKg = model.Amount
             };
             if (ModelState.IsValid)
             {

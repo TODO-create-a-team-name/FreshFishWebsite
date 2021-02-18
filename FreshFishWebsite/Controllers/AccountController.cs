@@ -18,7 +18,7 @@ namespace FreshFishWebsite.Controllers
         private readonly FreshFishDbContext _context;
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            FreshFishDbContext context) 
+            FreshFishDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -66,7 +66,7 @@ namespace FreshFishWebsite.Controllers
                     }
                 }
             }
-                return View(model);
+            return View(model);
         }
 
         [HttpGet]
@@ -74,23 +74,25 @@ namespace FreshFishWebsite.Controllers
         public IActionResult RegisterStorageAdmin(int storageId, string adminEmail)
         {
             var storage = _context.Storages.FirstOrDefault(s => s.Id == storageId);
-            var model = new RegisterStorageAdminViewModel();
-            if(storage != null)
+            var model = new RegisterStorageWorker();
+            if (storage != null)
             {
                 model.StorageId = storageId;
+                model.StorageNumber = storage.StorageNumber;
                 model.StorageAddress = storage.Address;
-                model.StorageAdminEmail = adminEmail;
+                model.WorkerEmail = adminEmail;
             }
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterStorageAdmin(RegisterStorageAdminViewModel model)
+        public async Task<IActionResult> RegisterStorageAdmin(RegisterStorageWorker model)
         {
             if (ModelState.IsValid)
             {
                 var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
-                User user = new User
+
+                User user = new()
                 {
                     Email = model.Email,
                     UserName = model.Email,
@@ -132,6 +134,75 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult RegisterStorageDriver(int storageId, string email)
+        {
+            var storage = _context.Storages.FirstOrDefault(s => s.Id == storageId);
+            var model = new RegisterStorageWorker();
+            if (storage != null)
+            {
+                model.StorageId = storageId;
+                model.StorageNumber = storage.StorageNumber;
+                model.StorageAddress = storage.Address;
+                model.WorkerEmail = email;
+                return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterStorageDriver(RegisterStorageWorker model)
+        {
+            if (ModelState.IsValid)
+            {
+                var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
+
+                User user = new()
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    Name = model.Name,
+                    Usersurname = model.Surname,
+                    Company = model.Company,
+                    CompanyAddress = model.CompanyAddress,
+                    Storage = storage
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "Driver");
+                storage.Workers.Add(user);
+                _context.Storages.Update(storage);
+                await _context.SaveChangesAsync();
+
+                if (result.Succeeded)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+
+                    await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
+                        $"Підтвердіть свій акаунт за наступним посиланням: <a href='{callbackUrl}'>Підтвердити акаунт</a>");
+
+                    return Content("Для завершення реєстрації, перейдіть за посиланням, яке було надіслане вам на пошту.");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            
+            }
+            return View(model);
+    } 
 
         [HttpGet]
         [AllowAnonymous]

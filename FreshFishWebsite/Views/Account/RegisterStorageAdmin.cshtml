@@ -1,6 +1,6 @@
-﻿@model FreshFishWebsite.ViewModels.RegisterStorageAdminViewModel
+﻿@model FreshFishWebsite.ViewModels.RegisterStorageWorker
 
-    <h2>Склад №@Model.StorageId</h2>
+    <h2>Склад №@Model.StorageNumber</h2>
     <h2>Адреса @Model.StorageAddress</h2>
     <form class="form" method="post" asp-controller="Account" asp-action="RegisterStorageAdmin">
         <input type="hidden" asp-for="StorageId" />
@@ -15,7 +15,7 @@
             <span asp-validation-for="Surname"></span>
         </div>
         <div class="form_item">
-            <input type="email" value="@Model.StorageAdminEmail" readonly placeholder="Електронна пошта" asp-for="Email" class="form_control" />
+            <input type="email" value="@Model.WorkerEmail" readonly placeholder="Електронна пошта" asp-for="Email" class="form_control" />
             <span asp-validation-for="Email"></span>
         </div>
         <div class="form_item">

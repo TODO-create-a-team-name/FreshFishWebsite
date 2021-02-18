@@ -8,9 +8,9 @@ namespace FreshFishWebsite.Models
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
-        public double Price { get; set; }
+        public double PricePerKg { get; set; }
         public DateTime Date { get; set; }
-        public int Amount { get; set; }
+        public double QuantityKg { get; set; }
         public bool IsSold { get; set; } = false;
         public int StorageId { get; set; }
         public Storage Storage { get; set; }

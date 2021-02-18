@@ -13,14 +13,11 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly IStorageRepository _repo;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         public StorageController(IStorageRepository repo,
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            UserManager<User> userManager)
         {
             _repo = repo;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
         [Authorize(Roles = "MainAdmin")]
         public IActionResult Index()
@@ -41,6 +38,7 @@ namespace FreshFishWebsite.Controllers
             {
                 var storage = new Storage
                 {
+                    StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
                 if(storageAdmin != null)
@@ -49,6 +47,8 @@ namespace FreshFishWebsite.Controllers
                     storage.Workers.Add(storageAdmin);
                     storage.AdminId = storageAdmin.Id;
                     await _repo.AddAsync(storage);
+                    await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
+                       $"Ви тепер адміністратор складу №{storage.StorageNumber}");
                     return RedirectToAction("Index");
                 }
                 else
@@ -61,12 +61,62 @@ namespace FreshFishWebsite.Controllers
                         protocol: HttpContext.Request.Scheme);
 
                     await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
-                       $"Тепер ви адміністратор складу №{storage.Id}: <a href='{callbackUrl}'>Підтвердити</a>");
+                       $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
                     return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
                 }
             }
             return View(model);
         }
+
+        [Authorize(Roles = "AdminAssistant")]
+        [HttpGet]
+        public IActionResult AddDriver(int storageId)
+        {
+            var model = new CreateStorageWorkerViewModel
+            {
+                StorageId = storageId
+            };
+            return View(model);
+        }
+
+        [Authorize(Roles = "AdminAssistant")]
+        [HttpPost]
+        public async Task<IActionResult> AddDriver(CreateStorageWorkerViewModel model)
+        {
+            var storage = _repo.GetByIdWithWorkers(model.StorageId);
+            if (storage == null)
+            {
+                return NotFound();
+            }
+            var storageDriver = await _userManager.FindByEmailAsync(model.Email);
+            if(ModelState.IsValid)
+            {
+                if(storageDriver != null)
+                {
+                    await _userManager.AddToRoleAsync(storageDriver, "Driver");
+                    storage.Workers.Add(storageDriver);
+                    await _repo.UpdateAsync(storage);
+                    await new EmailService().SendEmailAsync(storageDriver.Email, "Водій складу FreshFish",
+                       $"Ви тепер водій складу №{storage.StorageNumber}");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var callbackUrl = Url.Action(
+                       "RegisterStorageDriver",
+                       "Account",
+                       new { storageId = storage.Id, email = model.Email },
+                       protocol: HttpContext.Request.Scheme);
+
+                    await new EmailService().SendEmailAsync(model.Email, "Водій складу FreshFish",
+                       $"Тепер ви водій складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                    return Content("Водій складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
+                }
+            }
+            return View(model);
+
+        }
+
         [Authorize(Roles = "MainAdmin")]
         public IActionResult Edit(int? id)
         {

@@ -1,5 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +95,9 @@ namespace FreshFishWebsite.Repositories
             _context.Users.Update(user);
 
              await _context.SaveChangesAsync();
+
+            await new EmailService().SendEmailAsync("freshfishofficial@gmail.com", "Нове замовлення",
+                       $"Нове замовлення від {user.Email}");
 
         }
 

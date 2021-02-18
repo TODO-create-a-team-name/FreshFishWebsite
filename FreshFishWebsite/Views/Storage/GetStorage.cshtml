@@ -4,24 +4,25 @@
 }
 
 <h1>@Model.Address</h1>
-<h1>@Model.Id</h1>
+<h1>@Model.StorageNumber</h1>
 
 <a class="btn btn-sm btn-success" asp-action="Create" asp-controller="Products" asp-route-storageId="@Model.Id">Додати продукт</a>
+<a class="btn btn-sm btn-success" asp-action="AddDriver" asp-controller="Storage" asp-route-storageId="@Model.Id">Додати водія</a>
 <table class="table">
     <tr>
         <td>Назва</td>
-        <td>Ціна</td>
+        <td>Ціна (грн\кг)</td>
         <td>Дата виготовлення</td>
-        <td>Кількість</td>
+        <td>Кількість (кг)</td>
         <td>Продано</td>
     </tr>
     @foreach (var item in Model.Products)
     {
 <tr>
     <td>@item.ProductName</td>
-    <td>@item.Price</td>
+    <td>@item.PricePerKg</td>
     <td>@item.Date</td>
-    <td>@item.Amount</td>
+    <td>@item.QuantityKg</td>
     @if (item.IsSold)
     {
 <td class="text-success">Так</td> }
@@ -37,4 +38,33 @@
         </form>
     </td>
 </tr>}
+
+
+</table>
+
+<hr />
+<h2>Водії</h2>
+<table class="table">
+    <tr>
+        <td>Ім'я</td>
+        <td>Прізвище</td>
+        <td>Електронна пошта</td>
+    </tr>
+    @foreach (var item in Model.Workers)
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.Usersurname</td>
+            <td>@item.Email</td>
+            @*<td>
+                <form asp-action="DeleteWorker" asp-controller="Storages" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Видалити
+                    </button>
+                </form>
+            </td>*@
+        </tr>
+}
+
+
 </table>
