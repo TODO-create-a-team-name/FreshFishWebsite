@@ -1,4 +1,4 @@
-﻿@model Storage
+﻿@*@model Storage
 @inject Microsoft.AspNetCore.Identity.UserManager<User> userManager;
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
@@ -47,13 +47,12 @@
         <td>Електронна пошта</td>
         <td>Посада</td>
     </tr>
-    @foreach (var item in Model.Workers)
+    @foreach (var item in Model.Drivers)
     {
         <tr>
             <td>@item.Name</td>
-            <td>@item.Usersurname</td>
             <td>@item.Email</td>
             <td>@await userManager.GetRolesAsync(item)</td>
         </tr>
     }
-</table>
+</table>*@

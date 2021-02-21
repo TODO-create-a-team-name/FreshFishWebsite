@@ -20,7 +20,7 @@
 
         public string DriverId { get; set; }
 
-        public User Driver { get; set; }
+        public Driver Driver { get; set; }
 
         public OrderStatus Status { get; set; } = OrderStatus.Waiting;
 

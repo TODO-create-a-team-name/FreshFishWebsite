@@ -15,10 +15,10 @@ namespace FreshFishWebsite.Repositories
             _ = context;
         }
         public IEnumerable<Storage> GetAll()
-        => _.Storages.Include(p => p.Products).Include(d => d.Workers);
+        => _.Storages.Include(p => p.Products).Include(d => d.Drivers);
 
         public IEnumerable<Storage> GetStoragesWithWorkers()
-        => _.Storages.Include(d => d.Workers);
+        => _.Storages.Include(d => d.Drivers);
 
         public Storage GetById(int? id)
         => GetAll().FirstOrDefault(x => x.Id == id);
@@ -51,8 +51,11 @@ namespace FreshFishWebsite.Repositories
             .FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<Storage> GetByAdmin(string id)
-        => await _.Storages.Include(p => p.Products).Include(w => w.Workers).FirstOrDefaultAsync(x => x.AdminId == id);
-        
+        => await _.Storages
+            .Include(p => p.Products)
+            .Include(w => w.Drivers)
+            .FirstOrDefaultAsync(x => x.StorageAdminId == id);
+
         public async Task AddAsync(Storage newItem)
         {
             await _.Storages.AddAsync(newItem);

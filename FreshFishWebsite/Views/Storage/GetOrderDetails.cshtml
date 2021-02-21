@@ -20,3 +20,9 @@
         </tr>
     }
 </table>
+
+<p>Призначити водія:</p>
+<form asp-action="AssignOrderToDriver" method="post" asp-route-orderItemsid="@Model.OrderItemsId">
+    <select id="driversDropdown" asp-for="DriverId" asp-items="@Model.Drivers"></select>
+    <input type="submit" value="Призначити" />
+</form>

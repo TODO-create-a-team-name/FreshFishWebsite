@@ -23,7 +23,6 @@ namespace FreshFishWebsite.Controllers
             _userManager = userManager;
             _context = context;
         }
-        [Authorize(Roles = "MainAdmin, AdminAssistant")]
         public async Task<IActionResult> Index()
         { 
             if (_signInManager.IsSignedIn(User)) 
