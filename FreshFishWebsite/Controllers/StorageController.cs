@@ -5,6 +5,7 @@ using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -161,12 +162,32 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> GetStorage()
         {
             var user = await _userManager.GetUserAsync(User);
-            //if (await _userManager.IsInRoleAsync(user, "AdminAssistant"))
-            //{
-
-            //}
 
             return View(await _repo.GetByAdmin(user.Id));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> GetStorageOrders(int storageId)
+        {
+            return View(await _repo.GetByIdWithOrderItems(storageId));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> GetOrderDetails(int storageId, int orderItemsId)
+        {
+            var info = await _repo.GetByIdWithOrderAndProducts(storageId, orderItemsId);
+            var model = new OrderDetailsViewModel
+            {
+                UserEmail = info.Order.User.Email,
+                UserName = info.Order.User.Name,
+                UserSurname = info.Order.User.Usersurname,
+                CompanyName = info.Order.User.Company,
+                Address = info.Order.User.CompanyAddress,
+                Products = info.Order.Products//.Where(p => p.Product.Storage.Id == storageId)
+            };
+            return View(model);
         }
 
     }

@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210220184640_added OrderItems table")]
+    partial class addedOrderItemstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,6 +393,21 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("OrderStorage", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoragesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "StoragesId");
+
+                    b.HasIndex("StoragesId");
+
+                    b.ToTable("OrderStorage");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.User", "User")
@@ -413,7 +430,7 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
 
                     b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
-                        .WithMany("OrderItems")
+                        .WithMany()
                         .HasForeignKey("StorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -528,6 +545,21 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OrderStorage", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshFishWebsite.Models.Storage", null)
+                        .WithMany()
+                        .HasForeignKey("StoragesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.Navigation("Products");
@@ -545,8 +577,6 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
                 {
-                    b.Navigation("OrderItems");
-
                     b.Navigation("Products");
 
                     b.Navigation("Workers");

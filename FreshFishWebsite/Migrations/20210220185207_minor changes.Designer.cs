@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210220185207_minor changes")]
+    partial class minorchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,10 +168,15 @@ namespace FreshFishWebsite.Migrations
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StorageNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Storages");
                 });
@@ -468,6 +475,13 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("ShoppingCart");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.Order", null)
+                        .WithMany("Storages")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.User", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
@@ -531,6 +545,8 @@ namespace FreshFishWebsite.Migrations
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Storages");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>

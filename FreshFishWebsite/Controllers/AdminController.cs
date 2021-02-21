@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -73,10 +74,18 @@ namespace FreshFishWebsite.Controllers
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             var storages = order.Products.Select(x => x.Product.Storage).Distinct();
-
-            foreach(var s in storages)
+            
+            foreach (var s in storages)
             {
-                s.Orders.Add(order);
+                var orderItems = new List<OrderItems>();
+                orderItems.Add(new OrderItems
+                {
+                    Order = order,
+                    Storage = s
+                });
+
+                s.OrderItems.Add(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));
+                await _context.OrderItems.AddAsync(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));
                 _context.Storages.Update(s);
             }
 

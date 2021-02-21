@@ -10,6 +10,6 @@ namespace FreshFishWebsite.Models
         public string AdminId { get; set; }
         public List<Product> Products { get; set; } = new();
         public List<User> Workers { get; set; } = new();
-        public List<Order> Orders { get; set; } = new();
+        public List<OrderItems> OrderItems { get; set; } = new();
     }
 }
