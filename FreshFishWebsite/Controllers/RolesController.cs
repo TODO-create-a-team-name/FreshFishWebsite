@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
-    //[Authorize(Roles = "MainAdmin")]
+    [Authorize(Roles = "MainAdmin")]
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;

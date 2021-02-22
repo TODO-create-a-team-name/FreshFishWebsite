@@ -215,6 +215,8 @@ namespace FreshFishWebsite.Controllers
             var order = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == model.OrderItemsId);
             driver.OrderItems.Add(order);
             driver.IsDelivering = true;
+            order.IsAssigned = true;
+            _context.OrderItems.Update(order);
             _context.Drivers.Update(driver);
             await _context.SaveChangesAsync();
             return Ok();

@@ -60,14 +60,20 @@
                             </form>
                         </li>
                     }
-                    <li class="list-item">
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") || User.IsInRole("AdminAssistant"))
-                        {
-                            <a class="menu-links" asp-action="Index" asp-controller="Admin">
-                                <p class="text-parents">Адмін панель</p>
-                            </a>
-                        }
-                    </li>
+                <li class="list-item">
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") || User.IsInRole("AdminAssistant"))
+                    {
+                        <a class="menu-links" asp-action="Index" asp-controller="Admin">
+                            <p class="text-parents">Адмін панель</p>
+                        </a>
+                    }
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Driver"))
+                    {
+                        <a class="menu-links" asp-action="Index" asp-controller="Driver">
+                            <p class="text-parents">Панель водія</p>
+                        </a>
+                    }
+                </li>
                 </ul>
             </div>
             <a class="menu-links mobile-logo">

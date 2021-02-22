@@ -22,6 +22,10 @@
 
         public Driver Driver { get; set; }
 
+        public bool IsAssigned { get; set; } = false;
+
+        public bool IsDelivered { get; set; } = false;
+
         public OrderStatus Status { get; set; } = OrderStatus.Waiting;
 
     }
