@@ -1,12 +1,14 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
+    [Authorize(Roles = "Driver")]
     public class DriverController : Controller
     {
         private readonly IDriverRepository _repo;
