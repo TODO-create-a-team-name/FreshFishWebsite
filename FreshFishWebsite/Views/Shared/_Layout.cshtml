@@ -1,12 +1,15 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<User> signInManager;
 @inject Microsoft.AspNetCore.Identity.UserManager<User> userManager;
 
-@{ User user = new FreshFishWebsite.Models.User();
-                if (signInManager.IsSignedIn(User))
-                    user = await userManager.FindByNameAsync(User.Identity.Name); }
+@{
+    User user = new FreshFishWebsite.Models.User();
+    if (signInManager.IsSignedIn(User))
+        user = await userManager.FindByNameAsync(User.Identity.Name); 
+}
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +17,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/mainPage.css" type="text/css" media="screen" runat="server" />
 </head>
+
 <body>
     <header>
         <nav class="navbar-basic">
@@ -30,8 +34,8 @@
                         </a>
                     </li>
                     <li class="list-item">
-                        <a class="menu-links">
-                            <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+                        <a class="menu-links logo-links" href="/">
+                            <img src="~/img/Big-Webshop-logo.png" class="web-logo"/> 
                         </a>
                     </li>
                     <li class="list-item">
@@ -43,6 +47,34 @@
                         <a class="menu-links">
                             <p class="text-parents">Контакти</p>
                         </a>
+                    </li>
+                    <li class="list-item">
+                        <div class="list-item-group">
+                            @if (!signInManager.IsSignedIn(User))
+                            {
+                                <a class="menu-links ml-f" asp-action="Login" asp-controller="Account">
+                                    <p class="text-parents">Увійти</p>
+                                    <span class="iconify product-icons" data-inline="false"
+                                          data-icon="codicon:account"></span>
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="menu-links ml-f">
+                                    <form method="post" asp-action="Logout" asp-controller="Account">
+                                        <button type="submit">
+                                            Вийти
+                                        </button>
+                                    </form>
+                                    <span class="iconify product-icons" data-inline="false"
+                                          data-icon="codicon:account"></span>
+                                </div>
+                            }
+                            <a class="menu-links">
+                                <span class="iconify product-icons" data-inline="false"
+                                      data-icon="akar-icons:shopping-bag"></span>
+                            </a>
+                        </div>
                     </li>
                     @if (!signInManager.IsSignedIn(User))
                     {
@@ -76,8 +108,8 @@
                 </li>
                 </ul>
             </div>
-            <a class="menu-links mobile-logo">
-                <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+            <a class="menu-links mobile-logo logo-links" href="/">
+                                <img src="~/img/Big-Webshop-logo.png" class="web-logo"/> 
             </a>
             <div class="mobile-menu-btn">
                 <label class="menu-btn-position">
@@ -105,9 +137,11 @@
             @RenderBody()
         </main>
     </div>
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/mainPage.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

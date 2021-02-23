@@ -19,6 +19,10 @@ namespace FreshFishWebsite.Controllers
             _repo = repo;
             _storageRepo = storageRepo;
         }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         public IActionResult Create(int storageId)
         {

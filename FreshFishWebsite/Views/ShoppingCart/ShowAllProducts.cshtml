@@ -1,24 +1,127 @@
-﻿@model IEnumerable<FreshFishWebsite.Models.Product>
-@{ ViewBag.Title = "Products List"; }
+﻿@* @model IEnumerable<FreshFishWebsite.Models.Product> *@
+@{
+    ViewData["Title"] = "Продукція";
+}
 
-<table class="table">
-    <tr>
-        <td>Назва</td>
-        <td>Ціна (грн\кг)</td>
-        <td>Дата виготовлення</td>
-    </tr>
-    @foreach (var item in Model)
+<link rel="stylesheet" href="../css/Products/products.css" type="text/css" media="screen" runat="server" />
+
+<div class="products-container">
+    <div class="products-flex">
+        <div class="products-container-category">
+            <div class="wrap-1">
+                <input type="radio" id="tab-1" name="tabs">
+                <label for="tab-1">
+                    <div>tab one</div>
+                    <div class="cross"></div>
+                </label>
+                <div class="content">content1</div>
+            </div>
+
+            <div class="wrap-2">
+                <input type="radio" id="tab-2" name="tabs">
+                <label for="tab-2">
+                    <div>tab two</div>
+                    <div class="cross"></div>
+                </label>
+                <div class="content">content2
+                </div>
+            </div>
+            <div class="wrap-2">
+                <input type="radio" id="tab-3" name="tabs">
+                <label for="tab-3">
+                    <div>tab three</div>
+                    <div class="cross"></div>
+                </label>
+                <div class="content">content3
+                </div>
+            </div>
+        </div>
+
+        <div class="products-container-view">
+            <div class="products-container-view-info">
+                <h2>Дорадо</h2>
+                <p>Це м'ясо корисно для людей які мають проблеми з щитовидною залозою і бал бла бал...</p>
+                <div class="products-container-view-info-read">
+                    <div class="products-details">
+                        <p>27г білків</p>
+                        <p>100 ккал</p>
+                        <p>280грн/кг</p>
+                    </div>
+                    <form class="">
+                        <button type="submit" class="btn-add">Добавити в корзину<span class="iconify btn-add-content"
+                                data-inline="false" data-icon="akar-icons:plus"></span></button>
+                    </form>
+                </div>
+            </div>
+            <div class="products-container-view-img">
+                <div class="img-container">
+                    <img class="fish-img" src="~/img/mainPage/None_bgFish.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="products-container-preview">
+    <div class="products-container-preview-other">
+        <div class="product-card">
+            <input type="radio" class="product-register" id="element-1" name="fish">
+            <div>
+                <form class="">
+                    <button type="submit" class="btn-add"><span class="iconify btn-add-content" data-inline="false"
+                            data-icon="akar-icons:plus"></span></button>
+                </form>
+            </div>
+            <label for="element-1">
+                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
+                <div class="product-card-titleAndinfo">
+                    <h5>Дорадо</h5>
+                    <p>280грн/кг</p>
+                </div>
+            </label>
+        </div>
+          <div class="product-card">
+            <input type="radio" class="product-register" id="element-2" name="fish">
+            <div>
+                <form class="">
+                    <button type="submit" class="btn-add"><span class="iconify btn-add-content" data-inline="false"
+                            data-icon="akar-icons:plus"></span></button>
+                </form>
+            </div>
+            <label for="element-2">
+                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
+                <div class="product-card-titleAndinfo">
+                    <h5>Дорадо</h5>
+                    <p>280грн/кг</p>
+                </div>
+            </label>
+        </div>
+    </div>
+    <div class="products-container-preview-controll">
+        <div class="products-container-preview-controll-block">
+            <button class="btn-previous" data-trigger="previous">
+                <span class="arrow arrow-left" data-trigger="previous"></span>
+            </button>
+            <h3>1/1</h3>
+            <button class="btn-next" data-trigger="next">
+                <span class="arrow arrow-right" data-trigger="next"></span>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="~/js/products.js"></script>
+@* @foreach (var item in Model)
     {
-<tr>
+    <tr>
     <td>@item.ProductName</td>
     <td>@item.PricePerKg</td>
     <td>@item.Date</td>
     <td>
-        <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
-            <button type="submit" class="btn btn-sm btn-success">
-                Додати в корзину
-            </button>
-        </form>
+    <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
+    <button type="submit" class="btn btn-sm btn-success">
+    Додати в корзину
+    </button>
+    </form>
     </td>
-</tr>}
-</table>
+    </tr>} *@
