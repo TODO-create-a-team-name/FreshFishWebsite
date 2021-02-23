@@ -31,14 +31,23 @@ header {
         justify-content: center;
         display: grid;
         .list-container {
-            position: relative;
+            // position: relative;
             list-style: none;
             display: flex;
             .list-item {
                 margin: {
                     left: 35px;
                 }
+                .logo-links{
+                    // position: absolute;
+                }
+                &-group{
+                    display: none;
+                }
                 .menu-links {
+                    .product-icons{
+                        display: none;
+                    }
                     .web-logo {
                         margin: {
                             top: -35px;
@@ -92,6 +101,7 @@ header {
             font: {
                 family: "Cormorant Garamond", serif;
                 size: 74px;
+                weight: 400;
             }
             color: #fff;
         }
@@ -241,7 +251,7 @@ header {
                 color: #fff;
                 font: {
                     family: "Comfortaa", cursive;
-                    weight: 400;
+                    weight: 600;
                     size: 16px;
                 }
             }
@@ -269,7 +279,7 @@ header {
                         background-color: #fff;
                         border: none;
                         &:hover {
-                            filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));
+                            filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.6));
                         }
                         &:focus {
                             border: none;
@@ -379,7 +389,7 @@ header {
                     left: 5vw;
                 }
                 // overflow: hidden;
-                transition: all 3s ease;
+                transition: all 1.5s ease;
                 background-color: white;
                 padding: 0px 20px;
                 border-radius: 30px;
@@ -849,6 +859,13 @@ header {
                     display: none;
                 }
                 .list-item {
+                    .menu-links{
+                        .text-parents{
+                            font: {
+                                size: 18px;
+                            }
+                        }
+                    }
                 }
                 &.not-active {
                     visibility: visible;
