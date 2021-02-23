@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreshFishWebsite.ViewModels
 {
@@ -15,6 +17,9 @@ namespace FreshFishWebsite.ViewModels
         public int Amount { get; set; }
         
         public bool IsSold { get; set; }
+        public string Image { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
 
         public int StorageId { get; set; }
     }
