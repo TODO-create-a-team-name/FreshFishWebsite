@@ -41,10 +41,17 @@ namespace FreshFishWebsite.Controllers
                 UserName = order.Order.User.Name,
                 UserSurname = order.Order.User.Usersurname,
                 CompanyName = order.Order.User.Company,
-                Address = order.Order.User.CompanyAddress
-                
+                Address = order.Order.User.CompanyAddress,
+                Status = order.Status
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeOrderStatus(OrderDetailsForDriverViewModel model)
+        {
+            await _repo.ChangeOrderStatus(model.OrderItemsId, model.Status);
+            return RedirectToAction("Index");
         }
 
         //TODO: make a method that returns required data to build map route

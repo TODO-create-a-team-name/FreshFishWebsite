@@ -1,5 +1,7 @@
 ﻿
 
+using FreshFishWebsite.Models;
+
 namespace FreshFishWebsite.ViewModels
 {
     public class OrderDetailsForDriverViewModel
@@ -14,5 +16,7 @@ namespace FreshFishWebsite.ViewModels
         public string CompanyName { get; set; }
 
         public string Address { get; set; }
+
+        public OrderStatus Status { get; set; }
     }
 }

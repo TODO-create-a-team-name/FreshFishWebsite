@@ -8,7 +8,14 @@
 <hr />
 <h3>Адреса доставки: @Model.Address</h3>
 <hr />
-<div style="border: 1px dotted black">
-    А тут водій зможе керувати статусом доставки, якшо моя дупа напрягнеться трохи
-</div>
+<h4>Cтатус замовлення: </h4>
+    <form asp-action="ChangeOrderStatus" method="post" asp-route-orderItemsId="@Model.OrderItemsId">
+        <select class="form-select" asp-for="Status">
+        <option value="0">Очікує відправлення</option>
+        <option value="1">В дорозі</option>
+        <option value="2">Доставлено</option>
+    </select>
+    <input type="submit" value="Підтвердити" />
+</form>
+ <hr />
 <div>Тут буде мапа, якшо Вася трошки напрягнеться</div>
