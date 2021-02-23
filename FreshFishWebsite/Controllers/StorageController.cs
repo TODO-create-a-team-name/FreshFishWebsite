@@ -41,7 +41,8 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateStorageViewModel model)
         {
-            var storageAdmin = (StorageAdmin)await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+            var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+      
             if (ModelState.IsValid)
             {
                 var storage = new Storage
@@ -49,8 +50,24 @@ namespace FreshFishWebsite.Controllers
                     StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
-                if(storageAdmin != null)
+                if(user != null)
                 {
+                    StorageAdmin storageAdmin = new()
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Usersurname = user.Usersurname,
+                        Company = user.Company,
+                        CompanyAddress = user.CompanyAddress,
+                        UserName = user.UserName, //it stores emails, don't know why
+                        Email = user.Email,
+                        EmailConfirmed = true,
+                        PasswordHash = user.PasswordHash,
+                        SecurityStamp = user.SecurityStamp,
+                        ConcurrencyStamp = user.ConcurrencyStamp
+                    };
+                    await _userManager.DeleteAsync(user);
+                    await _userManager.CreateAsync(storageAdmin);
                     await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
                     storage.StorageAdmin = storageAdmin;
                     await _repo.AddAsync(storage);
@@ -95,17 +112,34 @@ namespace FreshFishWebsite.Controllers
             {
                 return NotFound();
             }
-            var storageDriver = (Driver)await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if(ModelState.IsValid)
             {
-                if(storageDriver != null)
+                if(user != null)
                 {
+                    Driver storageDriver = new()
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Usersurname = user.Usersurname,
+                        Company = user.Company,
+                        CompanyAddress = user.CompanyAddress,
+                        UserName = user.UserName, //it stores emails, don't know why
+                        Email = user.Email,
+                        EmailConfirmed = true,
+                        PasswordHash = user.PasswordHash,
+                        SecurityStamp = user.SecurityStamp,
+                        ConcurrencyStamp = user.ConcurrencyStamp,
+                        Storage = storage
+                    };
+                    await _userManager.DeleteAsync(user);
+                    await _userManager.CreateAsync(storageDriver);
                     await _userManager.AddToRoleAsync(storageDriver, "Driver");
                     storage.Drivers.Add(storageDriver);
                     await _repo.UpdateAsync(storage);
                     await new EmailService().SendEmailAsync(storageDriver.Email, "Водій складу FreshFish",
                        $"Ви тепер водій складу №{storage.StorageNumber}");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("GetStorage");
                 }
                 else
                 {
