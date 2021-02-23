@@ -21,8 +21,10 @@
     <img src="~/img/mainPage/fisherman.jpg" class="about-img" />
 </div>
 <div class="quote-container">
-    <blockquote class="quote-container-text">Тільки свіжа і якісна риба - запорука вишуканого смаку ваших
-        страв.</blockquote>
+    <blockquote class="quote-container-text">
+        Тільки свіжа і якісна риба і морепродукти - запорука вишуканого смаку ваших
+        страв.
+    </blockquote>
 </div>
 <div class="products-container">
     <img src="~/img/mainPage/779.jpg" class="products-under-img" />
@@ -38,8 +40,10 @@
                     <p>280грн/кг</p>
                 </div>
                 <form class="">
-                    <button type="submit" class="btn-add">Добавити в корзину<span class="iconify btn-add-content"
-                            data-inline="false" data-icon="akar-icons:plus"></span></button>
+                    <button type="submit" class="btn-add">
+                        Добавити в корзину<span class="iconify btn-add-content"
+                                                data-inline="false" data-icon="akar-icons:plus"></span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -62,81 +66,34 @@
             </div>
         </div>
         <div class="products-container-preview-other">
-                @foreach (var p in Model)
-                {
-            <div class="product-card">
-                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                <div class="product-card-titleAndinfo">
-                    <h5>@p.ProductName</h5>
-                    <p>@p.PricePerKg грн/кг</p>
-                    <div>
-                        <form class="">
-                            <button type="submit" class="btn-add"><span class="iconify btn-add-content"
-                                    data-inline="false" data-icon="akar-icons:plus"></span></button>
-                        </form>
+            @foreach (var p in Model)
+            {
+                <div class="product-card">
+                    <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
+                    <div class="product-card-titleAndinfo">
+                        <h5>@p.ProductName</h5>
+                        <p>@p.PricePerKg грн/кг</p>
+                        <div>
+                            <form class="">
+                                <button type="submit" class="btn-add">
+                                    <span class="iconify btn-add-content"
+                                          data-inline="false" data-icon="akar-icons:plus"></span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="product-card">
-                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                <div class="product-card-titleAndinfo">
-                    <h5>Дорадо</h5>
-                    <p>280грн/кг</p>
-                    <div>
-                        <form class="">
-                            <button type="submit" class="btn-add"><span class="iconify btn-add-content"
-                                    data-inline="false" data-icon="akar-icons:plus"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                <div class="product-card-titleAndinfo">
-                    <h5>Дорадо</h5>
-                    <p>280грн/кг</p>
-                    <div>
-                        <form class="">
-                            <button type="submit" class="btn-add"><span class="iconify btn-add-content"
-                                    data-inline="false" data-icon="akar-icons:plus"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                <div class="product-card-titleAndinfo">
-                    <h5>Дорадо</h5>
-                    <p>280грн/кг</p>
-                    <div>
-                        <form class="">
-                            <button type="submit" class="btn-add"><span class="iconify btn-add-content"
-                                    data-inline="false" data-icon="akar-icons:plus"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="~/img/mainPage/None_bgFish.png" class="product-card-img" />
-                <div class="product-card-titleAndinfo">
-                    <h5>Дорадо</h5>
-                    <p>280грн/кг</p>
-                    <div>
-                        <form class="">
-                            <button type="submit" class="btn-add"><span class="iconify btn-add-content"
-                                    data-inline="false" data-icon="akar-icons:plus"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
 <div class="contacts-container">
     <div class="contacts-container-info">
         <h4>Ми завжди на зв'язку</h4>
-        <p>Якщо у вас виникли якісь питання, ми завжди будемо раді відповісти на них, при потребі, допомогти з вибором
-            товару.</p>
+        <p>
+            Якщо у вас виникли якісь питання, ми завжди будемо раді відповісти на них, при потребІ, допомогти з вибором
+            товару.
+        </p>
         <h3>тел. +380 896 338 137</h3>
     </div>
     <div class="contacts-container-logo">
