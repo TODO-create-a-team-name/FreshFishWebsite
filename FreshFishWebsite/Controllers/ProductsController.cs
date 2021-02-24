@@ -34,6 +34,7 @@ namespace FreshFishWebsite.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel model)
         {
             var product = new Product
@@ -41,7 +42,8 @@ namespace FreshFishWebsite.Controllers
                 ProductName = model.ProductName,
                 PricePerKg = model.Price,
                 Date = model.Date,
-                QuantityKg = model.Amount
+                QuantityKg = model.Amount,
+                ImageFile = model.ImageFile
             };
             if (ModelState.IsValid)
             {
@@ -52,6 +54,26 @@ namespace FreshFishWebsite.Controllers
             }
             return View(product);
         }
+
+        //public async Task<IActionResult> Create(ProductViewModel model)
+        //{
+        //    var product = new Product
+        //    {
+        //        ProductName = model.ProductName,
+        //        PricePerKg = model.Price,
+        //        Date = model.Date,
+        //        QuantityKg = model.Amount,
+        //        ImageFile = model.ImageFile
+        //    };
+        //    if (ModelState.IsValid)
+        //    {
+        //        var storage = _storageRepo.GetById(model.StorageId);
+        //        product.Storage = storage;
+        //        await _repo.AddAsync(product);
+        //        return RedirectToAction("GetStorage", "Storage");
+        //    }
+        //    return View(product);
+        //}
 
         public IActionResult Edit(int? id)
         {
