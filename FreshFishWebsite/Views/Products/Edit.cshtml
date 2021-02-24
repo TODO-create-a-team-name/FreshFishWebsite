@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
-<form asp-action="Edit" asp-controller="Products">
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-group">
         <input type="hidden" asp-for="Id" />
     </div>
