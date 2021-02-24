@@ -25,7 +25,10 @@ namespace FreshFishWebsite.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult Register() => View();
+        public ActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)

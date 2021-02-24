@@ -1,0 +1,11 @@
+﻿@model FreshFishWebsite.ViewModels.RegisterViewModel
+
+<input type="text" placeholder="Ім’я" asp-for="Name" />
+<span asp-validation-for="Name"></span>
+<input type="text" placeholder="Прізвище" asp-for="Surname" />
+<span asp-validation-for="Surname"></span>
+<input type="password" placeholder="Пароль" asp-for="Password" />
+<span asp-validation-for="Password"></span>
+<input type="password" placeholder="Підтвердіть пароль" asp-for="PasswordConfirm" />
+<span asp-validation-for="PasswordConfirm"></span>
+<button type="submit" class="btn-register">Реєстрація</button>

@@ -12,7 +12,7 @@ namespace FreshFishWebsite.Repositories
 {
     public class ProductRepository : IRepository<Product>
     {
-        private FreshFishDbContext _;
+        private readonly FreshFishDbContext _;
         private readonly IWebHostEnvironment _hostEnvironment;
         public ProductRepository(FreshFishDbContext context, IWebHostEnvironment hostEnvironment)
         {
