@@ -76,12 +76,14 @@ namespace FreshFishWebsite.Controllers
             
             foreach (var s in storages)
             {
-                var orderItems = new List<OrderItems>();
-                orderItems.Add(new OrderItems
+                var orderItems = new List<OrderItems>
                 {
-                    Order = order,
-                    Storage = s
-                });
+                    new OrderItems
+                    {
+                        Order = order,
+                        Storage = s
+                    }
+                };
 
                 s.OrderItems.Add(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));
                 await _context.OrderItems.AddAsync(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));

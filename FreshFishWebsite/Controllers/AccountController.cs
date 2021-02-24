@@ -441,11 +441,5 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);        
         }
-
-        //[HttpGet]
-        //public IActionResult RegisterStorageAdmin()
-        //{
-
-        //}
     }
 }
