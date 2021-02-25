@@ -12,5 +12,11 @@ namespace FreshFishWebsite.Interfaces
         public IEnumerable<Storage> GetStoragesWithWorkers();
 
         public Storage GetByIdWithWorkers(int id);
+
+        public Task<Storage> GetByIdWithOrderItems(int id);
+
+        public Task<OrderItems> GetByIdWithOrderAndProducts(int storageId, int id);
+
+        public Task<OrderItems> GetByIdOrderItems(int id);
     }
 }

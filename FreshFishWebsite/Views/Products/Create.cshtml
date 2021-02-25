@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
-<form asp-action="Create" asp-controller="Products">
+<form asp-action="Create"  enctype="multipart/form-data">
     <input type="hidden" asp-for="StorageId" />
     <div class="form-group">
         <label asp-for="ProductName" class="control-label">Назва</label>
@@ -23,6 +23,10 @@
     <div class="form-group">
         <label asp-for="IsSold" class="control-label">Продано</label>
         <input type="checkbox" asp-for="IsSold" class="custom-checkbox" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile" class="control-label">Зображення</label>
+        <input  asp-for="ImageFile" accept="image/*" />
     </div>
     <div class="form-group">
         <input type="submit" value="Додати" class="btn btn-default" />

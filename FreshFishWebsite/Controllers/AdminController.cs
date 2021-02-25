@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -21,7 +23,6 @@ namespace FreshFishWebsite.Controllers
             _userManager = userManager;
             _context = context;
         }
-        [Authorize(Roles = "MainAdmin, AdminAssistant")]
         public async Task<IActionResult> Index()
         { 
             if (_signInManager.IsSignedIn(User)) 
@@ -48,5 +49,51 @@ namespace FreshFishWebsite.Controllers
                 .Include(u => u.User)
                 .AsNoTracking());
        }
+
+        [Authorize(Roles = "MainAdmin")]
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            return View( await _context.Orders
+                .Include(u => u.User)
+                .Include(p => p.Products)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(s => s.Storage)
+                .FirstOrDefaultAsync(x => x.Id == id));
+        }
+
+        [Authorize(Roles = "MainAdmin")]
+        [HttpPost] 
+        public async Task<IActionResult> SendOrdersToStorages(int id)
+        {
+            var order = await _context.Orders
+                .Include(u => u.User)
+                .Include(p => p.Products)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(s => s.Storage)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var storages = order.Products.Select(x => x.Product.Storage).Distinct();
+            
+            foreach (var s in storages)
+            {
+                var orderItems = new List<OrderItems>
+                {
+                    new OrderItems
+                    {
+                        Order = order,
+                        Storage = s
+                    }
+                };
+
+                s.OrderItems.Add(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));
+                await _context.OrderItems.AddAsync(orderItems.FirstOrDefault(x => x.Storage.Id == s.Id));
+                _context.Storages.Update(s);
+            }
+
+            order.IsOrderAssigned = true;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("GetOrders");
+        }
     }
 }

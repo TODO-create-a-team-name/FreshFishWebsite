@@ -5,6 +5,11 @@ using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
+using System.Data.OleDb;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -12,12 +17,15 @@ namespace FreshFishWebsite.Controllers
     public class StorageController : Controller
     {
         private readonly IStorageRepository _repo;
+        private readonly FreshFishDbContext _context;
         private readonly UserManager<User> _userManager;
         public StorageController(IStorageRepository repo,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            FreshFishDbContext context)
         {
             _repo = repo;
             _userManager = userManager;
+            _context = context;
         }
         [Authorize(Roles = "MainAdmin")]
         public IActionResult Index()
@@ -33,7 +41,8 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateStorageViewModel model)
         {
-            var storageAdmin = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+            var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+      
             if (ModelState.IsValid)
             {
                 var storage = new Storage
@@ -41,11 +50,26 @@ namespace FreshFishWebsite.Controllers
                     StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
-                if(storageAdmin != null)
+                if(user != null)
                 {
+                    StorageAdmin storageAdmin = new()
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Usersurname = user.Usersurname,
+                        Company = user.Company,
+                        CompanyAddress = user.CompanyAddress,
+                        UserName = user.UserName, //it stores emails, don't know why
+                        Email = user.Email,
+                        EmailConfirmed = true,
+                        PasswordHash = user.PasswordHash,
+                        SecurityStamp = user.SecurityStamp,
+                        ConcurrencyStamp = user.ConcurrencyStamp
+                    };
+                    await _userManager.DeleteAsync(user);
+                    await _userManager.CreateAsync(storageAdmin);
                     await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
-                    storage.Workers.Add(storageAdmin);
-                    storage.AdminId = storageAdmin.Id;
+                    storage.StorageAdmin = storageAdmin;
                     await _repo.AddAsync(storage);
                     await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
                        $"Ви тепер адміністратор складу №{storage.StorageNumber}");
@@ -88,17 +112,34 @@ namespace FreshFishWebsite.Controllers
             {
                 return NotFound();
             }
-            var storageDriver = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if(ModelState.IsValid)
             {
-                if(storageDriver != null)
+                if(user != null)
                 {
+                    Driver storageDriver = new()
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Usersurname = user.Usersurname,
+                        Company = user.Company,
+                        CompanyAddress = user.CompanyAddress,
+                        UserName = user.UserName, //it stores emails, don't know why
+                        Email = user.Email,
+                        EmailConfirmed = true,
+                        PasswordHash = user.PasswordHash,
+                        SecurityStamp = user.SecurityStamp,
+                        ConcurrencyStamp = user.ConcurrencyStamp,
+                        Storage = storage
+                    };
+                    await _userManager.DeleteAsync(user);
+                    await _userManager.CreateAsync(storageDriver);
                     await _userManager.AddToRoleAsync(storageDriver, "Driver");
-                    storage.Workers.Add(storageDriver);
+                    storage.Drivers.Add(storageDriver);
                     await _repo.UpdateAsync(storage);
                     await new EmailService().SendEmailAsync(storageDriver.Email, "Водій складу FreshFish",
                        $"Ви тепер водій складу №{storage.StorageNumber}");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("GetStorage");
                 }
                 else
                 {
@@ -161,13 +202,58 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> GetStorage()
         {
             var user = await _userManager.GetUserAsync(User);
-            //if (await _userManager.IsInRoleAsync(user, "AdminAssistant"))
-            //{
-
-            //}
 
             return View(await _repo.GetByAdmin(user.Id));
         }
 
+        [HttpGet]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> GetStorageOrders(int storageId)
+        {
+            return View(await _repo.GetByIdWithOrderItems(storageId));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> GetOrderDetails(int storageId, int orderItemsId)
+        {
+            var info = await _repo.GetByIdWithOrderAndProducts(storageId, orderItemsId);
+            var model = new OrderDetailsViewModel
+            {
+                OrderItemsId = orderItemsId,
+                UserEmail = info.Order.User.Email,
+                UserName = info.Order.User.Name,
+                UserSurname = info.Order.User.Usersurname,
+                CompanyName = info.Order.User.Company,
+                Address = info.Order.User.CompanyAddress,
+                Products = info.Order.Products,
+                Drivers = _context.Drivers
+                          .Where(x => !x.IsDelivering)
+                          .Select(x => new SelectListItem()
+                          {
+                              Value = x.Id,
+                              Text = $"{x.Email} ({x.Name} {x.Usersurname})"
+                          }).ToList()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "AdminAssistant")]
+        public async Task<IActionResult> AssignOrderToDriver(OrderDetailsViewModel model)
+        {
+            var driver = await _context
+                .Drivers
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(x => x.Id == model.DriverId);
+            var order = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == model.OrderItemsId);
+            driver.OrderItems.Add(order);
+            driver.IsDelivering = true;
+            order.IsAssigned = true;
+            _context.OrderItems.Update(order);
+            _context.Drivers.Update(driver);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

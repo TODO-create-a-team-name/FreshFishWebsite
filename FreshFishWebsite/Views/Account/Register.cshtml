@@ -11,66 +11,24 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/Auth/auth.css" type="text/css" media="screen" runat="server" />
 </head>
-@*<form class="form" method="post" asp-controller="Account" asp-action="Register">
-        <div asp-validation-summary="ModelOnly"></div>
-        <div class="form_item">
-            <input placeholder="Ім’я" asp-for="Name" class="form_control" />
-            <span asp-validation-for="Name"></span>
-        </div>
-        <div class="form_item">
-            <input placeholder="Прізвище" asp-for="Surname" class="form_control" />
-            <span asp-validation-for="Surname"></span>
-        </div>
-        <div class="form_item">
-            <input type="email" placeholder="Електронна пошта" asp-for="Email" class="form_control" />
+<body>
+    <div class="module form-module">
+        <form class="form" method="post" asp-controller="Account" asp-action="Register">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="email" placeholder="Електронна пошта" asp-for="Email" />
             <span asp-validation-for="Email"></span>
-        </div>
-        <div class="form_item">
-            <input placeholder="Підприємство" asp-for="Company" class="form_control" />
+            <input type="text" placeholder="Підприємство" asp-for="Company" />
             <span asp-validation-for="Company"></span>
-        </div>
-        <div class="form_item">
-            <input placeholder="Адреса підприємства" asp-for="CompanyAddress" class="form_control" />
+            <input type="text" placeholder="Адреса підприємства" asp-for="CompanyAddress" />
             <span asp-validation-for="CompanyAddress"></span>
+            @await Html.PartialAsync("_Register_Form", new FreshFishWebsite.ViewModels.RegisterViewModel())
+        </form>
+    <div class="cta">
+        <div>
+            <span class="account_text">В тебе вже є акаунт?</span>
+            <a asp-controller="Account" asp-action="Login">Ввійти</a>
         </div>
-        <div class="form_item">
-            <input type="password" placeholder="Пароль" asp-for="Password" class="form_control" />
-            <span asp-validation-for="Password"></span>
-        </div>
-        <div class="form_item">
-            <input type="password" placeholder="Підтвердіть пароль" asp-for="PasswordConfirm" class="form_control" />
-            <span asp-validation-for="PasswordConfirm"></span>
-        </div><br />
+    </div>
+    </div>
 
-        <div class="form_buttons cancel_select">
-            <a class="cancel_button" asp-controller="Home" asp-action="Index">Скасувати</a>
-            <input type="submit" class="register_button" value="Зареєструватися" />
-        </div>
-    </form>*@
-
-<div class="module form-module">
-    <form class="form" method="post" asp-controller="Account" asp-action="Register">
-        <h2>Create an account</h2>
-        <div asp-validation-summary="ModelOnly"></div>
-        <input type="text" placeholder="Ім’я" asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-        <input type="text" placeholder="Прізвище" asp-for="Surname" />
-        <span asp-validation-for="Surname"></span>
-        <input type="email" placeholder="Електронна пошта" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-        <input type="text" placeholder="Підприємство" asp-for="Company" />
-        <span asp-validation-for="Company"></span>
-        <input type="text" placeholder="Адреса підприємства" asp-for="CompanyAddress" />
-        <span asp-validation-for="CompanyAddress"></span>
-        <input type="password" placeholder="Пароль" asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-        <input type="password" placeholder="Підтвердіть пароль" asp-for="PasswordConfirm" />
-        <span asp-validation-for="PasswordConfirm"></span>
-        <button type="submit" class="btn-register">Реєстрація</button>
-    </form>
-    <div class="cta"><div>
-    <span class="account_text">В тебе вже є акаунт?</span>
-    <a asp-controller="Account" asp-action="Login">Ввійти</a>
-</div></div>
-</div>
-
+</body>

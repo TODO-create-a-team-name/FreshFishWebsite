@@ -1,0 +1,41 @@
+﻿@model Order
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+
+    var storages = Model.Products.Select(x => x.Product.Storage).Distinct();
+}
+@if (Model.IsOrderAssigned)
+{
+    <h3 class="text-success">Замовлення було призначено на склади</h3>
+}
+else
+{
+<form asp-action="SendOrdersToStorages" method="post">
+    <input type="hidden"  asp-for="Id"/>
+    <input class="btn btn-success" type="submit"  value="Призначити замовлення на склади"/>
+</form>
+}
+@foreach (var s in storages)
+{
+    <p>Склад @s.StorageNumber</p>
+
+            <table class="table">
+                <tr>
+                    <td>Назва</td>
+                    <td>Кількість</td>
+
+                </tr>
+                @foreach (var p in Model.Products)
+                {
+                    if (p.Product.Storage.Id == s.Id)
+                    {
+                    <tr>
+                        <td>@p.Product.ProductName</td>
+                        <td>@p.Quantity</td>
+                    </tr>
+                    }
+                }
+            </table>
+        
+    
+}

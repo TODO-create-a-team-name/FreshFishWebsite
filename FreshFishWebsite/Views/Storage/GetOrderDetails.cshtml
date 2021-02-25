@@ -1,0 +1,28 @@
+﻿@model FreshFishWebsite.ViewModels.OrderDetailsViewModel
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h1>Замовник @Model.UserEmail (@Model.UserName @Model.UserSurname)</h1>
+<h2>Підприємство @Model.CompanyName</h2>
+<h3>Адреса: @Model.Address</h3>
+<table class="table">
+    <tr>
+        <td>Назва продукту</td>
+        <td>Кількість</td>
+    </tr>
+
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>@item.Product.ProductName</td>
+            <td>@item.Quantity</td>
+        </tr>
+    }
+</table>
+
+<p>Призначити водія:</p>
+<form asp-action="AssignOrderToDriver" method="post" asp-route-orderItemsid="@Model.OrderItemsId">
+    <select id="driversDropdown" asp-for="DriverId" asp-items="@Model.Drivers"></select>
+    <input type="submit" value="Призначити" />
+</form>

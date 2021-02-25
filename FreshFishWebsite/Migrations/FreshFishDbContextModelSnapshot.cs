@@ -26,6 +26,9 @@ namespace FreshFishWebsite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<bool>("IsOrderAssigned")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -39,6 +42,42 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.OrderItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("DriverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsAssigned")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("StorageId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -48,6 +87,9 @@ namespace FreshFishWebsite.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
@@ -130,13 +172,17 @@ namespace FreshFishWebsite.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("StorageAdminId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StorageNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StorageAdminId")
+                        .IsUnique()
+                        .HasFilter("[StorageAdminId] IS NOT NULL");
 
                     b.ToTable("Storages");
                 });
@@ -198,9 +244,6 @@ namespace FreshFishWebsite.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StorageId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -221,8 +264,6 @@ namespace FreshFishWebsite.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("StorageId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -358,6 +399,31 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Driver", b =>
+                {
+                    b.HasBaseType("FreshFishWebsite.Models.User");
+
+                    b.Property<bool>("IsDelivering")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderItemsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("StorageId");
+
+                    b.ToTable("Drivers");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.StorageAdmin", b =>
+                {
+                    b.HasBaseType("FreshFishWebsite.Models.User");
+
+                    b.ToTable("StorageAdmins");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.User", "User")
@@ -365,6 +431,31 @@ namespace FreshFishWebsite.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.OrderItems", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.Driver", "Driver")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("DriverId");
+
+                    b.HasOne("FreshFishWebsite.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("StorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
@@ -410,13 +501,13 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("ShoppingCart");
                 });
 
-            modelBuilder.Entity("FreshFishWebsite.Models.User", b =>
+            modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
                 {
-                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
-                        .WithMany("Workers")
-                        .HasForeignKey("StorageId");
+                    b.HasOne("FreshFishWebsite.Models.StorageAdmin", "StorageAdmin")
+                        .WithOne("Storage")
+                        .HasForeignKey("FreshFishWebsite.Models.Storage", "StorageAdminId");
 
-                    b.Navigation("Storage");
+                    b.Navigation("StorageAdmin");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -470,6 +561,32 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Driver", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("FreshFishWebsite.Models.Driver", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
+                        .WithMany("Drivers")
+                        .HasForeignKey("StorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Storage");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.StorageAdmin", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("FreshFishWebsite.Models.StorageAdmin", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.Navigation("Products");
@@ -487,9 +604,11 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.Storage", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Drivers");
 
-                    b.Navigation("Workers");
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.User", b =>
@@ -497,6 +616,16 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("ShoppingCart");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.Driver", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.StorageAdmin", b =>
+                {
+                    b.Navigation("Storage");
                 });
 #pragma warning restore 612, 618
         }

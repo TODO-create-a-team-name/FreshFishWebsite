@@ -1,6 +1,8 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreshFishWebsite.Models
 {
@@ -14,6 +16,9 @@ namespace FreshFishWebsite.Models
         public bool IsSold { get; set; } = false;
         public int StorageId { get; set; }
         public Storage Storage { get; set; }
+        public string Image { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public List<ShoppingCartProduct> ShoppingCartProducts { get; set; }
             = new List<ShoppingCartProduct>();
     }

@@ -13,7 +13,8 @@ namespace FreshFishWebsite.Models
 
         public User User { get; set; }
 
-        public List<ShoppingCartProduct> Products { get; set; } = new List<ShoppingCartProduct>();
+        public bool IsOrderAssigned { get; set; } = false;
 
+        public List<ShoppingCartProduct> Products { get; set; } = new();
     }
 }

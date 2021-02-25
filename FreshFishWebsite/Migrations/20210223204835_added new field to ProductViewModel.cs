@@ -2,7 +2,7 @@
 
 namespace FreshFishWebsite.Migrations
 {
-    public partial class addedProductscolumntoOrdertable : Migration
+    public partial class addednewfieldtoProductViewModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

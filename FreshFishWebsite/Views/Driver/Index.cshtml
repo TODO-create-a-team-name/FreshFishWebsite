@@ -1,0 +1,21 @@
+﻿@model IEnumerable<OrderItems>
+@{
+    Layout = "~/Views/Shared/_Driver_Layout.cshtml";
+}
+<table class="table">
+    <tr>
+        <td>Дата замовлення</td>
+        <td>Адреса отримувача</td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Order.OrderDate</td>
+            <td>@item.Order.User.CompanyAddress</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="GetOrderDetails" asp-route-id="@item.Id">Деталі</a>
+            </td>
+        </tr>
+    }
+</table>

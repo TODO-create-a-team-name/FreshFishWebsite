@@ -5,7 +5,7 @@
 
 <h1>@Model.Address</h1>
 <h1>@Model.StorageNumber</h1>
-
+<a class="btn btn-sm btn-success" asp-action="GetStorageOrders" asp-controller="Storage" asp-route-storageId="@Model.Id">Замовлення</a>
 <a class="btn btn-sm btn-success" asp-action="Create" asp-controller="Products" asp-route-storageId="@Model.Id">Додати продукт</a>
 <a class="btn btn-sm btn-success" asp-action="AddDriver" asp-controller="Storage" asp-route-storageId="@Model.Id">Додати водія</a>
 <table class="table">
@@ -16,9 +16,9 @@
         <td>Кількість (кг)</td>
         <td>Продано</td>
     </tr>
-    @foreach (var item in Model.Products)
-    {
-<tr>
+    @foreach(var item in Model.Products)
+    { 
+     <tr>
     <td>@item.ProductName</td>
     <td>@item.PricePerKg</td>
     <td>@item.Date</td>
@@ -37,7 +37,8 @@
             </button>
         </form>
     </td>
-</tr>}
+</tr>
+}
 
 
 </table>
@@ -50,10 +51,10 @@
         <td>Прізвище</td>
         <td>Електронна пошта</td>
     </tr>
-    @foreach (var item in Model.Workers)
+    @foreach (var item in Model.Drivers)
     {
         <tr>
-            <td>@item.UserName</td>
+            <td>@item.Name</td>
             <td>@item.Usersurname</td>
             <td>@item.Email</td>
             @*<td>

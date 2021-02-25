@@ -1,10 +1,7 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Repositories;
-using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -39,18 +36,11 @@ namespace FreshFishWebsite.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 return View(_repo.GetShoppingCartItems(user));
             }
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            //var product = await _repo.GetById(id);
-            //var model = new ShoppingCartProductViewModel
-            //{
-            //    ProductName = product.Product.ProductName,
-            //    Quantity = product.Quantity
-            //};
-
             return View(await _repo.GetById(id));
         }
 
@@ -75,9 +65,9 @@ namespace FreshFishWebsite.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 await _repo.AddProductToShoppingCart(user, id);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

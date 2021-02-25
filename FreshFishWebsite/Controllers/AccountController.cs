@@ -25,7 +25,10 @@ namespace FreshFishWebsite.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult Register() => View();
+        public ActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -92,7 +95,7 @@ namespace FreshFishWebsite.Controllers
             {
                 var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
 
-                User user = new()
+                StorageAdmin user = new()
                 {
                     Email = model.Email,
                     UserName = model.Email,
@@ -105,8 +108,7 @@ namespace FreshFishWebsite.Controllers
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, "AdminAssistant");
-                storage.AdminId = user.Id;
-                storage.Workers.Add(user);
+                storage.StorageAdmin = user;
                 _context.Storages.Update(storage);
                 await _context.SaveChangesAsync();
                 if (result.Succeeded)
@@ -161,7 +163,7 @@ namespace FreshFishWebsite.Controllers
             {
                 var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
 
-                User user = new()
+                Driver driver = new()
                 {
                     Email = model.Email,
                     UserName = model.Email,
@@ -171,20 +173,20 @@ namespace FreshFishWebsite.Controllers
                     CompanyAddress = model.CompanyAddress,
                     Storage = storage
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "Driver");
-                storage.Workers.Add(user);
+                var result =  await _userManager.CreateAsync(driver, model.Password);
+                await _userManager.AddToRoleAsync(driver, "Driver");
+                storage.Drivers.Add(driver);
                 _context.Storages.Update(storage);
                 await _context.SaveChangesAsync();
 
                 if (result.Succeeded)
                 {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(driver);
 
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
-                        new { userId = user.Id, code = code },
+                        new { userId = driver.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
 
                     await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
@@ -439,11 +441,5 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);        
         }
-
-        //[HttpGet]
-        //public IActionResult RegisterStorageAdmin()
-        //{
-
-        //}
     }
 }

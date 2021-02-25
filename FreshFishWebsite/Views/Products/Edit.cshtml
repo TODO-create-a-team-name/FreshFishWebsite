@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
-<form asp-action="Edit" asp-controller="Products">
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-group">
         <input type="hidden" asp-for="Id" />
     </div>
@@ -24,6 +24,14 @@
     <div class="form-group">
         <label asp-for="QuantityKg" class="control-label">Кількість</label>
         <input type="text" asp-for="QuantityKg" class="form-control" />
+    </div>
+    <div>
+        <input type="text" asp-for="Image" hidden />
+        <img src="~/images/productsImages/@Model.Image" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile" class="control-label"></label>
+        <input asp-for="ImageFile" accept="image/*" type="file" />
     </div>
     <div class="form-group">
         <label asp-for="IsSold" class="control-label">Продано</label>
