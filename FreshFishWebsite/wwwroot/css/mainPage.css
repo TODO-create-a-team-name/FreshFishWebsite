@@ -383,8 +383,8 @@ header {
   cursor: pointer;
   margin-top: 10px;
   margin-left: 5vw;
-  -webkit-transition: all 1.5s ease;
-  transition: all 1.5s ease;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
   background-color: white;
   padding: 0px 20px;
   border-radius: 30px;
@@ -403,10 +403,13 @@ header {
 }
 
 .products-container-preview-other .product-card-img {
+  margin-top: 10px;
   margin-right: 20px;
-  height: 130px;
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  margin-bottom: 10px;
+  height: 110px;
+  width: 100px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .products-container-preview-other .product-card-titleAndinfo {

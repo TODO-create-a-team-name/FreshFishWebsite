@@ -389,7 +389,7 @@ header {
                     left: 5vw;
                 }
                 // overflow: hidden;
-                transition: all 1.5s ease;
+                transition: all 1s ease;
                 background-color: white;
                 padding: 0px 20px;
                 border-radius: 30px;
@@ -403,12 +403,15 @@ header {
 
                 &-img {
                     margin: {
-                        // top: -5px;
+                        top: 10px;
                         // left: -20px;
                         right: 20px;
+                        bottom: 10px;
                     }
-                    height: 130px;
-                    transform: rotate(-45deg);
+                    height: 110px;
+                    width: 100px;
+                    object-fit: cover;
+                    // transform: rotate(-45deg);
                 }
                 &-titleAndinfo {
                     width: 145px;

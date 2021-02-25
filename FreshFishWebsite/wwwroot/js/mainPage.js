@@ -16,24 +16,42 @@ const btnPrevious = document.querySelector(".btn-previous"),
     cardsProduct = document.querySelectorAll(".product-card"),
     countPage = document.querySelector(".products-container-preview-controll h3"),
     btnNext = document.querySelector(".btn-next");
-//get default values
-function getCountPage() {
-    let dValue = countPage.innerHTML.split("/");
-    let currentValue;
-    if (window.innerWidth <= 800) {
-        currentValue = Math.ceil(cardsProduct.length / 2);
+
+function windowSize() {
+    let currentValue, currentWindow;
+    if (window.location.pathname == "/ShoppingCart/ShowAllProducts") {
+        if (window.innerWidth <= 800) {
+            currentValue = cardsProduct.length;
+            currentWindow = "Psmall";
+        }
+        else {
+            currentValue = Math.ceil( cardsProduct.length / (window.innerWidth / 280));
+            currentWindow = "Pnormal"
+        }
     }
     else {
-        currentValue = Math.ceil(cardsProduct.length / 4);
+        if (window.innerWidth <= 800) {
+            currentValue = Math.ceil(cardsProduct.length / 2);
+            currentWindow = "Msmall";
+        }
+        else {
+            currentValue = Math.ceil(cardsProduct.length / (cardsProduct[0].parentNode.clientWidth / 340));
+            currentWindow = "Mnormal"
+        }
     }
+    return { currentValue, currentWindow };
+}
+//get default values
+function getCountPage(currentValue) {
+    let dValue = countPage.innerHTML.split("/");
     let text = `${dValue[0]}/${currentValue}`;
     return text;
 }
 // check changes size
-countPage.innerHTML = getCountPage();
-setInterval(()=>{countPage.innerHTML = getCountPage()},1000);
+countPage.innerHTML = getCountPage(windowSize().currentValue);
+setInterval(() => { countPage.innerHTML = getCountPage(windowSize().currentValue) }, 1000);
 //set new values
-function setCountPage(count, action) { 
+function setCountPage(count, action) {
     let value = count.innerHTML.split("/");
     let e = action.target.dataset.trigger;
     switch (e) {
@@ -63,26 +81,38 @@ function setCountPage(count, action) {
 function moveCard(cardArray, position) {
     let countVal = position.split("/");
     let temp = countVal[0] - 1;
-    moveElement(cardArray, temp, getWindowSize());
+    moveElement(cardArray, temp, actionWindowSize(windowSize().currentWindow));
 }
 //get current WindowSize
-function getWindowSize() {
+function actionWindowSize(currentWindow) {
     let mValue = 0;
-    var transformValue = "";
-    if (window.innerWidth <= 800) {
-        mValue = 232;
-        transformValue = "Y";
-    }
-    else {
-        mValue = 540;
-        transformValue = "X";
+    var transformValue = "X";
+    switch (currentWindow) {
+        case "Psmall": 
+        mValue = window.innerWidth+10;
+            transformValue = "X";;
+            break;
+        case "Pnormal": 
+        mValue = (window.innerWidth/100)*96;
+            transformValue = "X";;
+            break;
+        case "Msmall": mValue = 232;
+                    transformValue = "Y";;
+            break;
+        case "Mnormal": 
+        mValue =  (window.innerWidth/80)*67;
+            transformValue = "X"; 
+            break;
+        default: console.error("Action Error in actionWindowSize function") ;
+            break;
     }
     return [mValue, transformValue];
 }
 
 function moveElement(element, temp, mValue) {
     for (let i = 0; i < element.length; i++) {
-        element[i].style.transform = `translate${mValue[1]}(${-mValue[0] * temp}%)`;
+        element[i].style.transform = `translate${mValue[1]}(${-mValue[0] * temp}px)`;
+
     }
 }
 //events trigger
