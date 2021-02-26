@@ -2,6 +2,22 @@
 @{
     Layout = "~/Views/Shared/_Driver_Layout.cshtml";
 }
+<head>
+    <title>Directions Service</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/map_.js"></script>
+    <style>
+        #map {
+            border-radius: 25px;
+            height: 70vh;
+            width: 70vw;
+            margin-left: 2vw;
+            filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+    </style>
+</head>
 <h2>Назва підприємства @Model.CompanyName</h2>
 <h3>Отримувач @Model.UserName @Model.UserSurname</h3>
 <h3>Електронна адреса отримувача: @Model.UserEmail</h3>
@@ -9,13 +25,24 @@
 <h3>Адреса доставки: @Model.Address</h3>
 <hr />
 <h4>Cтатус замовлення: </h4>
-    <form asp-action="ChangeOrderStatus" method="post" asp-route-orderItemsId="@Model.OrderItemsId">
-        <select class="form-select" asp-for="Status">
+<form asp-action="ChangeOrderStatus" method="post" asp-route-orderItemsId="@Model.OrderItemsId">
+    <select class="form-select" asp-for="Status">
         <option value="0">Очікує відправлення</option>
         <option value="1">В дорозі</option>
         <option value="2">Доставлено</option>
     </select>
-    <input type="submit" value="Підтвердити" />
+    <input type="submit" value="Підтвердити" /> 
 </form>
- <hr />
-<div>Тут буде мапа, якшо Вася трошки напрягнеться</div>
+<hr />
+<div>
+    <div id="floating-panel">
+        <b>Start: </b>
+        <input id="start" readonly/>
+        <b>End: </b>
+        <input id="end" readonly />
+        <button id="getUrl" onclick="getURL()">Get Url</button>
+    </div>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs2pYpMXar3INreWFXbUNVA8k1LtC35oM&callback=initMap&libraries=places&v=weekly"
+            async></script>
+</div>

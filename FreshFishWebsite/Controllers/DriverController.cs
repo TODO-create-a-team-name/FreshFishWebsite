@@ -53,6 +53,20 @@ namespace FreshFishWebsite.Controllers
             await _repo.ChangeOrderStatus(model.OrderItemsId, model.Status);
             return RedirectToAction("Index");
         }
+        public async Task<JsonResult> GetRequiredData()
+        {
+            var order = await _repo.GetOrderDetails(1);
+
+
+            var user = await _userManager.GetUserAsync(User);
+            var sAddr = user.CompanyAddress;
+            var dAddr = order.Order.User.CompanyAddress;
+            return new JsonResult(new
+            {
+                sAddr,
+                dAddr
+            });
+        }
 
         //TODO: make a method that returns required data to build map route
     }
