@@ -17,6 +17,8 @@ namespace FreshFishWebsite.Models
         public int StorageId { get; set; }
         public Storage Storage { get; set; }
         public string Image { get; set; }
+        public string Description { get; set; }
+        public int Calories { get; set; }
         [NotMapped]
         public IFormFile ImageFile { get; set; }
         public List<ShoppingCartProduct> ShoppingCartProducts { get; set; }

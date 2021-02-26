@@ -10,17 +10,20 @@ function initMap() {
         center: { lat: 41.85, lng: -87.65 },
     });
     directionsRenderer.setMap(map);
-  
-        
+
+    let url = window.location.href;
+    let id = url.slice(-1);
+    console.log("id param:", id);
 
     $.ajax({
         type: "POST",
-        url: "/Driver/GetRequiredData",
+        url: `/Driver/GetRequiredData?id=${id}`,
         contentType: "application/json",
         dataType: "json",
         success: function (result) {
-            document.getElementById('start').value = result.sAddr;
-            document.getElementById('end').value = result.dAddr;
+            console.log(result);
+            document.getElementById('start').value = result.storageAddress;
+            document.getElementById('end').value = result.receiverAddress;
             calculateAndDisplayRoute(directionsService, directionsRenderer);
            
         },

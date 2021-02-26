@@ -14,6 +14,8 @@
         <td>Ціна (грн\кг)</td>
         <td>Дата виготовлення</td>
         <td>Кількість (кг)</td>
+        <td>Калорії</td>
+        <td>Опис</td>
         <td>Продано</td>
     </tr>
     @foreach(var item in Model.Products)
@@ -23,6 +25,8 @@
     <td>@item.PricePerKg</td>
     <td>@item.Date</td>
     <td>@item.QuantityKg</td>
+    <td>@item.Calories</td>
+    <td>@item.Description</td>
     @if (item.IsSold)
     {
 <td class="text-success">Так</td> }

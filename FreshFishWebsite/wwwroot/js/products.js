@@ -6,8 +6,12 @@ function addClass(element, className) {
     element.classList.add(className);
 }
 
+fetch('GetProductsData')
+    .then(response => response.json())
+    .then(data => console.log(data));
+
 // get ajax request data
-function ajaxGetData(url, callback, id) {
+/*function ajaxGetData(url, callback, id) {
     var http = new XMLHttpRequest();
     http.onreadystatechange = function(){
         if (http.readyState == 4 && http.status == 200){
@@ -28,10 +32,14 @@ function ajaxGetData(url, callback, id) {
                 console.error(`${http.readyState}:  ${err.message} in ${http.responseText}`);
                 return;
             }
+            console.log(data);
             callback(data);
+
         }
     }
 }
+*/
+
 //cardTrigger 
 cardTrigger.forEach(currentCardTrigger => {
     currentCardTrigger.addEventListener('click', {

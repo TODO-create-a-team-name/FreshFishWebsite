@@ -4,6 +4,8 @@ using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -13,11 +15,14 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly IDriverRepository _repo;
         private readonly UserManager<User> _userManager;
+        private readonly FreshFishDbContext _context;
         public DriverController(IDriverRepository repo,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            FreshFishDbContext context)
         {
             _repo = repo;
             _userManager = userManager;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -53,18 +58,22 @@ namespace FreshFishWebsite.Controllers
             await _repo.ChangeOrderStatus(model.OrderItemsId, model.Status);
             return RedirectToAction("Index");
         }
-        public async Task<JsonResult> GetRequiredData()
+        public async Task<JsonResult> GetRequiredData(int id)
         {
-            var order = await _repo.GetOrderDetails(1);
+            var userId =  _userManager.GetUserId(User);
+            Driver driver = _context.Drivers
+                .Include(s => s.Storage)
+                .FirstOrDefault(x => x.Id == userId);
 
+            var order = await _repo.GetOrderDetails(id);
 
-            var user = await _userManager.GetUserAsync(User);
-            var sAddr = user.CompanyAddress;
-            var dAddr = order.Order.User.CompanyAddress;
+            
+            var storageAddress = driver.Storage.Address;
+            var receiverAddress = order.Order.User.CompanyAddress;
             return new JsonResult(new
             {
-                sAddr,
-                dAddr
+                storageAddress,
+                receiverAddress
             });
         }
 

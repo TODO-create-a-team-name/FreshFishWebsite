@@ -2,6 +2,7 @@
 using FreshFishWebsite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
@@ -10,18 +11,21 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly IShoppingCartRepository _repo;
         private readonly IRepository<Product> _productsRepo;
+        private readonly FreshFishDbContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
         public ShoppingCartController(IShoppingCartRepository repo,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IRepository<Product> productsRepo)
+            IRepository<Product> productsRepo,
+            FreshFishDbContext context)
         {
             _repo = repo;
             _signInManager = signInManager;
             _userManager = userManager;
             _productsRepo = productsRepo;
+            _context = context;
         }
 
         public IActionResult ShowAllProducts()
@@ -79,6 +83,13 @@ namespace FreshFishWebsite.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetProductsData()
+        {
+            return new JsonResult(_context
+            .Products
+            .Select(p => new { p.Id, p.ProductName, p.PricePerKg, p.Date, p.Image}));
         }
     }
 }

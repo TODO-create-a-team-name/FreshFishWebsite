@@ -43,7 +43,9 @@ namespace FreshFishWebsite.Controllers
                 PricePerKg = model.Price,
                 Date = model.Date,
                 QuantityKg = model.Amount,
-                ImageFile = model.ImageFile
+                ImageFile = model.ImageFile,
+                Calories = model.Calories,
+                Description = model.Description
             };
             if (ModelState.IsValid)
             {
