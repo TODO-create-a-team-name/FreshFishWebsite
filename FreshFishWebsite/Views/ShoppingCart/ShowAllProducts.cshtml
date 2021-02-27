@@ -45,9 +45,9 @@
                 <p>Це м'ясо корисно для людей які мають проблеми з щитовидною залозою і бал бла бал...</p>
                 <div class="products-container-view-info-read">
                     <div class="products-details">
-                        <p>27г білків</p>
-                        <p>100 ккал</p>
-                        <p>280грн/кг</p>
+                        <p name="">27г білків</p>
+                        <p name="calories">100 ккал</p>
+                        <p name="pricePerKg">280грн/кг</p>
                     </div>
                     <form class="">
                         <button type="submit" class="btn-add">
@@ -80,7 +80,7 @@
                         </button>
                     </form>
                 </div>
-                <label for="element-1">
+                <label for="element-1" data-id="@item.Id">
                     <img src="~/images/productsImages/@item.Image" class="product-card-img" />
                     <div class="product-card-titleAndinfo">
                         <h5>@item.ProductName</h5>
@@ -103,6 +103,18 @@
         </div>
     </div>
 </div>
+</div>
+<div class="modal" data-modal="trigger-1">
+    <article class="content-wrapper"><button class="close"></button>
+        <header class="modal-header">
+            <h2>Корзина</h2>
+        </header>
+        <div class="content">
+            <p>Не готова частина</p>
+        </div>
+        <footer class="modal-footer"><button class="action">Оплатити</button>
+        </footer>
+    </article>
 </div>
 
 <script src="~/js/products.js"></script>

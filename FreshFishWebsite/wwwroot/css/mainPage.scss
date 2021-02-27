@@ -11,6 +11,9 @@ $transition-time: 0.15s;
     padding: 0px;
     box-sizing: border-box;
 }
+ul{
+    padding: 0!important;
+}
 header {
     background-image: url(../img/mainPage/MainPageBg.png);
     background-position: center center;
@@ -45,6 +48,7 @@ header {
                     display: none;
                 }
                 .menu-links {
+                    text-decoration: none;
                     .product-icons{
                         display: none;
                     }
