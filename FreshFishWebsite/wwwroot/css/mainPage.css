@@ -8,10 +8,6 @@
           box-sizing: border-box;
 }
 
-ul {
-  padding: 0 !important;
-}
-
 header {
   background-image: url(../img/mainPage/MainPageBg.png);
   background-position: center center;
@@ -47,10 +43,6 @@ header {
 
 .navbar-basic-container .list-container .list-item-group {
   display: none;
-}
-
-.navbar-basic-container .list-container .list-item .menu-links {
-  text-decoration: none;
 }
 
 .navbar-basic-container .list-container .list-item .menu-links .product-icons {
