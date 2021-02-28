@@ -4,7 +4,7 @@
 @{
     User user = new FreshFishWebsite.Models.User();
     if (signInManager.IsSignedIn(User))
-        user = await userManager.FindByNameAsync(User.Identity.Name); 
+        user = await userManager.FindByNameAsync(User.Identity.Name);
 }
 
 <!DOCTYPE html>
@@ -35,7 +35,7 @@
                     </li>
                     <li class="list-item">
                         <a class="menu-links logo-links" href="/">
-                            <img src="~/img/Big-Webshop-logo.png" class="web-logo"/> 
+                            <img src="~/img/Big-Webshop-logo.png" class="web-logo" />
                         </a>
                     </li>
                     <li class="list-item">
@@ -55,7 +55,7 @@
                                 <a class="menu-links ml-f" asp-action="Login" asp-controller="Account">
                                     <p class="text-parents">Увійти</p>
                                     <span class="iconify product-icons" data-inline="false"
-                                          data-icon="codicon:account"></span>
+                                        data-icon="codicon:account"></span>
                                 </a>
                             }
                             else
@@ -67,19 +67,30 @@
                                         </button>
                                     </form>
                                     <span class="iconify product-icons" data-inline="false"
-                                          data-icon="codicon:account"></span>
+                                        data-icon="codicon:account"></span>
                                 </div>
                             }
                             <button class="menu-links shopping-card">
                                 <span class="iconify product-icons" data-inline="false"
-                                      data-icon="akar-icons:shopping-bag"></span>
+                                    data-icon="akar-icons:shopping-bag"></span>
                             </button>
                         </div>
+                    </li>
+                    <li class="list-item">
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") ||
+                        User.IsInRole("AdminAssistant"))
+                        {
+                            <div class="admin-panel">
+                                <a class="admin-panel-link" asp-action="Index" asp-controller="Admin">
+                                    <p class="text-parents">Адмін панель</p>
+                                </a>
+                            </div>
+                        }
                     </li>
                 </ul>
             </div>
             <a class="menu-links mobile-logo logo-links">
-                                <img src="~/img/Big-Webshop-logo.png" class="web-logo"/> 
+                <img src="~/img/Big-Webshop-logo.png" class="web-logo" />
             </a>
             <div class="mobile-menu-btn">
                 <label class="menu-btn-position">
@@ -88,9 +99,9 @@
                     <span></span>
                     <span></span>
                 </label>
-
             </div>
         </nav>
+        <div class="body-trigger d-none"></div>
         <div class="welcome-container">
             <div class="welcome-container-title">
                 <p>Свіжа риба</p>

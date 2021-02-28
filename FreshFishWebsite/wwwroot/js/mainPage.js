@@ -1,16 +1,15 @@
 const menuBtn = document.querySelector(".menu-btn"),
-    menuContainer = document.querySelector(".list-container");
+    menuContainer = document.querySelector(".list-container"),
+    menuModal = document.querySelector(".body-trigger");
 menuBtn.checked = false;
-menuBtn.addEventListener("click", function () {
-    if (menuBtn.checked == true) {
-        menuContainer.classList.add("active");
-        menuContainer.classList.remove("not-active");
-    }
-    else {
-        menuContainer.classList.remove("active");
-        menuContainer.classList.add("not-active");
-    }
-});
+// menu trigger
+function menuAction() {
+    menuContainer.classList.toggle("active");
+    menuModal.classList.toggle("d-none");
+    menuContainer.classList[1] !== "active" ? menuContainer.classList.add("not-active"): menuContainer.classList.remove("not-active");
+}
+menuBtn.addEventListener("click", () => menuAction());
+menuModal.addEventListener("click", () => { menuBtn.checked = !menuBtn.checked; menuAction() });
 // Product controller
 const btnPrevious = document.querySelector(".btn-previous"),
     cardsProduct = document.querySelectorAll(".product-card"),
@@ -25,7 +24,7 @@ function windowSize() {
             currentWindow = "Psmall";
         }
         else {
-            currentValue = Math.ceil( cardsProduct.length / (window.innerWidth / 280));
+            currentValue = Math.ceil(cardsProduct.length / (window.innerWidth / 280));
             currentWindow = "Pnormal"
         }
     }
@@ -88,22 +87,22 @@ function actionWindowSize(currentWindow) {
     let mValue = 0;
     var transformValue = "X";
     switch (currentWindow) {
-        case "Psmall": 
-        mValue = window.innerWidth+10;
+        case "Psmall":
+            mValue = window.innerWidth + 10;
             transformValue = "X";;
             break;
-        case "Pnormal": 
-        mValue = (window.innerWidth/100)*96;
+        case "Pnormal":
+            mValue = (window.innerWidth / 100) * 96;
             transformValue = "X";;
             break;
         case "Msmall": mValue = 232;
-                    transformValue = "Y";;
+            transformValue = "Y";;
             break;
-        case "Mnormal": 
-        mValue =  (window.innerWidth/80)*67;
-            transformValue = "X"; 
+        case "Mnormal":
+            mValue = (window.innerWidth / 80) * 67;
+            transformValue = "X";
             break;
-        default: console.error("Action Error in actionWindowSize function") ;
+        default: console.error("Action Error in actionWindowSize function");
             break;
     }
     return [mValue, transformValue];
