@@ -33,30 +33,40 @@ namespace FreshFishWebsite.Repositories
 
         public async Task AddProductToShoppingCart(User user, int productId)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            var shoppingCartProduct = new ShoppingCartProduct
+            var products = GetShoppingCartItems(user);
+            var inSoppingCard = products.FirstOrDefault(p => p.ProductId == productId);
+            if (inSoppingCard != null)
             {
-                Quantity = 1,
-                Product = product
-            };
-            await _context.ShoppingCartProducts.AddAsync(shoppingCartProduct);
-
-            var shoppingCart = _context.ShoppingCarts.FirstOrDefault(u => u.User.Id == user.Id);
-            if (shoppingCart == null)
-            {
-                shoppingCart = new ShoppingCart
-                {
-                    User = user
-                };
-                shoppingCart.Products.Add(shoppingCartProduct);
-                await _context.ShoppingCarts.AddAsync(shoppingCart);
+                inSoppingCard.Quantity += 1;
             }
             else
             {
-                shoppingCart.Products.Add(shoppingCartProduct);
-                _context.ShoppingCarts.Update(shoppingCart);
+                var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+                var shoppingCartProduct = new ShoppingCartProduct
+                {
+                    Quantity = 1,
+                    Product = product
+                };
+                await _context.ShoppingCartProducts.AddAsync(shoppingCartProduct);
+
+                var shoppingCart = _context.ShoppingCarts.FirstOrDefault(u => u.User.Id == user.Id);
+                if (shoppingCart == null)
+                {
+                    shoppingCart = new ShoppingCart
+                    {
+                        User = user
+                    };
+                    shoppingCart.Products.Add(shoppingCartProduct);
+                    await _context.ShoppingCarts.AddAsync(shoppingCart);
+                }
+                else
+                {
+                    shoppingCart.Products.Add(shoppingCartProduct);
+                    _context.ShoppingCarts.Update(shoppingCart);
+                }
             }
-            
+
+
             await _context.SaveChangesAsync();
         }
 
@@ -85,7 +95,7 @@ namespace FreshFishWebsite.Repositories
 
             await _context.Orders.AddAsync(order);
 
-            foreach(var p in user.ShoppingCart.Products)
+            foreach (var p in user.ShoppingCart.Products)
             {
                 p.ShoppingCart = null;
             }
@@ -94,7 +104,7 @@ namespace FreshFishWebsite.Repositories
 
             _context.Users.Update(user);
 
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             await new EmailService().SendEmailAsync("freshfishofficial@gmail.com", "Нове замовлення",
                        $"Нове замовлення від {user.Email}");
