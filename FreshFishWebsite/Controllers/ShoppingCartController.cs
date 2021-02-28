@@ -89,7 +89,7 @@ namespace FreshFishWebsite.Controllers
         {
             return new JsonResult(_context
             .Products
-            .Select(p => new { p.Id, p.ProductName, p.PricePerKg, p.Date, p.Image}));
+            .Select(p => new { p.Id, p.ProductName, p.PricePerKg, p.Date, p.Image, p.Description, p.Calories }));
         }
     }
 }

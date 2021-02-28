@@ -6,49 +6,35 @@ function addClass(element, className) {
     element.classList.add(className);
 }
 
-fetch('GetProductsData')
-    .then(response => response.json())
-    .then(data => console.log(data));
-
 // get ajax request data
-/*function ajaxGetData(url, callback, id) {
-    var http = new XMLHttpRequest();
-    http.onreadystatechange = function(){
-        if (http.readyState == 4 && http.status == 200){
-            try {
-                var data = function getData(http, id) {
-                    var getCurrentData = JSON.parse(http.responseText);
-                    for (let i = 0; i < getCurrentData.length; i++) {
-                        if (getCurrentData[i].id == id) {
-                            return getCurrentData[i];
-                        }
-                        else{
-                            console.error(`Sorry but this ${id} data not found`);
-                        }
-                    }
-                }
-            }
-            catch (err){
-                console.error(`${http.readyState}:  ${err.message} in ${http.responseText}`);
-                return;
-            }
-            console.log(data);
-            callback(data);
-
-        }
-    }
+function ajaxGetData(id) {
+    fetch('GetProductsData')
+        .then(response => response.json())
+        .then(data => setProductData(getData(data, id)))
+        .catch(err => console.error(err));
 }
-*/
 
+function setProductData(data) {
+    document.querySelector(".products-container-view-info h2").innerHTML = data.productName;
+    document.querySelector(".products-container-view-info p").innerHTML = data.description;
+    document.querySelector(".products-details p[name = calories]").innerHTML = `${data.calories} ккал`
+    document.querySelector(".products-details p[name = pricePerKg]").innerHTML = `${data.pricePerKg} грн/кг`;
+    document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
+}
+
+function getData(data, id) {
+    let requestedData = data.find(d => d.id == id);
+    return requestedData == undefined ? console.error(`Sorry but this ${id} data not found`) : requestedData;
+}
 //cardTrigger 
 cardTrigger.forEach(currentCardTrigger => {
     currentCardTrigger.addEventListener('click', {
-        handleEvent(){
+        handleEvent() {
             card.forEach(cardAction => {
                 cardAction.classList.remove('active');
             });
             addClass(currentCardTrigger.parentElement, 'active');
-            
+            ajaxGetData(currentCardTrigger.dataset.id)
         }
     });
 });
@@ -58,12 +44,12 @@ cardTrigger.forEach(currentCardTrigger => {
 
 const btnShoppingCart = document.querySelector('.shopping-card'),
     btnCloseModal = document.querySelector('.close'),
-    shoppingCartModal= document.querySelector('.modal');
+    shoppingCartModal = document.querySelector('.modal');
 
 
 btnShoppingCart.addEventListener('click', function (event) {
     event.preventDefault();
     shoppingCartModal.classList.toggle('open');
-    btnCloseModal.addEventListener('click',  ()=> { shoppingCartModal.classList.remove('open')});
-    
+    btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
+
 });
