@@ -11,8 +11,8 @@ $transition-time: 0.15s;
     padding: 0px;
     box-sizing: border-box;
 }
-ul{
-    padding: 0!important;
+ul {
+    padding: 0 !important;
 }
 header {
     background-image: url(../img/mainPage/MainPageBg.png);
@@ -41,15 +41,15 @@ header {
                 margin: {
                     left: 35px;
                 }
-                .logo-links{
+                .logo-links {
                     // position: absolute;
                 }
-                &-group{
+                &-group {
                     display: none;
                 }
                 .menu-links {
                     text-decoration: none;
-                    .product-icons{
+                    .product-icons {
                         display: none;
                     }
                     .web-logo {
@@ -124,6 +124,42 @@ header {
             size: 22px;
         }
         color: #fff;
+    }
+}
+.admin-panel {
+    width: 150px;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    top: 20%;
+    margin: {
+        left: -20px;
+    }
+    transform: translate(-50%, -50%);
+    &-link {
+        text-decoration: none;
+        text-align: center;
+        .text-parents {
+            background-color: #ba181b;
+            padding: {
+                left: 5px;
+                right: 5px;
+                top: 5px;
+                bottom: 5px;
+            }
+            font: {
+                size: 14px;
+                family: "Comfortaa", cursive;
+                weight: 400;
+            }
+            color: #fff;
+            border: {
+                radius: 25px;
+            }
+            &:hover {
+                background-color: rgba(186, 24, 27, 0.9);
+            }
+        }
     }
 }
 .quote-container {
@@ -282,7 +318,9 @@ header {
                         border-radius: 15px;
                         background-color: #fff;
                         border: none;
+
                         &:hover {
+                            transition: all 1s ease-out;
                             filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.6));
                         }
                         &:focus {
@@ -663,6 +701,14 @@ header {
     }
 }
 @media only screen and (max-width: 800px) {
+    .body-trigger {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+        z-index: 24;
+        display: block;
+    }
     .products-container {
         .products-container-title {
             text-align: center;
@@ -743,14 +789,14 @@ header {
                 right: auto;
             }
             height: 100px;
-            &-block{
+            &-block {
                 padding: {
                     top: 15%;
                 }
                 margin: {
                     top: unset;
                 }
-                h3{
+                h3 {
                     margin: {
                         top: -15px;
                     }
@@ -859,15 +905,16 @@ header {
                 z-index: 25;
                 position: absolute;
                 display: none;
+
                 top: 0;
                 right: 0;
-                padding-top: 80px;
+                padding-top: 80px !important;
                 .list-item:nth-child(3) {
                     display: none;
                 }
                 .list-item {
-                    .menu-links{
-                        .text-parents{
+                    .menu-links {
+                        .text-parents {
                             font: {
                                 size: 18px;
                             }
@@ -888,6 +935,12 @@ header {
                     // transform: translateX(150px);
                     // transform: none;
                     display: block;
+                    .list-item:nth-child(6){
+                        margin: {
+                            left:auto !important;
+                        }
+
+                    }
                 }
             }
         }
@@ -986,6 +1039,17 @@ header {
             }
             font: {
                 size: 16px;
+            }
+        }
+    }
+    .admin-panel {
+        top: unset;
+        bottom: 2%;
+        margin: {
+            left: unset;
+        }
+        &-link {
+            .text-parents {
             }
         }
     }

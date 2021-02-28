@@ -5,7 +5,7 @@ const card = document.querySelectorAll(".product-card-content"),
 function addClass(element, className) {
     element.classList.add(className);
 }
-
+ajaxGetData();
 // get ajax request data
 function ajaxGetData(id) {
     fetch('GetProductsData')
@@ -22,7 +22,7 @@ function setProductData(data) {
     document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
 }
 
-function getData(data, id) {
+function getData(data, id= data[0].id) {
     let requestedData = data.find(d => d.id == id);
     return requestedData == undefined ? console.error(`Sorry but this ${id} data not found`) : requestedData;
 }

@@ -1,28 +1,19 @@
 ﻿@model FreshFishWebsite.ViewModels.ShowUserViewModel
 @{
-    ViewData["Title"] = "Admin panel";
+    ViewData["Title"] = "Головна";
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
 
-@if (User.Identity.IsAuthenticated)
-{<div class="jumbotron bg-light">
-        <p class="text-body h3 mt-2">Користувач: @Model.Name @Model.Surname </p>
-        <p class="text-body h3 mt-2">Email: @Model.Email </p>
-        <a class="navbar-brand nav-link" asp-controller="Home" asp-action="Index">Повернутися на головну сторінку</a>
-        <form class="mt-2" method="post" asp-controller="Account" asp-action="Logout">
+<div class="jumbotron bg-light">
+        <p class="text-body h3 mx-3 my-2">Користувач: @Model.Name @Model.Surname </p>
+        <p class="text-body h3 mx-3 my-2">Email: @Model.Email </p>
+        <a class="navbar-brand mx-2 my-2 nav-link" asp-controller="Home" asp-action="Index">На головну сторінку</a>
+        <form class="mx-2 my-2" method="post" asp-controller="Account" asp-action="Logout">
             <input type="submit" class="btn btn-danger" value="Вийти" />
         </form>
     </div>
-}
-else
-{
-    <div class="jumbotron bg-light">
-        <a asp-controller="Account" class="btn btn-primary " asp-action="Login">Sign in</a>
-        <a asp-controller="Account" class="btn btn-danger " asp-action="Register">Sign Up</a>
 
-    </div>
 
-}
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/statistics.js"></script>
