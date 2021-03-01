@@ -17,8 +17,8 @@ function ajaxGetData(id) {
 function setProductData(data) {
     document.querySelector(".products-container-view-info h2").innerHTML = data.productName;
     document.querySelector(".products-container-view-info p").innerHTML = data.description;
-    document.querySelector(".products-details p[name = calories]").innerHTML = `${data.calories} ÍÍ‡Î`
-    document.querySelector(".products-details p[name = pricePerKg]").innerHTML = `${data.pricePerKg} „Ì/Í„`;
+    document.querySelector(".products-details p[name = calories]").innerHTML = `${data.calories} –∫–∫–∞–ª.`
+    document.querySelector(".products-details p[name = pricePerKg]").innerHTML = `${data.pricePerKg} –≥—Ä–Ω/–∫–≥`;
     document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
 }
 
