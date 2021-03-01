@@ -1,4 +1,5 @@
 ﻿using FreshFishWebsite.Models;
+using FreshFishWebsite.Repositories;
 using FreshFishWebsite.Services;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -93,42 +94,15 @@ namespace FreshFishWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
+                var result = await new AccountRepository<StorageAdmin>(_userManager, _context).RegisterUser(model);
 
-                StorageAdmin user = new()
+                if (!result.Any())
                 {
-                    Email = model.Email,
-                    UserName = model.Email,
-                    Name = model.Name,
-                    Usersurname = model.Surname,
-                    Company = model.Company,
-                    CompanyAddress = model.CompanyAddress,
-                    Storage = storage
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "AdminAssistant");
-                storage.StorageAdmin = user;
-                _context.Storages.Update(storage);
-                await _context.SaveChangesAsync();
-                if (result.Succeeded)
-                {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail",
-                        "Account",
-                        new { userId = user.Id, code = code },
-                        protocol: HttpContext.Request.Scheme);
-
-                    await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
-                        $"Підтвердіть свій акаунт за наступним посиланням: <a href='{callbackUrl}'>Підтвердити акаунт</a>");
-
-                    return Content("Для завершення реєстрації, перейдіть за посиланням, яке було надіслане вам на пошту.");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    foreach (var error in result)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
@@ -161,42 +135,15 @@ namespace FreshFishWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var storage = _context.Storages.FirstOrDefault(s => s.Id == model.StorageId);
+                var result = await new AccountRepository<Driver>(_userManager, _context).RegisterUser(model);
 
-                Driver driver = new()
+                if (!result.Any())
                 {
-                    Email = model.Email,
-                    UserName = model.Email,
-                    Name = model.Name,
-                    Usersurname = model.Surname,
-                    Company = model.Company,
-                    CompanyAddress = model.CompanyAddress,
-                    Storage = storage
-                };
-                var result =  await _userManager.CreateAsync(driver, model.Password);
-                await _userManager.AddToRoleAsync(driver, "Driver");
-                storage.Drivers.Add(driver);
-                _context.Storages.Update(storage);
-                await _context.SaveChangesAsync();
-
-                if (result.Succeeded)
-                {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(driver);
-
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail",
-                        "Account",
-                        new { userId = driver.Id, code = code },
-                        protocol: HttpContext.Request.Scheme);
-
-                    await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
-                        $"Підтвердіть свій акаунт за наступним посиланням: <a href='{callbackUrl}'>Підтвердити акаунт</a>");
-
-                    return Content("Для завершення реєстрації, перейдіть за посиланням, яке було надіслане вам на пошту.");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    foreach (var error in result)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }

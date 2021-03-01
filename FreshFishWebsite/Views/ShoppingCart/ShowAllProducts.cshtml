@@ -3,8 +3,8 @@
     ViewData["Title"] = "Продукція";
 }
 
+<meta charset="UTF-8">
 <link rel="stylesheet" href="../css/Products/products.css" type="text/css" media="screen" runat="server" />
-
 <div class="products-container">
     <div class="products-flex">
         <div class="products-container-category">
@@ -69,28 +69,28 @@
     <div class="products-container-preview-other">
         @foreach (var item in Model)
         {
-        <div class="product-card">
-            <div class="product-card-content">
-                <input type="radio" class="product-register" id="@item.Id" name="fish">
-                <div>
-                    <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
-                        <button type="submit" class="btn-add">
-                            <span class="iconify btn-add-content" data-inline="false"
-                                  data-icon="akar-icons:plus"></span>
-                        </button>
-                    </form>
-                </div>
-                <label for="element-1" data-id="@item.Id">
-                    <img src="~/images/productsImages/@item.Image" class="product-card-img" />
-                    <div class="product-card-titleAndinfo">
-                        <h5>@item.ProductName</h5>
-                        <p>@item.PricePerKg грн/кг</p>
+            <div class="product-card">
+                <div class="product-card-content">
+                    <input type="radio" class="product-register" id="@item.Id" name="fish">
+                    <div>
+                        <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn-add">
+                                <span class="iconify btn-add-content" data-inline="false"
+                                      data-icon="akar-icons:plus"></span>
+                            </button>
+                        </form>
                     </div>
-                </label>
+                    <label for="element-1" data-id="@item.Id">
+                        <img src="~/images/productsImages/@item.Image" class="product-card-img" />
+                        <div class="product-card-titleAndinfo">
+                            <h5>@item.ProductName</h5>
+                            <p>@item.PricePerKg грн/кг</p>
+                        </div>
+                    </label>
+                </div>
             </div>
-        </div>
-            }
-      </div>
+        }
+    </div>
     <div class="products-container-preview-controll">
         <div class="products-container-preview-controll-block">
             <button class="btn-previous" data-trigger="previous">
@@ -105,14 +105,16 @@
 </div>
 </div>
 <div class="modal" data-modal="trigger-1">
-    <article class="content-wrapper"><button class="close"></button>
+    <article class="content-wrapper">
+        <button class="close"></button>
         <header class="modal-header">
             <h2>Корзина</h2>
         </header>
         <div class="content">
             <p>Не готова частина</p>
         </div>
-        <footer class="modal-footer"><button class="action">Оплатити</button>
+        <footer class="modal-footer">
+            <button class="action">Оплатити</button>
         </footer>
     </article>
 </div>

@@ -73,6 +73,7 @@ function setCountPage(count, action) {
     }
     text = `${value[0]}/${value[1]}`;
     count.innerHTML = text;
+
     return text;
 }
 //move products card

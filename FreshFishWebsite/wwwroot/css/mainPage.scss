@@ -1,19 +1,17 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&family=Cormorant+Garamond:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-$font-sans: "Open Sans", sans-serif;
 
-//Colors
-$black: #34435e;
-$white: #ffffff;
-$transition-time: 0.15s;
 * {
     margin: 0px;
     padding: 0px;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 ul {
     padding: 0 !important;
 }
+
 header {
     background-image: url(../img/mainPage/MainPageBg.png);
     background-position: center center;
@@ -163,83 +161,73 @@ header {
     }
 }
 .quote-container {
-    margin: {
-        top: 100px;
-        left: auto;
-        right: auto;
-    }
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
     width: 40vw;
+}
 
-    &-text {
-        text-align: center;
-        position: relative;
-        font-weight: 900;
-        color: #182a58;
-        font: {
-            family: "Cormorant Garamond", serif;
-            size: 34px;
-        }
-        padding: {
-            top: 30px;
-        }
-        &:before {
-            content: "“";
-            font-family: serif;
-            position: absolute;
-            font-size: 120px;
-            line-height: 0px;
-            top: 0px;
-            left: 50%;
-            margin-right: -50%;
-            transform: translate(-50%, -50%);
-            color: #182a58;
-        }
-    }
+.quote-container-text {
+    text-align: center;
+    position: relative;
+    font-weight: 900;
+    color: #182a58;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 34px;
+    padding-top: 30px;
 }
-.social {
-    .web-logo {
-        height: 180px;
-        margin: {
-            top: -30px;
-        }
-    }
+
+.quote-container-text:before {
+    content: "“";
+    font-family: serif;
+    position: absolute;
+    font-size: 120px;
+    line-height: 0px;
+    top: 0px;
+    left: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: #182a58;
 }
+
+.social .web-logo {
+    height: 180px;
+    margin-top: -30px;
+}
+
 .mobile-logo {
     display: none;
-    margin: {
-        left: 50px;
-        right: 20px;
-    }
-    p {
-        color: #fff;
-    }
-    .web-logo {
-        // margin: {
-        //     top: -35px;
-        // }
-        height: 130px;
-    }
+    margin-left: 50px;
+    margin-right: 20px;
 }
+
+.mobile-logo p {
+    color: #fff;
+}
+
+.mobile-logo .web-logo {
+    height: 130px;
+}
+
 .arrowImage {
     position: absolute;
     width: 55px;
     left: 49%;
     margin-right: -50%;
+    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     bottom: 10px;
+    -webkit-animation: floatAnim 2s ease-in-out infinite;
     animation: floatAnim 2s ease-in-out infinite;
 }
 
 .products-container {
-    // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
     position: relative;
     height: 100%;
-    margin: {
-        top: 100px;
-    }
-    background: {
-        color: #182a58;
-    }
+    margin-top: 100px;
+    background-color: #182a58;
+}
 
     &-title {
         font: {
@@ -335,371 +323,353 @@ header {
             height: 600px;
             width: 60%;
 
-            .img-container {
-                filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
-                // margin: 10px;
-                margin: {
-                    left: auto;
-                    right: auto;
-                    top: 2vh;
-                }
-                vertical-align: center;
-
-                border-radius: 300px;
-                height: 25vw;
-                width: 25vw;
-                background-color: white;
-                .fish-img {
-                    margin: {
-                        top: -4vh;
-                    }
-                    height: 30vw;
-                }
-            }
-        }
-    }
-    &-preview {
-        position: relative;
-        z-index: 2;
-        margin: {
-            top: 30px;
-        }
-        padding: {
-            bottom: 40px;
-        }
-        display: flex;
-        &-controll {
-            margin: {
-                left: 20px;
-                bottom: 10px;
-            }
-            position: relative;
-            width: 250px;
-            height: 150px;
-            &-block {
-                margin: {
-                    top: 20%;
-                    bottom: auto;
-                    left: auto;
-                    right: auto;
-                }
-                width: 150px;
-                height: 50px;
-                display: flex;
-                h3 {
-                    color: #fff;
-                    font: {
-                        size: 42px;
-                    }
-                    margin: {
-                        left: 10px;
-                        right: 10px;
-                        top: -5px;
-                    }
-                }
-                .btn-next,
-                .btn-previous {
-                    background: transparent;
-                    border: none;
-                    .arrow {
-                        display: inline-block;
-                        width: 30px;
-                        height: 30px;
-                        border-top: 2px solid #fff;
-                        border-right: 2px solid #fff;
-                        &-right {
-                            transform: rotate(45deg);
-                        }
-                        &-left {
-                            transform: rotate(-135deg);
-                        }
-                    }
-                    &:focus {
-                        outline: none;
-                    }
-                }
-            }
-        }
-        &-other {
-            display: flex;
-            width: 90%;
-            overflow: hidden;
-            .product-card {
-                cursor: pointer;
-                margin: {
-                    top: 10px;
-                    left: 5vw;
-                }
-                // overflow: hidden;
-                transition: all 1s ease;
-                background-color: white;
-                padding: 0px 20px;
-                border-radius: 30px;
-                display: flex;
-                width: 300px;
-                height: 130px;
-                filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.3));
-                &:hover {
-                    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
-                }
-
-                &-img {
-                    margin: {
-                        top: 10px;
-                        // left: -20px;
-                        right: 20px;
-                        bottom: 10px;
-                    }
-                    height: 110px;
-                    width: 100px;
-                    object-fit: cover;
-                    // transform: rotate(-45deg);
-                }
-                &-titleAndinfo {
-                    width: 145px;
-                    height: 115px;
-                    margin: {
-                        top: 15px;
-                        left: 5px;
-                    }
-                    position: relative;
-                    font: {
-                        family: "Comfortaa", cursive;
-                        weight: 400;
-                        size: 14px;
-                    }
-                    p {
-                    }
-                    div {
-                        form {
-                            position: absolute;
-                            right: 5px;
-                            bottom: 15px;
-                            .btn-add {
-                                background-color: transparent;
-                                border: none;
-                                &:focus {
-                                    border: none;
-                                    outline: none;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .btn-add-content {
-        height: 18px;
-        width: 18px;
-    }
+.products-container-view-img .img-container {
+    -webkit-filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+    vertical-align: center;
+    border-radius: 300px;
+    height: 25vw;
+    width: 25vw;
+    background-color: white;
 }
-.contacts-container {
-    padding: {
-        top: 160px;
-        bottom: 160px;
-    }
+
+.products-container-view-img .img-container .fish-img {
+    margin-top: -4vh;
+    height: 30vw;
+}
+
+.products-container-preview {
+    position: relative;
+    z-index: 2;
+    margin-top: 30px;
+    padding-bottom: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    &-info {
-        margin: {
-            left: 10vw;
-        }
-        h4 {
-            font: {
-                family: "Cormorant Garamond", serif;
-                weight: 400;
-                size: 44px;
-            }
-        }
-        p {
-            margin: {
-                top: 20px;
-            }
-            width: 25vw;
-            min-width: 320px;
-            font: {
-                family: "Comfortaa", cursive;
-                weight: 600;
-                size: 14px;
-            }
-        }
-        h3 {
-            margin: {
-                top: 40px;
-            }
-            font: {
-                weight: 400;
-            }
-        }
-    }
-    &-logo {
-        // position: relative;
-        // width: 100%;
-        margin: {
-            left: auto;
-            right: auto;
-        }
-        display: block;
-        .contact-logo {
-            // position: absolute;
-            width: 30vw;
-            display: block;
-            min-width: 280px;
-            margin: {
-                top: -30px;
-                left: auto;
-                right: auto;
-            }
-        }
-    }
 }
-.home-container {
-    .about-container {
-        // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
-        position: relative;
-        padding: {
-            bottom: 20px;
-            top: 20px;
-        }
-        background-color: rgb(24, 42, 88);
-        .fish-img {
-            position: absolute;
-            height: 18vw;
-            right: 5%;
-            top: 24%;
-        }
-        .about-img {
-            display: none;
-            position: absolute;
-            right: 20%;
-            top: 5%;
-            height: 600px;
-        }
-        .paper-box {
-            position: relative;
-            margin: {
-                top: 100px;
-                bottom: 100px;
-            }
-            width: 45vw;
-            min-width: 550px;
-            padding: {
-                top: 20px;
-                bottom: 50px;
-                right: 20px;
-                left: 10vw;
-            }
-            height: 350px;
-            background: #ba181b;
-            p {
-                color: #fff;
-                font: {
-                    family: "Comfortaa", cursive;
-                    size: 16px;
-                }
-            }
-            &-title {
-                h3 {
-                    color: #fff;
-                    font: {
-                        family: "Cormorant Garamond", serif;
-                        size: 54px;
-                    }
-                }
-            }
-        }
-    }
-    .footer-clean {
-        padding: 50px 0;
-        background-color: rgb(24, 42, 88);
-        color: #fff;
-        h3 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            font: {
-                family: "Comfortaa", cursive;
-                weight: 400;
-                size: 18px;
-            }
-        }
-        ul {
-            list-style: none;
-            line-height: 1.6;
-            font: {
-                family: "Comfortaa", cursive;
-                size: 16px;
-            }
-            a {
-                color: #fff;
-                text-decoration: none;
-                opacity: 0.8;
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-        .item.social {
-            text-align: right;
-        }
-        .copyright {
-            margin-top: 14px;
-            margin-bottom: 0;
-            font-size: 13px;
-            opacity: 0.6;
-        }
-    }
-    @media (max-width: 767px) {
-        .footer-clean .item {
-            text-align: center;
-            padding-bottom: 20px;
-        }
-    }
 
-    @media (max-width: 768px) {
-        .footer-clean .item.social {
-            text-align: center;
-        }
-    }
+.products-container-preview-controll {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    position: relative;
+    width: 250px;
+    height: 150px;
+}
 
-    .footer-clean .item.social > a {
-        font-size: 24px;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        display: inline-block;
+.products-container-preview-controll-block {
+    margin-top: 20%;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.products-container-preview-controll-block h3 {
+    color: #fff;
+    font-size: 42px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -5px;
+}
+
+.products-container-preview-controll-block .btn-next,
+.products-container-preview-controll-block .btn-previous {
+    background: transparent;
+    border: none;
+}
+
+.products-container-preview-controll-block .btn-next .arrow,
+.products-container-preview-controll-block .btn-previous .arrow {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+
+.products-container-preview-controll-block .btn-next .arrow-right,
+.products-container-preview-controll-block .btn-previous .arrow-right {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.products-container-preview-controll-block .btn-next .arrow-left,
+.products-container-preview-controll-block .btn-previous .arrow-left {
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.products-container-preview-controll-block .btn-next:focus,
+.products-container-preview-controll-block .btn-previous:focus {
+    outline: none;
+}
+
+.products-container-preview-other {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 90%;
+    overflow: hidden;
+}
+
+.products-container-preview-other .product-card {
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 5vw;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+    background-color: white;
+    padding: 0px 20px;
+    border-radius: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 300px;
+    height: 130px;
+    -webkit-filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.3));
+}
+
+.products-container-preview-other .product-card:hover {
+    -webkit-filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+}
+
+.products-container-preview-other .product-card-img {
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    height: 110px;
+    width: 100px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.products-container-preview-other .product-card-titleAndinfo {
+    width: 145px;
+    height: 115px;
+    margin-top: 15px;
+    margin-left: 5px;
+    position: relative;
+    font-family: "Comfortaa", cursive;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.products-container-preview-other .product-card-titleAndinfo div form {
+    position: absolute;
+    right: 5px;
+    bottom: 15px;
+}
+
+.products-container-preview-other .product-card-titleAndinfo div form .btn-add {
+    background-color: transparent;
+    border: none;
+}
+
+.products-container-preview-other .product-card-titleAndinfo div form .btn-add:focus {
+    border: none;
+    outline: none;
+}
+
+.products-container .btn-add-content {
+    height: 18px;
+    width: 18px;
+}
+
+.contacts-container {
+    padding-top: 160px;
+    padding-bottom: 160px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.contacts-container-info {
+    margin-left: 10vw;
+}
+
+.contacts-container-info h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+    font-size: 44px;
+}
+
+.contacts-container-info p {
+    margin-top: 20px;
+    width: 25vw;
+    min-width: 320px;
+    font-family: "Comfortaa", cursive;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.contacts-container-info h3 {
+    margin-top: 40px;
+    font-weight: 400;
+}
+
+.contacts-container-logo {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.contacts-container-logo .contact-logo {
+    width: 30vw;
+    display: block;
+    min-width: 280px;
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-container .about-container {
+    position: relative;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: #182a58;
+}
+
+.home-container .about-container .fish-img {
+    position: absolute;
+    height: 18vw;
+    right: 5%;
+    top: 24%;
+}
+
+.home-container .about-container .about-img {
+    display: none;
+    position: absolute;
+    right: 20%;
+    top: 5%;
+    height: 600px;
+}
+
+.home-container .about-container .paper-box {
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 45vw;
+    min-width: 550px;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    padding-right: 20px;
+    padding-left: 10vw;
+    height: 350px;
+    background: #ba181b;
+}
+
+.home-container .about-container .paper-box p {
+    color: #fff;
+    font-family: "Comfortaa", cursive;
+    font-size: 16px;
+}
+
+.home-container .about-container .paper-box-title h3 {
+    color: #fff;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 54px;
+}
+
+.home-container .footer-clean {
+    padding: 50px 0;
+    background-color: #182a58;
+    color: #fff;
+}
+
+.home-container .footer-clean h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-family: "Comfortaa", cursive;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.home-container .footer-clean ul {
+    list-style: none;
+    line-height: 1.6;
+    font-family: "Comfortaa", cursive;
+    font-size: 16px;
+}
+
+.home-container .footer-clean ul a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.home-container .footer-clean ul a:hover {
+    opacity: 1;
+}
+
+.home-container .footer-clean .item.social {
+    text-align: right;
+}
+
+.home-container .footer-clean .copyright {
+    margin-top: 14px;
+    margin-bottom: 0;
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+@media (max-width: 767px) {
+    .home-container .footer-clean .item {
         text-align: center;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        margin-left: 10px;
-        margin-top: 22px;
-        color: inherit;
-        opacity: 0.75;
-    }
-
-    .footer-clean .item.social > a:hover {
-        opacity: 0.9;
-    }
-
-    @media (max-width: 991px) {
-        .footer-clean .item.social > a {
-            margin-top: 40px;
-        }
-    }
-
-    @media (max-width: 800px) {
-        .footer-clean .item.social > a {
-            margin-top: 10px;
-        }
-        .social {
-            .web-logo {
-                height: 120px;
-                margin: {
-                    top: unset;
-                }
-            }
-        }
+        padding-bottom: 20px;
     }
 }
+
+@media (max-width: 768px) {
+    .home-container .footer-clean .item.social {
+        text-align: center;
+    }
+}
+
+.home-container .footer-clean .item.social > a {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    margin-top: 22px;
+    color: inherit;
+    opacity: 0.75;
+}
+
+.home-container .footer-clean .item.social > a:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 991px) {
+    .home-container .footer-clean .item.social > a {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 800px) {
+    .home-container .footer-clean .item.social > a {
+        margin-top: 10px;
+    }
+
+    .home-container .social .web-logo {
+        height: 120px;
+        margin-top: unset;
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .body-trigger {
         position: fixed;
@@ -761,23 +731,21 @@ header {
                         }
                     }
 
-                    form {
-                        right: unset;
-                        left: 49%;
-                        transform: translate(-50%, -50%);
-                        margin-right: -50%;
-                        bottom: -70px;
-                        // position: relative;
-                    }
-                }
-            }
-        }
-        .products-container-preview {
-            height: unset;
-        }
-        .products-under-img {
-            display: none;
-        }
+    .products-container-view-info-read form {
+        right: unset;
+        left: 49%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        margin-right: -50%;
+        bottom: -70px;
+    }
+
+    .products-container .products-container-preview {
+        height: unset;
+    }
+
+    .products-container .products-under-img {
+        display: none;
     }
 
     .products-container-preview {
@@ -821,43 +789,45 @@ header {
             }
         }
     }
-    .home-container {
-        .about-container {
-            .fish-img {
-                position: absolute;
-                height: 80px;
-                left: 50%;
-                margin-right: -50%;
-                transform: translate(-50%, -50%);
-                top: unset;
-                bottom: -10px;
-            }
-            .paper-box {
-                margin: {
-                    top: 50px;
-                }
-                min-width: 100%;
-            }
-        }
+
+    .home-container .about-container .fish-img {
+        position: absolute;
+        height: 80px;
+        left: 50%;
+        margin-right: -50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        top: unset;
+        bottom: -10px;
     }
 
-    .navbar-basic {
-        .mobile-menu-btn {
-            position: absolute;
-            top: 35px;
-            right: 40px;
-            display: block;
-            .menu-btn-position {
-                z-index: 30;
-                position: fixed;
-            }
-            & input {
-                display: flex;
-                height: 32px;
-                width: 32px;
-                position: absolute;
-                cursor: pointer;
-                opacity: 0;
+    .home-container .about-container .paper-box {
+        margin-top: 50px;
+        min-width: 100%;
+    }
+
+    .navbar-basic .mobile-menu-btn {
+        position: absolute;
+        top: 35px;
+        right: 40px;
+        display: block;
+    }
+
+    .navbar-basic .mobile-menu-btn .menu-btn-position {
+        z-index: 30;
+        position: fixed;
+    }
+
+    .navbar-basic .mobile-menu-btn input {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        height: 32px;
+        width: 32px;
+        position: absolute;
+        cursor: pointer;
+        opacity: 0;
+    }
 
                 &:checked ~ span {
                     opacity: 1;
@@ -947,100 +917,101 @@ header {
     }
     .quote-container {
         width: 80%;
-        &-text {
-            font: {
-                size: 18px;
-            }
-            &:before {
-                font: {
-                    size: 100px;
-                }
-            }
-        }
     }
+
+    .quote-container-text {
+        font-size: 18px;
+    }
+
+    .quote-container-text:before {
+        font-size: 100px;
+    }
+
     .mobile-logo {
         display: block;
         margin: unset;
         position: absolute;
-        margin: {
-            left: auto;
-            right: auto;
-        }
+        margin-left: auto;
+        margin-right: auto;
         top: 70px;
         left: 50%;
         width: 40px;
-        .web-logo {
-            position: absolute;
-            margin-right: -50%;
-            transform: translate(-50%, -50%);
-        }
     }
+
+    .mobile-logo .web-logo {
+        position: absolute;
+        margin-right: -50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
     .contacts-container {
-        padding: {
-            top: 100px;
-            bottom: 80px;
-        }
+        padding-top: 100px;
+        padding-bottom: 80px;
         display: block;
-        &-info {
-            text-align: center;
-            margin: {
-                left: auto;
-                right: auto;
-            }
-            h4 {
-                font: {
-                    family: "Cormorant Garamond", serif;
-                    weight: 400;
-                    size: 32px;
-                }
-            }
-            p {
-                margin: {
-                    left: auto;
-                    right: auto;
-                    top: 20px;
-                }
-            }
-            h3 {
-                margin: {
-                    top: 20px;
-                }
-            }
-        }
-        &-logo {
-            .contact-logo {
-                margin: {
-                    top: 30px;
-                }
-            }
-        }
     }
+
+    .contacts-container-info {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contacts-container-info h4 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 400;
+        font-size: 32px;
+    }
+
+    .contacts-container-info p {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+    }
+
+    .contacts-container-info h3 {
+        margin-top: 20px;
+    }
+
+    .contacts-container-logo .contact-logo {
+        margin-top: 30px;
+    }
+
     .arrowImage {
         left: 45%;
     }
+
     .welcome-container {
-        margin: {
-            top: 140px;
-        }
-        &-title {
-            width: 80vw;
-            height: 25vw;
-            min-width: 340px;
-            p {
-                font: {
-                    size: 10vw;
-                }
-            }
-        }
-        &-subtitle {
-            width: 80vw;
-            margin: {
-                left: 5px;
-            }
-            font: {
-                size: 16px;
-            }
-        }
+        margin-top: 140px;
+    }
+
+    .welcome-container-title {
+        width: 80vw;
+        height: 25vw;
+        min-width: 340px;
+    }
+
+    .welcome-container-title p {
+        font-size: 10vw;
+    }
+
+    .welcome-container-subtitle {
+        width: 80vw;
+        margin-left: 5px;
+        font-size: 16px;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+        display: block;
+        opacity: 1;
+    }
+
+    100% {
+        display: none !important;
+        visibility: hidden;
+        opacity: 0;
     }
     .admin-panel {
         top: unset;
@@ -1060,29 +1031,66 @@ header {
         display: block;
         opacity: 1;
     }
+
     100% {
         display: none !important;
         visibility: hidden;
         opacity: 0;
     }
 }
-@keyframes fadeIn {
+
+@-webkit-keyframes fadeIn {
     0% {
         opacity: 0;
     }
+
     100% {
         visibility: visible;
         opacity: 1;
     }
 }
-@keyframes floatAnim {
+
+@keyframes fadeIn {
     0% {
+        opacity: 0;
+    }
+
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes floatAnim {
+    0% {
+        -webkit-transform: translate(0, 0);
         transform: translate(0, 0);
     }
+
     50% {
+        -webkit-transform: translate(0, -15px);
         transform: translate(0, -15px);
     }
+
     100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes floatAnim {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+    50% {
+        -webkit-transform: translate(0, -15px);
+        transform: translate(0, -15px);
+    }
+
+    100% {
+        -webkit-transform: translate(0, 0);
         transform: translate(0, 0);
     }
 }

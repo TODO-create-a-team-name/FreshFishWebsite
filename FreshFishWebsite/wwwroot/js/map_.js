@@ -1,8 +1,8 @@
-﻿var sAddr;
+﻿
 var startFiled = document.getElementById('start');
 var endFiled = document.getElementById('end');
+
 function initMap() {
-    
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -12,7 +12,8 @@ function initMap() {
     directionsRenderer.setMap(map);
 
     let url = window.location.href;
-    let id = url.slice(-1);
+    let n = url.lastIndexOf('/');
+    let id = url.substring(n + 1);
     console.log("id param:", id);
 
     $.ajax({
@@ -32,10 +33,6 @@ function initMap() {
             alert('Error - ' + errorMessage);
         }
     });
-
-
-    document.getElementById('start').addEventListener("change", onChangeHandler);
-    document.getElementById('end').addEventListener("change", onChangeHandler);
 }
 
 function getURL() {
