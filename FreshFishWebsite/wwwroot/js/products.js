@@ -17,8 +17,8 @@ function ajaxGetData(id) {
 function setProductData(data) {
     document.querySelector(".products-container-view-info h2").innerHTML = data.productName;
     document.querySelector(".products-container-view-info p").innerHTML = data.description;
-    document.querySelector(".products-details p[name = calories]").innerHTML = `${data.calories} ккал`
-    document.querySelector(".products-details p[name = pricePerKg]").innerHTML = `${data.pricePerKg} грн/кг`;
+    document.querySelector(".products-details p[name = calories]").innerHTML = data.calories + ' ккал';
+    document.querySelector(".products-details p[name = pricePerKg]").innerHTML = data.pricePerKg + ' грн\кг';
     document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
 }
 

@@ -78,7 +78,7 @@
                     </li>
                     <li class="list-item">
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") ||
-                        User.IsInRole("AdminAssistant"))
+                       User.IsInRole("AdminAssistant"))
                         {
                             <div class="admin-panel">
                                 <a class="admin-panel-link" asp-action="Index" asp-controller="Admin">
@@ -86,7 +86,16 @@
                                 </a>
                             </div>
                         }
+                        else if (signInManager.IsSignedIn(User) && User.IsInRole("Driver"))
+                        {
+                            <div class="admin-panel">
+                                <a class="admin-panel-link" asp-action="Index" asp-controller="Driver">
+                                    <p class="text-parents">Панель водія</p>
+                                </a>
+                            </div>
+                        }
                     </li>
+                    
                 </ul>
             </div>
             <a class="menu-links mobile-logo logo-links">
