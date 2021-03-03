@@ -44,11 +44,11 @@ namespace FreshFishWebsite.Repositories
                 }
                 else
                 {
-                    await AddProductToShopingCart(user, productId);
+                    await AddToShoppingCart(user, productId);
                 }
             }
             else 
-                await AddProductToShopingCart(user, productId);
+                await AddToShoppingCart(user, productId);
 
             await _context.SaveChangesAsync();
         }
@@ -103,7 +103,7 @@ namespace FreshFishWebsite.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddProductToShopingCart(User user, int productId)
+        public async Task AddToShoppingCart(User user, int productId)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == productId);
             var shoppingCartProduct = new ShoppingCartProduct
