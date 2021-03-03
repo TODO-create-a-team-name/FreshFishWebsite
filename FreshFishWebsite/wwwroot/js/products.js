@@ -39,9 +39,6 @@ cardTrigger.forEach(currentCardTrigger => {
     });
 });
 
-
-
-
 const btnShoppingCart = document.querySelector('.shopping-card'),
     btnCloseModal = document.querySelector('.close'),
     shoppingCartModal = document.querySelector('.modal');
