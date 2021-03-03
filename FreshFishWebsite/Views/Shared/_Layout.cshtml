@@ -39,12 +39,12 @@
                         </a>
                     </li>
                     <li class="list-item">
-                        <a class="menu-links" href="/#about">
+                        <a class="menu-links" asp-controller="Home" asp-action="AboutUs">
                             <p class="text-parents">Про нас</p>
                         </a>
                     </li>
                     <li class="list-item">
-                        <a class="menu-links">
+                        <a class="menu-links" href="/#contact">
                             <p class="text-parents">Контакти</p>
                         </a>
                     </li>
@@ -78,7 +78,7 @@
                     </li>
                     <li class="list-item">
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") ||
-                       User.IsInRole("AdminAssistant"))
+                    User.IsInRole("AdminAssistant"))
                         {
                             <div class="admin-panel">
                                 <a class="admin-panel-link" asp-action="Index" asp-controller="Admin">
@@ -90,12 +90,14 @@
                         {
                             <div class="admin-panel">
                                 <a class="admin-panel-link" asp-action="Index" asp-controller="Driver">
-                                    <p class="text-parents">Панель водія</p>
+                                    <p class="text-parents">Адмін панель</p>
                                 </a>
                             </div>
                         }
                     </li>
-                    
+                    <li>
+                        
+                    </li>
                 </ul>
             </div>
             <a class="menu-links mobile-logo logo-links">
@@ -131,6 +133,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/mainPage.js" asp-append-version="true"></script>
+    <script src="~/js/Products/productCard.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
