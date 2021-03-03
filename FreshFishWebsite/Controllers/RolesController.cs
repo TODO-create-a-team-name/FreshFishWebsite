@@ -21,7 +21,15 @@ namespace FreshFishWebsite.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
-        public IActionResult Index() => View(_roleManager.Roles.ToList());
+        public IActionResult Index()
+        {
+            var model = new RolesViewModel
+            {
+                Roles = _roleManager.Roles,
+                Users = _userManager.Users
+            };
+            return View(model);
+        } 
 
         public IActionResult Create() => View();
 
@@ -65,7 +73,7 @@ namespace FreshFishWebsite.Controllers
                     AllRoles = allRoles
                 };
 
-                return View(model);
+                return PartialView("_Edit_Role", model);
             }
 
             return NotFound();
@@ -89,7 +97,7 @@ namespace FreshFishWebsite.Controllers
 
                 await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
-                return RedirectToAction("UserList");
+                return RedirectToAction("Index");
             }
 
             return NotFound();
