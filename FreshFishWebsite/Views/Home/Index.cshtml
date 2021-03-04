@@ -2,30 +2,78 @@
 @{
     ViewData["Title"] = "Головна сторінка";
 }
-
-<div class="about-container" id="about">
-    <object data="~/img/mainPage/_1Fish.svg" type="image/svg+xml" class="fish-img"></object>
-    <div class="paper-box">
-        <div class="paper-box-title">
-            <h3>Про нас</h3>
+<link rel="stylesheet" type="text/css" href="../css/About.css">
+<link rel="stylesheet" type="text/css" href="../css/owl-carousel.css">
+<div class="about-container">
+    <section class="section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-12 col-sm-12"
+                    data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                    <img src="~/img/fish-farm.jpg" class="rounded img-fluid d-block mx-auto" alt="App">
+                </div>
+                <div class="right-text col-lg-5 col-md-12 col-sm-12 mobile-top-fix">
+                    <div class="left-heading">
+                        <h5>Vivamus sodales nisi id ante molestie venenatis</h5>
+                    </div>
+                    <div class="left-text">
+                        <p>This template is last updated on 20 August 2019 for main menu drop-down arrow and sub menu
+                            text color. Duis auctor dolor eu scelerisque vestibulum. Vestibulum lacinia, nisl sit amet
+                            tristique condimentum. <br><br>
+                            Sed a consequat velit. Morbi lectus sapien, vestibulum et sapien sit amet, ultrices
+                            malesuada odio. Donec non quam euismod, mattis dui a, ultrices nisi.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p>
-            Ми відповідально підходимо до підбору видів риби, предсталених на нашому сайті. Тут ви побачите тільки
-            якісну рибну продукцію,
-            яка відповідає всім стандартам елкологічних ферм.
-        </p>
-        <p>
-            Продукція FreshFish буває тільки в одному стані - свіжому!
-        </p>
+    </section>
+</div>
+<section class="section" id="about2">
+    <div class="container">
+        <div class="row">
+            <div class="left-text col-lg-5 col-md-12 col-sm-12 mobile-bottom-fix">
+                <div class="left-heading">
+                    <h5>Curabitur aliquam eget tellus id porta</h5>
+                </div>
+                <p>Proin justo sapien, posuere suscipit tortor in, fermentum mattis elit. Aenean in feugiat purus.</p>
+                <ul>
+                    <li>
+                        <img src="~/img/about-icon-01.png" alt="">
+                        <div class="text">
+                            <h6>Технологія розвединня риби</h6>
+                            <p>You can use this website template for commercial or non-commercial purposes.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="~/img/about-icon-02.png" alt="">
+                        <div class="text">
+                            <h6>Якість продукції</h6>
+                            <p>You have no right to re-distribute this template as a downloadable ZIP file on any
+                                website.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="~/img/about-icon-03.png" alt="">
+                        <div class="text">
+                            <h6>Постійний зворотній зв'язок</h6>
+                            <p>Якщо у вас є питання або коментар, будь ласка, <a rel="nofollow"
+                                    href="#contact">зв'яжіться з нами</a> будемо раді вам допомогти.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-image col-lg-7 col-md-12 col-sm-12 mobile-bottom-fix-big"
+                data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
+                <img src="~/img/SmallAboutFish.jpg" class="rounded img-fluid d-block mx-auto" alt="App">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hr"></div>
+            </div>
+        </div>
     </div>
-    <img src="~/img/mainPage/fisherman.jpg" class="about-img" />
-</div>
-<div class="quote-container">
-    <blockquote class="quote-container-text">
-        Тільки свіжа і якісна риба і морепродукти - запорука вишуканого смаку ваших
-        страв.
-    </blockquote>
-</div>
+</section>
 <div class="products-container">
     <img src="~/img/mainPage/779.jpg" class="products-under-img" />
     <h1 class="products-container-title">Хіт продажів</h1>
@@ -41,8 +89,8 @@
                 </div>
                 <form class="">
                     <button type="submit" class="btn-add">
-                        Добавити в корзину<span class="iconify btn-add-content"
-                                                data-inline="false" data-icon="akar-icons:plus"></span>
+                        Добавити в корзину<span class="iconify btn-add-content" data-inline="false"
+                            data-icon="akar-icons:plus"></span>
                     </button>
                 </form>
             </div>
@@ -76,8 +124,8 @@
                         <div>
                             <form class="">
                                 <button type="submit" class="btn-add">
-                                    <span class="iconify btn-add-content"
-                                          data-inline="false" data-icon="akar-icons:plus"></span>
+                                    <span class="iconify btn-add-content" data-inline="false"
+                                        data-icon="akar-icons:plus"></span>
                                 </button>
                             </form>
                         </div>
@@ -99,40 +147,5 @@
     <div class="contacts-container-logo">
         <object data="~/img/mainPage/ContactLogo.svg" type="image/svg+xml" class="contact-logo"></object>
     </div>
-</div>
-<div class="footer-clean">
-    <footer>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>Про компанію</h3>
-                    <ul>
-                        <li><a href="#">Історія</a></li>
-                        <li><a href="#">Ліцензія</a></li>
-                        <li><a href="#">Партнери</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>Продкуція</h3>
-                    <ul>
-                        <li><a href="#">Риба</a></li>
-                        <li><a href="#">Морепродукти</a></li>
-                        <li><a href="#">Ікра</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>FAQ</h3>
-                    <ul>
-                        <li><a href="#">Доставка</a></li>
-                        <li><a href="#">Оплата</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 item social">
-                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
-                </div>
-            </div>
-        </div>
-    </footer>
-
 </div>
 <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>

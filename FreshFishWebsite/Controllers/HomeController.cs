@@ -28,10 +28,6 @@ namespace FreshFishWebsite.Controllers
         {
             return View(_context.Products.AsNoTracking());
         }
-        public IActionResult AboutUs()
-        {
-            return View();
-        }
         public IActionResult Privacy()
         {
             return View();
