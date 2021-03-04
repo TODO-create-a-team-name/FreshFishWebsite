@@ -73,6 +73,7 @@ namespace FreshFishWebsite.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Login", "Account");
+            //return Unauthorized();
         }
 
         [HttpPost]

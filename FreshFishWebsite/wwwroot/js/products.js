@@ -2,12 +2,14 @@ const card = document.querySelectorAll(".product-card-content"),
     cardTrigger = document.querySelectorAll(".product-card label"),
     cardRegisters = document.querySelector(".product-register");
 
+    var selectedId;
+
 function addClass(element, className) {
     element.classList.add(className);
 }
-ajaxGetData();
-// get ajax request data
-function ajaxGetData(id) {
+getDataById();
+
+function getDataById(id) {
     fetch('GetProductsData')
         .then(response => response.json())
         .then(data => setProductData(getData(data, id)))
@@ -22,7 +24,8 @@ function setProductData(data) {
     document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
 }
 
-function getData(data, id= data[0].id) {
+function getData(data, id = data[0].id) {
+    selectedId = id;
     let requestedData = data.find(d => d.id == id);
     return requestedData == undefined ? console.error(`Sorry but this ${id} data not found`) : requestedData;
 }
@@ -34,7 +37,7 @@ cardTrigger.forEach(currentCardTrigger => {
                 cardAction.classList.remove('active');
             });
             addClass(currentCardTrigger.parentElement, 'active');
-            ajaxGetData(currentCardTrigger.dataset.id)
+            getDataById(currentCardTrigger.dataset.id)
         }
     });
 });
@@ -42,6 +45,7 @@ cardTrigger.forEach(currentCardTrigger => {
 const btnShoppingCart = document.querySelector('.shopping-card'),
     btnCloseModal = document.querySelector('.close'),
     shoppingCartModal = document.querySelector('.modal');
+    
 
 
 btnShoppingCart.addEventListener('click', function (event) {
@@ -50,3 +54,20 @@ btnShoppingCart.addEventListener('click', function (event) {
     btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
 
 });
+
+const shoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
+shoppingCartButton.addEventListener("click", () => {
+   
+    $.ajax({
+        type: "POST",
+        url: `/ShoppingCart/AddToCart/${selectedId}`,
+        complete: function (res) {
+            //if (res.status === 401) window.location.href = "/Account/Login";
+            window.location.href = "/ShoppingCart/ShowAllProducts";
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    })
+})
+
