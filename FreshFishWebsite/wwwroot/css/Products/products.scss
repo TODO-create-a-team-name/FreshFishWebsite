@@ -28,7 +28,7 @@ header {
     .navbar-basic-container {
         .list-container {
             .list-item {
-                &:nth-child(7){
+                &:nth-child(7) {
                     display: none;
                 }
                 &:nth-child(3) {
@@ -67,6 +67,7 @@ header {
                     button {
                         background-color: transparent;
                         border: none;
+                        color: #000;
                         font: {
                             size: 16px;
                             family: "Comfortaa", cursive;
@@ -121,6 +122,19 @@ header {
     }
     .products-flex {
         display: flex;
+    }
+    @media only screen and (max-width: 1100px){
+        .products-flex{
+            display: block;
+            .products-container-category{
+                margin: {
+                    left: auto;
+                    right: auto;
+                    bottom: 50px;
+                }
+                width: 400px;
+            }
+        }
     }
     &-category {
         margin: {
@@ -270,12 +284,10 @@ header {
                         border-right: 2px solid #ba181b;
                     }
                 }
-                form {
-                    .btn-add {
-                        color: #fff;
-                        background-color: #ba181b;
-                        transition: 0.5s;
-                    }
+                .btn-add {
+                    color: #fff !important;
+                    background-color: #ba181b !important;
+                    transition: 0.5s;
                 }
             }
         }
@@ -615,12 +627,72 @@ header {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
+    .footer-clean{
+        margin: {
+            top: 150px;
+        }
+    }
     .navbar-basic {
+        .mobile-menu-btn {
+            position: absolute;
+            top: 35px;
+            right: 40px;
+            display: block;
+            .menu-btn-position {
+                z-index: 30;
+                position: fixed;
+            }
+            & input {
+                display: flex;
+                height: 32px;
+                width: 32px;
+                position: absolute;
+                cursor: pointer;
+                opacity: 0;
+
+                &:checked ~ span {
+                    opacity: 1;
+                    transform: rotate(45deg) translate(0px, 0px);
+                    // background: #;
+                }
+                // &:checked{
+                //     position: fixed;
+                // }
+                &:checked ~ span:nth-last-child(2) {
+                    opacity: 0;
+                    transform: rotate(0deg) scale(0.2, 0.2);
+                }
+                &:checked ~ span:nth-last-child(1) {
+                    transform: rotate(-45deg) translate(0, -1px);
+                }
+            }
+            & span {
+                display: flex;
+                width: 29px;
+                height: 2px;
+                margin-bottom: 5px;
+                position: relative;
+                background: #fff ;
+                border-radius: 3px;
+                z-index: 1;
+                border: 1px solid rgba(0, 109, 180, 0.8);
+                transform-origin: 5px 0px;
+                filter: drop-shadow(0px 5px 5px rgba(0, 109, 180, 0.8));
+                transition: transform 0.5s cubic-bezier(0, 109, 180, 1),
+                    background 0.5s cubic-bezier(0, 109, 180, 1), opacity 0.55s ease;
+                &:first-child {
+                    transform-origin: 0% 0%;
+                }
+                &:nth-last-child(2) {
+                    transform-origin: 0% 100%;
+                }
+            }
+        }
         .navbar-basic-container {
             .list-container {
                 .list-item {
-                    &:nth-child(7){
+                    &:nth-child(7) {
                         display: block;
                     }
                     &:nth-child(2) {
@@ -693,8 +765,17 @@ header {
                 .img-container {
                     .fish-img {
                         max-width: 60vw;
+                        min-height: 220px;
                     }
                 }
+            }
+            &-info{
+                padding: {
+                    bottom: 0px;
+                }
+                height: unset;
+                max-height: 600px;
+                min-height: 400px;
             }
         }
         &-preview {

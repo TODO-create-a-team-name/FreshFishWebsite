@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li class="list-item">
-                        <a class="menu-links" asp-controller="Home" asp-action="AboutUs">
+                        <a class="menu-links" href="/#about">
                             <p class="text-parents">Про нас</p>
                         </a>
                     </li>
@@ -129,6 +129,42 @@
             @RenderBody()
         </main>
     </div>
+    <div class="footer-clean">
+    <footer>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>Про компанію</h3>
+                    <ul>
+                        <li><a href="#">Історія</a></li>
+                        <li><a href="#">Ліцензія</a></li>
+                        <li><a href="#">Партнери</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>Продкуція</h3>
+                    <ul>
+                        <li><a href="#">Риба</a></li>
+                        <li><a href="#">Морепродукти</a></li>
+                        <li><a href="#">Ікра</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-3 item">
+                    <h3>FAQ</h3>
+                    <ul>
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Оплата</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 item social">
+                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
