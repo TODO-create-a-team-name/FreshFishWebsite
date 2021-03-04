@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ShoppingCartProduct>
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<form asp-action="OrderProducts" method="post">
+    <input class="btn btn-sm btn-success" type="submit" value="Замовити" />
+</form>
+@if (Model == null)
+{
+    <h2>Корзина порожня</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <td>Назва</td>
+            <td>Кількість</td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>
+                    <form asp-action="Delete" asp-controller="ShoppingCart" asp-route-id="@item.Id" method="post">
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="ShoppingCart"
+                           asp-route-id="@item.Id">Редагувати</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Видалити
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
