@@ -7,7 +7,7 @@ namespace FreshFishWebsite.ViewModels
     {
         public int StorageNumber { get; set; }
         public string Address { get; set; }
-        [Remote(action: "CheckEmailAsync", controller: "Storage")]
+        [Remote(action: "CheckEmail", controller: "Storage", ErrorMessage = "уже існує адмін/водій з таким e-mail")]
         public string StorageAdminEmail { get; set; }
     }
 }

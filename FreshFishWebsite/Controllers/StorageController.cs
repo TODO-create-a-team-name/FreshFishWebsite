@@ -50,9 +50,7 @@ namespace FreshFishWebsite.Controllers
                     StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
-                if(user != null 
-                    && user.GetType() != typeof(StorageAdmin) 
-                    && user.GetType() != typeof(Driver))
+                if(user != null)
                 {
                     StorageAdmin storageAdmin = new()
                     {
@@ -99,15 +97,15 @@ namespace FreshFishWebsite.Controllers
         }
 
 
-        [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> CheckEmailAsync(string email)
+        [AcceptVerbs("Post", "Get")]
+        public async Task<IActionResult> CheckEmail(string StorageAdminEmail)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(StorageAdminEmail);
             if (user != null
                     && user.GetType() == typeof(StorageAdmin)
-                    && user.GetType() == typeof(Driver))
+                    || user.GetType() == typeof(Driver))
             {
-                return Json($"уже існує адмін/водій з таким e-mail"); ;
+                return Json(false); ;
             } 
             return Json(true);
         }
