@@ -98,6 +98,21 @@ namespace FreshFishWebsite.Controllers
             return View(model);
         }
 
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> CheckEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null
+                    && user.GetType() == typeof(StorageAdmin)
+                    && user.GetType() == typeof(Driver))
+            {
+                return Json($"уже існує адмін/водій з таким e-mail"); ;
+            } 
+            return Json(true);
+        }
+
+
         [Authorize(Roles = "AdminAssistant")]
         [HttpGet]
         public IActionResult AddDriver(int storageId)

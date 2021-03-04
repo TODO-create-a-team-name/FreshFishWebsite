@@ -3,7 +3,13 @@
     ViewBag.Title = "Додати склад";
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
 }
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <form asp-action="Create" asp-controller="Storage">
+
     <div class="form-group">
         <label asp-for="StorageNumber" class="control-label">Номер складу</label>
         <input type="number" asp-for="StorageNumber" class="form-control" />
