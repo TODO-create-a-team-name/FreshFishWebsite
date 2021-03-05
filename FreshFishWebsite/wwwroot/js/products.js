@@ -66,6 +66,7 @@ shoppingCartButton.addEventListener("click", () => {
             window.location.href = "/ShoppingCart/ShowAllProducts";
         },
         error: function (errormessage) {
+            console.log(errormessage.status);
             alert(errormessage.responseText);
         }
     })

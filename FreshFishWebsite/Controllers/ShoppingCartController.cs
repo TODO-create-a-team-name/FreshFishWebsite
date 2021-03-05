@@ -1,5 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -63,6 +64,7 @@ namespace FreshFishWebsite.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {

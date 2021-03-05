@@ -76,7 +76,5 @@ namespace FreshFishWebsite.Controllers
                 receiverAddress
             });
         }
-
-        //TODO: make a method that returns required data to build map route
     }
 }
