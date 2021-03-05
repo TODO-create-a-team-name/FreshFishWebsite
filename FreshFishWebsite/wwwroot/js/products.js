@@ -42,22 +42,9 @@ cardTrigger.forEach(currentCardTrigger => {
     });
 });
 
-const btnShoppingCart = document.querySelector('.shopping-card'),
-    btnCloseModal = document.querySelector('.close'),
-    shoppingCartModal = document.querySelector('.modal');
-    
-
-
-btnShoppingCart.addEventListener('click', function (event) {
-    event.preventDefault();
-    shoppingCartModal.classList.toggle('open');
-    btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
-
-});
-
 const shoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
 shoppingCartButton.addEventListener("click", () => {
-   
+
     $.ajax({
         type: "POST",
         url: `/ShoppingCart/AddToCart/${selectedId}`,
