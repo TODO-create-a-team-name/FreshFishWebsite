@@ -110,5 +110,3 @@ function eventHandler(event) {
 //events definition
 btnPrevious.addEventListener("click", (e) => eventHandler(e));
 btnNext.addEventListener("click", (e) => eventHandler(e));
-
-

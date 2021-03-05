@@ -5,9 +5,9 @@ const card = document.querySelectorAll(".product-card-content"),
 function addClass(element, className) {
     element.classList.add(className);
 }
-ajaxGetData();
+fetchGetData();
 // get ajax request data
-function ajaxGetData(id) {
+function fetchGetData(id) {
     fetch('GetProductsData')
         .then(response => response.json())
         .then(data => setProductData(getData(data, id)))
@@ -34,22 +34,8 @@ cardTrigger.forEach(currentCardTrigger => {
                 cardAction.classList.remove('active');
             });
             addClass(currentCardTrigger.parentElement, 'active');
-            ajaxGetData(currentCardTrigger.dataset.id)
+            fetchGetData(currentCardTrigger.dataset.id)
         }
     });
 });
 
-
-
-
-const btnShoppingCart = document.querySelector('.shopping-card'),
-    btnCloseModal = document.querySelector('.close'),
-    shoppingCartModal = document.querySelector('.modal');
-
-
-btnShoppingCart.addEventListener('click', function (event) {
-    event.preventDefault();
-    shoppingCartModal.classList.toggle('open');
-    btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
-
-});

@@ -48,13 +48,10 @@
                         <p name="calories">Завантаження...</p>
                         <p name="pricePerKg">Завантаження...</p>
                     </div>
-                    <form class="" asp-action="AddToCart" method="post">
-                        @*TODO #27 Trigger on the button add to shopping Cart @Serge1212 *@
-                        <button type="submit" class="btn-add">
+                        <button type="button" class="btn-add">
                             Добавити в корзину<span class="iconify btn-add-content"
                                                     data-inline="false" data-icon="akar-icons:plus"></span>
                         </button>
-                    </form>
                 </div>
             </div>
             <div class="products-container-view-img">
@@ -104,18 +101,5 @@
     </div>
 </div>
 </div>
-<div class="modal" data-modal="trigger-1">
-    <article class="content-wrapper">
-        <button class="close"></button>
-        <header class="modal-header">
-            <h2>Корзина</h2>
-        </header>
-        <div class="content">
-            <p>Не готова частина</p>
-        </div>
-        <footer class="modal-footer">
-            <button class="action">Оплатити</button>
-        </footer>
-    </article>
-</div>
 <script src="~/js/products.js"></script>
+<script src="~/js/Products/productCard.js"></script>
