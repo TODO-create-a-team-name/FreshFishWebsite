@@ -78,7 +78,7 @@
                     </li>
                     <li class="list-item">
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") ||
-                    User.IsInRole("AdminAssistant"))
+                        User.IsInRole("AdminAssistant"))
                         {
                             <div class="admin-panel">
                                 <a class="admin-panel-link" asp-action="Index" asp-controller="Admin">
@@ -96,7 +96,7 @@
                         }
                     </li>
                     <li>
-                        
+
                     </li>
                 </ul>
             </div>
@@ -124,52 +124,69 @@
         </div>
         <object data="~/img/mainPage/downArrow.svg" type="image/svg+xml" class="arrowImage"></object>
     </header>
+    <section>
+        <div class="modal" data-modal="trigger-1">
+            <article class="content-wrapper">
+                <button class="close"></button>
+                <div class="modal-header">
+                    <h2>Корзина</h2>
+                </div>
+                <div class="content">
+                    <p>Не готова частина</p>
+                </div>
+                <footer class="modal-footer">
+                    <button class="action">Оплатити</button>
+                </footer>
+            </article>
+        </div>
+    </section>
+
     <div class="home-container">
         <main role="main">
             @RenderBody()
         </main>
     </div>
     <div class="footer-clean">
-    <footer>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>Про компанію</h3>
-                    <ul>
-                        <li><a href="#">Історія</a></li>
-                        <li><a href="#">Ліцензія</a></li>
-                        <li><a href="#">Партнери</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>Продкуція</h3>
-                    <ul>
-                        <li><a href="#">Риба</a></li>
-                        <li><a href="#">Морепродукти</a></li>
-                        <li><a href="#">Ікра</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-4 col-md-3 item">
-                    <h3>FAQ</h3>
-                    <ul>
-                        <li><a href="#">Доставка</a></li>
-                        <li><a href="#">Оплата</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 item social">
-                    <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+        <footer>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3>Про компанію</h3>
+                        <ul>
+                            <li><a href="#">Історія</a></li>
+                            <li><a href="#">Ліцензія</a></li>
+                            <li><a href="#">Партнери</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3>Продкуція</h3>
+                        <ul>
+                            <li><a href="#">Риба</a></li>
+                            <li><a href="#">Морепродукти</a></li>
+                            <li><a href="#">Ікра</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3>FAQ</h3>
+                        <ul>
+                            <li><a href="#">Доставка</a></li>
+                            <li><a href="#">Оплата</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 item social">
+                        <object data="~/img/Big-Webshop-logo.svg" type="image/svg+xml" class="web-logo"></object>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-</div>
+    </div>
 
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/mainPage.js" asp-append-version="true"></script>
-    <script src="~/js/Products/productCard.js"></script>
+    <script src="~/js/Products/ShoppingCart.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

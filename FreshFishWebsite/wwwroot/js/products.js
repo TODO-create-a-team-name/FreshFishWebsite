@@ -7,9 +7,9 @@ const card = document.querySelectorAll(".product-card-content"),
 function addClass(element, className) {
     element.classList.add(className);
 }
-getDataById();
-
-function getDataById(id) {
+fetchGetData();
+// get ajax request data
+function fetchGetData(id) {
     fetch('GetProductsData')
         .then(response => response.json())
         .then(data => setProductData(getData(data, id)))
@@ -37,7 +37,7 @@ cardTrigger.forEach(currentCardTrigger => {
                 cardAction.classList.remove('active');
             });
             addClass(currentCardTrigger.parentElement, 'active');
-            getDataById(currentCardTrigger.dataset.id)
+            fetchGetData(currentCardTrigger.dataset.id)
         }
     });
 });
