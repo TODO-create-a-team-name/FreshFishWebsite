@@ -1,3 +1,5 @@
+import loadShoppingCartModal  from './Products/ShoppingCart.js'
+
 const card = document.querySelectorAll(".product-card-content"),
     cardTrigger = document.querySelectorAll(".product-card label"),
     cardRegisters = document.querySelector(".product-register");
@@ -42,20 +44,28 @@ cardTrigger.forEach(currentCardTrigger => {
     });
 });
 
-const shoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
-shoppingCartButton.addEventListener("click", () => {
+const addToShoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
+addToShoppingCartButton.addEventListener("click", () => {
+    addProductToCart(selectedId);
+});
 
+const addToShoppingCartButtonFromScroll = document.querySelectorAll(".addToCart");
+addToShoppingCartButtonFromScroll.forEach((b) => {
+b.addEventListener("click", () => {
+    addProductToCart(b.dataset.id);
+    });
+})
+
+function addProductToCart(id) {
     $.ajax({
         type: "POST",
-        url: `/ShoppingCart/AddToCart/${selectedId}`,
-        complete: function (res) {
-            //if (res.status === 401) window.location.href = "/Account/Login";
-            window.location.href = "/ShoppingCart/ShowAllProducts";
+        url: `/ShoppingCart/AddToCart/${id}`,
+        complete: function () {
+            loadShoppingCartModal();
         },
         error: function (errormessage) {
             console.log(errormessage.status);
             alert(errormessage.responseText);
         }
     })
-})
-
+}

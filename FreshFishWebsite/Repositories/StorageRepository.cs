@@ -1,5 +1,8 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Services;
+using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +13,18 @@ namespace FreshFishWebsite.Repositories
     public class StorageRepository : IStorageRepository
     {
         private readonly FreshFishDbContext _;
-        public StorageRepository(FreshFishDbContext context)
+        private readonly UserManager<User> _userManager;
+        public StorageRepository(FreshFishDbContext context,
+            UserManager<User> userManager)
         {
             _ = context;
+            _userManager = userManager;
         }
         public IEnumerable<Storage> GetAll()
         => _.Storages.Include(p => p.Products).Include(d => d.Drivers);
 
         public IEnumerable<Storage> GetStoragesWithWorkers()
-        => _.Storages.Include(d => d.Drivers);
+        => _.Storages.Include(d => d.Drivers).Include(a => a.StorageAdmin);
 
         public Storage GetById(int? id)
         => GetAll().FirstOrDefault(x => x.Id == id);
@@ -74,6 +80,37 @@ namespace FreshFishWebsite.Repositories
             {
                 _.Storages.Remove(storage);
                 await _.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AddStorageAdmin(User user, Storage storage, StorageViewModel model)
+        {
+            if (user != null && storage.StorageAdmin == null)
+            {
+                StorageAdmin storageAdmin = new()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Usersurname = user.Usersurname,
+                    Company = user.Company,
+                    CompanyAddress = user.CompanyAddress,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    EmailConfirmed = true,
+                    PasswordHash = user.PasswordHash,
+                    SecurityStamp = user.SecurityStamp,
+                    ConcurrencyStamp = user.ConcurrencyStamp
+                };
+                await _userManager.DeleteAsync(user);
+                await _userManager.CreateAsync(storageAdmin);
+                await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
+                storage.StorageAdmin = storageAdmin;
+                await AddAsync(storage);
                 return true;
             }
             else

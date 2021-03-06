@@ -1,5 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Repositories;
 using FreshFishWebsite.Services;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +40,7 @@ namespace FreshFishWebsite.Controllers
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateStorageViewModel model)
+        public async Task<IActionResult> Create(StorageViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
       
@@ -50,34 +51,11 @@ namespace FreshFishWebsite.Controllers
                     StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
-                if(user != null)
+                if(await new StorageRepository(_context, _userManager).AddStorageAdmin(user, storage, model))
                 {
-                    StorageAdmin storageAdmin = new()
-                    {
-                        Id = user.Id,
-                        Name = user.Name,
-                        Usersurname = user.Usersurname,
-                        Company = user.Company,
-                        CompanyAddress = user.CompanyAddress,
-                        UserName = user.UserName, 
-                        Email = user.Email,
-                        EmailConfirmed = true,
-                        PasswordHash = user.PasswordHash,
-                        SecurityStamp = user.SecurityStamp,
-                        ConcurrencyStamp = user.ConcurrencyStamp
-                    };
-                    await _userManager.DeleteAsync(user);
-                    await _userManager.CreateAsync(storageAdmin);
-                    await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
-                    storage.StorageAdmin = storageAdmin;
-                    await _repo.AddAsync(storage);
                     await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
                        $"Ви тепер адміністратор складу №{storage.StorageNumber}");
                     return RedirectToAction("Index");
-                }
-                else if(user != null)
-                {
-                    return View(model);
                 }
                 else
                 {
@@ -101,13 +79,15 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> CheckEmail(string StorageAdminEmail)
         {
             var user = await _userManager.FindByEmailAsync(StorageAdminEmail);
-            if (user != null
-                    && user.GetType() == typeof(StorageAdmin)
-                    || user.GetType() == typeof(Driver))
+            if (user != null)
             {
-                return Json(false); ;
-            } 
+                if(user.GetType() == typeof(StorageAdmin)
+                    || user.GetType() == typeof(Driver))
+                return Json(false); 
+                else return Json(true);
+            }
             return Json(true);
+            
         }
 
 
@@ -186,12 +166,18 @@ namespace FreshFishWebsite.Controllers
             }
 
             var storage = _repo.GetById(id);
+            var model = new StorageViewModel
+            {
+                StorageNumber = storage.StorageNumber,
+                Address = storage.Address,
+                StorageAdminEmail = storage.StorageAdmin.Email
+            };
             if (storage == null)
             {
                 return NotFound();
             }
 
-            return View(storage);
+            return PartialView("_Edit_Storage",storage);
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpPost]

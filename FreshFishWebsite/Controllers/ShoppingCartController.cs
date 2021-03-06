@@ -72,7 +72,7 @@ namespace FreshFishWebsite.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 await _repo.AddProductToShoppingCart(user, id);
-                return RedirectToAction("Index");
+                return Ok();
             }
             return RedirectToAction("Login", "Account");
             //return Unauthorized();
