@@ -21,5 +21,7 @@ namespace FreshFishWebsite.Interfaces
         public Task<OrderItems> GetByIdOrderItems(int id);
 
         public Task<bool> AddStorageAdmin(User user, Storage storage, StorageViewModel model);
+
+        public Task<bool> UpdateStorageAsync(Storage storage, StorageViewModel model);
     }
 }

@@ -36,7 +36,7 @@ namespace FreshFishWebsite.Controllers
         [Authorize(Roles = "MainAdmin")]
         public IActionResult Create()
         {
-            return View();
+            return PartialView("_Create_Storage");
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpPost]
@@ -177,14 +177,29 @@ namespace FreshFishWebsite.Controllers
                 return NotFound();
             }
 
-            return PartialView("_Edit_Storage",storage);
+            return PartialView("_Edit_Storage",model);
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpPost]
-        public async Task<IActionResult> Edit(Storage storage)
+        public async Task<IActionResult> Edit(StorageViewModel model)
         {
-            await _repo.UpdateAsync(storage);
-            return RedirectToAction("Index");
+            var storage = _repo.GetById(model.Id);
+            if(await _repo.UpdateStorageAsync(storage, model))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var callbackUrl = Url.Action(
+                        "RegisterStorageAdmin",
+                        "Account",
+                        new { storageId = storage.Id, adminEmail = model.StorageAdminEmail },
+                        protocol: HttpContext.Request.Scheme);
+
+                await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
+                   $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
+            }
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpPost]

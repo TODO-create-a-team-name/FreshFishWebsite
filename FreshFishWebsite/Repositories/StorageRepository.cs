@@ -21,10 +21,10 @@ namespace FreshFishWebsite.Repositories
             _userManager = userManager;
         }
         public IEnumerable<Storage> GetAll()
-        => _.Storages.Include(p => p.Products).Include(d => d.Drivers);
+        => _.Storages.Include(p => p.Products).Include(d => d.Drivers).Include(a => a.StorageAdmin);
 
         public IEnumerable<Storage> GetStoragesWithWorkers()
-        => _.Storages.Include(d => d.Drivers).Include(a => a.StorageAdmin);
+        => _.Storages.Include(d => d.Drivers);
 
         public Storage GetById(int? id)
         => GetAll().FirstOrDefault(x => x.Id == id);
@@ -92,23 +92,7 @@ namespace FreshFishWebsite.Repositories
         {
             if (user != null && storage.StorageAdmin == null)
             {
-                StorageAdmin storageAdmin = new()
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Usersurname = user.Usersurname,
-                    Company = user.Company,
-                    CompanyAddress = user.CompanyAddress,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    EmailConfirmed = true,
-                    PasswordHash = user.PasswordHash,
-                    SecurityStamp = user.SecurityStamp,
-                    ConcurrencyStamp = user.ConcurrencyStamp
-                };
-                await _userManager.DeleteAsync(user);
-                await _userManager.CreateAsync(storageAdmin);
-                await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
+                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
                 storage.StorageAdmin = storageAdmin;
                 await AddAsync(storage);
                 return true;
@@ -117,6 +101,54 @@ namespace FreshFishWebsite.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<bool> UpdateStorageAsync(Storage storage, StorageViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+            storage.StorageNumber = model.StorageNumber;
+            storage.Address = model.Address;
+
+            var previousUser = await _userManager.FindByEmailAsync(storage.StorageAdmin.Email);
+            await _userManager.DeleteAsync(previousUser);
+
+            if(user != null)
+            {
+                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
+                storage.StorageAdmin = storageAdmin;
+                await UpdateAsync(storage);
+                return true;
+            }
+            else
+            {
+
+                await UpdateAsync(storage);
+                return false;
+            }
+
+        }
+
+        private async Task<StorageAdmin> MakeUserAdminAsync(User user)
+        {
+            StorageAdmin storageAdmin = new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Usersurname = user.Usersurname,
+                Company = user.Company,
+                CompanyAddress = user.CompanyAddress,
+                UserName = user.UserName,
+                Email = user.Email,
+                EmailConfirmed = true,
+                PasswordHash = user.PasswordHash,
+                SecurityStamp = user.SecurityStamp,
+                ConcurrencyStamp = user.ConcurrencyStamp
+            };
+            await _userManager.DeleteAsync(user);
+            await _userManager.CreateAsync(storageAdmin);
+            await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
+            return storageAdmin;
+
         }
     }
 }
