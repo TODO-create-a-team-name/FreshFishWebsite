@@ -33,12 +33,13 @@ namespace FreshFishWebsite.Controllers
             return View(_productsRepo.GetAll());
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             if(_signInManager.IsSignedIn(User))
             {
                 var user = await _userManager.GetUserAsync(User);
-                return View(_repo.GetShoppingCartItems(user));
+                return PartialView("_Shopping_Cart",_repo.GetShoppingCartItems(user));
             }
             return RedirectToAction("Login", "Account");
         }
@@ -72,6 +73,7 @@ namespace FreshFishWebsite.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Login", "Account");
+            //return Unauthorized();
         }
 
         [HttpPost]

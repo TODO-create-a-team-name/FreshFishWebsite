@@ -7,15 +7,40 @@
         <td>Замовник</td>
         <td>Дата замовлення</td>
     </tr>
-
     @foreach (var item in Model.OrderItems)
     {
-        <tr>
-            <td>@item.Order.User.Email</td>
-            <td>@item.Order.OrderDate</td>
-            <td>
-                <a class="btn btn-sm btn-primary" asp-action="GetOrderDetails" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-route-orderItemsId="@item.Id">Деталі</a>
-            </td>
-        </tr>
+        @if (!@item.Order.IsOrderAssigned)
+        {
+            <tr>
+                <td>@item.Order.User.Email</td>
+                <td>@item.Order.OrderDate</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="GetOrderDetails" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-route-orderItemsId="@item.Id">Деталі</a>
+                </td>
+            </tr>
+        }
+
+    }
+</table>
+<hr />
+<h3>Призначені замовлення</h3>
+<table class="table">
+    <tr>
+        <td>Замовник</td>
+        <td>Дата замовлення</td>
+    </tr>
+    @foreach (var item in Model.OrderItems)
+    {
+        @if (@item.Order.IsOrderAssigned)
+        {
+            <tr>
+                <td>@item.Order.User.Email</td>
+                <td>@item.Order.OrderDate</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="GetOrderDetails" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-route-orderItemsId="@item.Id">Деталі</a>
+                </td>
+            </tr>
+        }
+
     }
 </table>

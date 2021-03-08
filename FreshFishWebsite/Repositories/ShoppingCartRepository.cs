@@ -33,39 +33,22 @@ namespace FreshFishWebsite.Repositories
 
         public async Task AddProductToShoppingCart(User user, int productId)
         {
-            var products = GetShoppingCartItems(user);
-            var inSoppingCard = products.FirstOrDefault(p => p.ProductId == productId);
-            if (inSoppingCard != null)
-            {
-                inSoppingCard.Quantity += 1;
-            }
-            else
-            {
-                var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-                var shoppingCartProduct = new ShoppingCartProduct
-                {
-                    Quantity = 1,
-                    Product = product
-                };
-                await _context.ShoppingCartProducts.AddAsync(shoppingCartProduct);
 
-                var shoppingCart = _context.ShoppingCarts.FirstOrDefault(u => u.User.Id == user.Id);
-                if (shoppingCart == null)
+            var products = GetShoppingCartItems(user);
+            if (products!= null)
+            {
+                var inSoppingCard = products.FirstOrDefault(p => p.ProductId == productId);
+                if (inSoppingCard != null)
                 {
-                    shoppingCart = new ShoppingCart
-                    {
-                        User = user
-                    };
-                    shoppingCart.Products.Add(shoppingCartProduct);
-                    await _context.ShoppingCarts.AddAsync(shoppingCart);
+                    inSoppingCard.Quantity += 1;
                 }
                 else
                 {
-                    shoppingCart.Products.Add(shoppingCartProduct);
-                    _context.ShoppingCarts.Update(shoppingCart);
+                    await AddToShoppingCart(user, productId);
                 }
             }
-
+            else 
+                await AddToShoppingCart(user, productId);
 
             await _context.SaveChangesAsync();
         }
@@ -118,6 +101,33 @@ namespace FreshFishWebsite.Repositories
             _context.ShoppingCartProducts.Remove(product);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddToShoppingCart(User user, int productId)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+            var shoppingCartProduct = new ShoppingCartProduct
+            {
+                Quantity = 1,
+                Product = product
+            };
+            await _context.ShoppingCartProducts.AddAsync(shoppingCartProduct);
+
+            var shoppingCart = _context.ShoppingCarts.FirstOrDefault(u => u.User.Id == user.Id);
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart
+                {
+                    User = user
+                };
+                shoppingCart.Products.Add(shoppingCartProduct);
+                await _context.ShoppingCarts.AddAsync(shoppingCart);
+            }
+            else
+            {
+                shoppingCart.Products.Add(shoppingCartProduct);
+                _context.ShoppingCarts.Update(shoppingCart);
+            }
         }
     }
 }

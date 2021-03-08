@@ -55,7 +55,7 @@
                                 <a class="menu-links ml-f" asp-action="Login" asp-controller="Account">
                                     <p class="text-parents">Увійти</p>
                                     <span class="iconify product-icons" data-inline="false"
-                                        data-icon="codicon:account"></span>
+                                          data-icon="codicon:account"></span>
                                 </a>
                             }
                             else
@@ -67,18 +67,18 @@
                                         </button>
                                     </form>
                                     <span class="iconify product-icons" data-inline="false"
-                                        data-icon="codicon:account"></span>
+                                          data-icon="codicon:account"></span>
                                 </div>
                             }
-                            <button class="menu-links shopping-card">
+                            <button id="shoppingCartButton" class="menu-links shopping-card">
                                 <span class="iconify product-icons" data-inline="false"
-                                    data-icon="akar-icons:shopping-bag"></span>
+                                      data-icon="akar-icons:shopping-bag"></span>
                             </button>
                         </div>
                     </li>
                     <li class="list-item">
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("MainAdmin") ||
-                        User.IsInRole("AdminAssistant"))
+                       User.IsInRole("AdminAssistant"))
                         {
                             <div class="admin-panel">
                                 <a class="admin-panel-link" asp-action="Index" asp-controller="Admin">
@@ -125,19 +125,19 @@
         <object data="~/img/mainPage/downArrow.svg" type="image/svg+xml" class="arrowImage"></object>
     </header>
     <section>
-        <div class="modal" data-modal="trigger-1">
-            <article class="content-wrapper">
-                <button class="close"></button>
-                <div class="modal-header">
-                    <h2>Корзина</h2>
+        <div id="mainShoppingCartModalDiv" class="modal" data-modal="trigger-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Корзина</h5>
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="shoppingCartContentDiv" class="modal-body">
+
+                        </div>
                 </div>
-                <div class="content">
-                    <p>Не готова частина</p>
-                </div>
-                <footer class="modal-footer">
-                    <button class="action">Оплатити</button>
-                </footer>
-            </article>
+            </div>
         </div>
     </section>
 

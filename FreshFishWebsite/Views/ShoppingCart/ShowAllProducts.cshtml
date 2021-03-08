@@ -48,7 +48,7 @@
                         <p name="calories">Завантаження...</p>
                         <p name="pricePerKg">Завантаження...</p>
                     </div>
-                        <button type="button" class="btn-add">
+                        <button id="addToShoppingCartSelectedProductButton" class="btn-add">
                             Добавити в корзину<span class="iconify btn-add-content"
                                                     data-inline="false" data-icon="akar-icons:plus"></span>
                         </button>
@@ -70,12 +70,10 @@
                 <div class="product-card-content">
                     <input type="radio" class="product-register" id="@item.Id" name="fish">
                     <div>
-                        <form asp-action="AddToCart" asp-route-id="@item.Id" method="post">
                             <button type="submit" class="btn-add">
                                 <span class="iconify btn-add-content" data-inline="false"
                                       data-icon="akar-icons:plus"></span>
                             </button>
-                        </form>
                     </div>
                     <label for="element-1" data-id="@item.Id">
                         <img src="~/images/productsImages/@item.Image" class="product-card-img" />

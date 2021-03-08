@@ -404,11 +404,11 @@ header {
                     color: #7c8bb6;
                 }
                 div {
-                    form {
-                        position: absolute;
-                        right: 10px;
-                        top: 10px;
+
                         .btn-add {
+                            position: absolute;
+                            right: 10px;
+                            top: 5px;
                             background-color: transparent;
                             border: none;
                             &:focus {
@@ -423,7 +423,7 @@ header {
                                 }
                             }
                         }
-                    }
+                    
                 }
             }
             .product-card-content.active {

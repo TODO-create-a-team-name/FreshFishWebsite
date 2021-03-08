@@ -59,7 +59,7 @@ namespace FreshFishWebsite.Controllers
                         Usersurname = user.Usersurname,
                         Company = user.Company,
                         CompanyAddress = user.CompanyAddress,
-                        UserName = user.UserName, //it stores emails, don't know why
+                        UserName = user.UserName, 
                         Email = user.Email,
                         EmailConfirmed = true,
                         PasswordHash = user.PasswordHash,
@@ -74,6 +74,10 @@ namespace FreshFishWebsite.Controllers
                     await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
                        $"Ви тепер адміністратор складу №{storage.StorageNumber}");
                     return RedirectToAction("Index");
+                }
+                else if(user != null)
+                {
+                    return View(model);
                 }
                 else
                 {
@@ -91,6 +95,21 @@ namespace FreshFishWebsite.Controllers
             }
             return View(model);
         }
+
+
+        [AcceptVerbs("Post", "Get")]
+        public async Task<IActionResult> CheckEmail(string StorageAdminEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(StorageAdminEmail);
+            if (user != null
+                    && user.GetType() == typeof(StorageAdmin)
+                    || user.GetType() == typeof(Driver))
+            {
+                return Json(false); ;
+            } 
+            return Json(true);
+        }
+
 
         [Authorize(Roles = "AdminAssistant")]
         [HttpGet]

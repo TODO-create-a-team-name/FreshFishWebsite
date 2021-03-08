@@ -2,6 +2,8 @@ const card = document.querySelectorAll(".product-card-content"),
     cardTrigger = document.querySelectorAll(".product-card label"),
     cardRegisters = document.querySelector(".product-register");
 
+    var selectedId;
+
 function addClass(element, className) {
     element.classList.add(className);
 }
@@ -22,7 +24,8 @@ function setProductData(data) {
     document.querySelector(".fish-img").src = `../images/productsImages/${data.image}`;
 }
 
-function getData(data, id= data[0].id) {
+function getData(data, id = data[0].id) {
+    selectedId = id;
     let requestedData = data.find(d => d.id == id);
     return requestedData == undefined ? console.error(`Sorry but this ${id} data not found`) : requestedData;
 }
@@ -38,4 +41,32 @@ cardTrigger.forEach(currentCardTrigger => {
         }
     });
 });
+
+// const btnShoppingCart = document.querySelector('.shopping-card'),
+//     btnCloseModal = document.querySelector('.close'),
+//     shoppingCartModal = document.querySelector('.modal');
+    
+
+
+// btnShoppingCart.addEventListener('click', function (event) {
+//     event.preventDefault();
+//     shoppingCartModal.classList.toggle('open');
+//     btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
+
+// });
+
+const shoppingCartBtn = document.querySelector("#addToShoppingCartSelectedProductButton");
+shoppingCartBtn.addEventListener("click", () => {
+   
+    $.ajax({
+        type: "POST",
+        url: `/ShoppingCart/AddToCart/${selectedId}`,
+        complete: function (res) {
+            window.location.href = "/ShoppingCart/ShowAllProducts";
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    })
+})
 
