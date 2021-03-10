@@ -286,7 +286,7 @@ header {
   font-size: 16px;
   position: absolute;
   right: unset;
-  left: 49%;
+  left: 60%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   margin-right: -50%;
@@ -614,6 +614,7 @@ header {
     min-height: 400px;
   }
   .products-container-view-info-read .btn-add {
+    left: 49%;
     bottom: -70px;
   }
   .products-container-preview {
