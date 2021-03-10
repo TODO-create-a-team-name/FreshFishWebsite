@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ShoppingCartProduct>
+﻿@model FreshFishWebsite.ViewModels.ShoppingCartViewModel
 @{
     Layout = null;
 }
@@ -13,8 +13,8 @@ else
 {
     <div class="card wish-list mb-3">
         <div class="card-body">
-            <h5 class="mb-4"><span>2</span> items</h5>
-            @foreach (var item in Model)
+            <h5 class="mb-4"><span>Кількість: </span> @Model.Count</h5>
+            @foreach (var item in Model.Products)
             {
                 <hr class="mb-4">
                 <form asp-action="Delete" asp-controller="ShoppingCart" asp-route-id="@item.Id" method="post">
@@ -22,7 +22,7 @@ else
                         <div class="col-md-5 col-lg-3 col-xl-3">
                             <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                                 <img class="img-fluid w-100"
-                                    src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+                                    src="~/images/productsImages/@item.Product.Image"
                                     alt="Sample">
                             </div>
                         </div>
@@ -31,7 +31,7 @@ else
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <h5>@item.Product.ProductName</h5>
-                                        <p class="mb-3 text-muted"><small>Ціна за кілограм</small></p>
+                                        <p class="mb-3 text-muted">@item.Product.PricePerKg  <small>Ціна за кілограм</small></p>
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <div class="input-group  flex-nowrap mb-0 h-50 w-35">
@@ -86,7 +86,7 @@ else
 }
 <div class="modal-footer d-flex justify-content-between">
         <div>
-            <h5>Кінцева ціна</h5>
+            <h5>Кінцева ціна - @Model.TotalPrice</h5>
             
            
         </div>

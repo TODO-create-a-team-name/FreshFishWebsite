@@ -1,5 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,14 @@ namespace FreshFishWebsite.Controllers
             if(_signInManager.IsSignedIn(User))
             {
                 var user = await _userManager.GetUserAsync(User);
-                return PartialView("_Shopping_Cart",_repo.GetShoppingCartItems(user));
+                var model = new ShoppingCartViewModel
+                {
+                    Products = _repo.GetShoppingCartItems(user)
+                };
+                model.TotalPrice = model.Products.Sum(p => p.Product.PricePerKg * p.Quantity);
+                model.Count = model.Products.Count();
+
+                return PartialView("_Shopping_Cart", model);
             }
             return RedirectToAction("Login", "Account");
         }
