@@ -3,35 +3,98 @@
     Layout = null;
 }
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<form asp-action="OrderProducts" method="post">
-    <input class="btn btn-sm btn-success" type="submit" value="Замовити" />
-</form>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
 @if (Model == null)
 {
     <h2>Корзина порожня</h2>
 }
 else
 {
-    <table class="table">
+    <div class="card wish-list mb-3">
+        <div class="card-body">
+            <h5 class="mb-4"><span>2</span> items</h5>
+            @foreach (var item in Model)
+            {
+                <hr class="mb-4">
+                <form asp-action="Delete" asp-controller="ShoppingCart" asp-route-id="@item.Id" method="post">
+                    <div class="row mb-4">
+                        <div class="col-md-5 col-lg-3 col-xl-3">
+                            <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                <img class="img-fluid w-100"
+                                    src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg"
+                                    alt="Sample">
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-lg-9 col-xl-9">
+                            <div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5>@item.Product.ProductName</h5>
+                                        <p class="mb-3 text-muted"><small>Ціна за кілограм</small></p>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <div class="input-group  flex-nowrap mb-0 h-50 w-35">
+                                            <button type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                class="btn btn-outline-secondary btn-sm"> - </button>
+                                            <input class="form-control form-control-sm" aria-describedby="inputGroup-sizing-sm"
+                                                min="1" name="quantity" value=@item.Quantity type="number">
+                                            <button type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                class="btn btn-outline-secondary btn-sm"> + </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <button type="submit" class="btn btn-danger btn-sm mr-3">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </div>
+                                    <p class="mb-0"><span><strong>Ціна</strong></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+    @* <table class="table">
         <tr>
-            <td>Назва</td>
-            <td>Кількість</td>
+        <td>Назва</td>
+        <td>Кількість</td>
         </tr>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Product.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>
-                    <form asp-action="Delete" asp-controller="ShoppingCart" asp-route-id="@item.Id" method="post">
-                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="ShoppingCart"
-                           asp-route-id="@item.Id">Редагувати</a>
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Видалити
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+        <td>@item.Product.ProductName</td>
+        <td>@item.Quantity</td>
+        <td>
+        <form asp-action="Delete" asp-controller="ShoppingCart" asp-route-id="@item.Id" method="post">
+        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="ShoppingCart"
+        asp-route-id="@item.Id">Редагувати</a>
+        <button type="submit" class="btn btn-sm btn-danger">
+        Видалити
+        </button>
+        </form>
+        </td>
+        </tr>
         }
-    </table>
+        </table> *@
 }
+<div class="modal-footer d-flex justify-content-between">
+        <div>
+            <h5>Кінцева ціна</h5>
+            
+           
+        </div>
+        <div class="d-flex justify-content-end">
+                <form asp-action="OrderProducts" method="post">
+                    <input class="btn btn-sm btn-primary" type="submit" value="Замовити" />
+                </form>
+        </div>
+
+</div>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
