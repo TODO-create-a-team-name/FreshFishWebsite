@@ -2,6 +2,7 @@
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Services;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -128,6 +129,18 @@ namespace FreshFishWebsite.Repositories
                 shoppingCart.Products.Add(shoppingCartProduct);
                 _context.ShoppingCarts.Update(shoppingCart);
             }
+        }
+
+        public async Task IncrementDecrementQuantity(int id, int quantity)
+        {
+            var product = await _context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Id == id);
+
+            product.Quantity = quantity;
+
+            _context.ShoppingCartProducts.Update(product);
+
+            await _context.SaveChangesAsync();
+
         }
     }
 }

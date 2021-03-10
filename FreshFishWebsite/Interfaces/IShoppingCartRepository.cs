@@ -17,5 +17,7 @@ namespace FreshFishWebsite.Interfaces
         public Task EditProductInShoppingCart(ShoppingCartProduct product);
 
         public Task DeleteProductInShoppingCart(int id);
+
+        public Task IncrementDecrementQuantity(int id, int quantity);
     }
 }

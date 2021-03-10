@@ -97,6 +97,12 @@ namespace FreshFishWebsite.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task IncrementOrDecrementQuantity(int id, int quantity)
+        {
+            await _repo.IncrementDecrementQuantity(id, quantity);
+        }
+
         public JsonResult GetProductsData()
         {
             return new JsonResult(_context
