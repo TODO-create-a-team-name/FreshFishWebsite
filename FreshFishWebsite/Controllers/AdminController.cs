@@ -53,12 +53,14 @@ namespace FreshFishWebsite.Controllers
         [Authorize(Roles = "MainAdmin")]
         public async Task<IActionResult> OrderDetails(int id)
         {
-            return View( await _context.Orders
+            var model = await _context.Orders
                 .Include(u => u.User)
                 .Include(p => p.Products)
                 .ThenInclude(p => p.Product)
                 .ThenInclude(s => s.Storage)
-                .FirstOrDefaultAsync(x => x.Id == id));
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return View(model);
         }
 
         [Authorize(Roles = "MainAdmin")]

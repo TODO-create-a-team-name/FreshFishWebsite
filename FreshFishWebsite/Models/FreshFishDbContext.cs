@@ -25,10 +25,10 @@ namespace FreshFishWebsite.Models
                 .WithOne(u => u.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<ShoppingCart>()
-                .HasMany(s => s.Products)
-                .WithOne(s => s.ShoppingCart)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<ShoppingCart>()
+            //    .HasMany(s => s.Products)
+            //    .WithOne(s => s.ShoppingCart)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
