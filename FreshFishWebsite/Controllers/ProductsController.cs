@@ -21,7 +21,7 @@ namespace FreshFishWebsite.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(_repo.GetAll());
         }
 
         public IActionResult Create(int storageId)
