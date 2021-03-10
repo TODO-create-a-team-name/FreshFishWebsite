@@ -1,167 +1,88 @@
-// * {
-//     margin: 0;
-//     padding: 0;
-// }
-
-// Main Colors
-$accent: null;
-$white: #ffffff;
-$black: #000000;
-$dark-gray: lighten($black, 20%);
-$gray: lighten($black, 40%);
-$light-gray: lighten($black, 60%);
-$lighter-gray: lighten($black, 80%);
-
-// Pen Settings
-$accent: #33b5e5;
-$module-width: 320px;
-
-body {
-  background: #e9e9e9;
-  color: $gray;
-  font-family: 'RobotoDraft', 'Roboto', sans-serif;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,body {
+	height: 100%;
 }
 
+body.my-login-page {
+	background-color: #f7f9fb;
+	font-size: 14px;
+}
+a {
+	text-decoration: none !important;
+}
+.brand{
+  background-color: #fff;
+}
+.main-logo{
+  filter: invert(1);
+}
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
 
-.form_item {
-    text-align: center;
-    display: flex;
-    margin: {
-        top:5px;
-    }
+.my-login-page .brand img {
+	width: 100%;
 }
-/* Form Module */
-.form-module {
 
-  position: relative;
-  background: $white;
-  max-width: $module-width;
-  width: 100%;
-  margin: {
-    top: 5%;
-    left: auto;
-    right: auto;
-  }
-  border-top: 5px solid $accent;
-  box-shadow: 0 0 3px rgba($black, .1);
-  
-  .toggle {
-    cursor: pointer;
-    position: absolute;
-    top: -0;
-    right: -0;
-    background: $accent;
-    width: 30px;
-    height: 30px;
-    margin: -5px 0 0;
-    color: $white;
-    font-size: 12px;
-    line-height: 30px;
-    text-align: center;
-    .tooltip {
-      position: absolute;
-      top: 5px;
-      right: -65px;
-      display: block;
-      background: rgba($black, .6%);
-      width: auto;
-      padding: 5px;
-      font-size: 10px;
-      line-height: 1;
-      text-transform: uppercase;
-      &:before {
-        content: '';
-        position: absolute;
-        top: 5px;
-        left: -5px;
-        display: block;
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-        border-right: 5px solid rgba($black, .6);
-      }
-    }
-  }
-  .form {
-    display: none;
-    padding: {
-        left:40px;
-        right: 40px;
-        top: 40px;
+.my-login-page .card-wrapper {
+	width: 400px;
+}
 
-    }
-    &:nth-child(1) {
-      display: block;
-    }
-  }
-  h2 {
-    margin: 0 0 20px;
-    color: $accent;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1;
-  }
-  input {
-    outline: none;
-    display: block;
-    width: 100%;
-    border: 1px solid darken($white, 15%);
-    margin: {
-        top: 15px;
-    }
-    padding: 10px 15px;
-    box-sizing: border-box;
-    font-wieght: 400;
-    // @include transition(.3s ease);
-    &:focus {
-      border: 1px solid $accent;
-      color: $dark-gray;
-    }
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
 }
-  button {
-    cursor: pointer;
-    background: $accent;
-    width: 100%;
-    border: 0;
-    padding: 10px 15px;
-    color: $white;
-    // @include transition(.3s ease);
-    &:hover {
-      background: darken($accent, 15%);
-    }
-  }
-  .cta {
-    background: darken($white, 5%);
-    width: 100%;
-    padding: 15px 40px;
-    box-sizing: border-box;    
-    color: $gray;
-    font-size: 12px;
-    text-align: center;
-    a {
-      color: $dark-gray;
-      text-decoration: none;
-    }
-  }
+
+.my-login-page .card.fat {
+	padding: 10px;
 }
-.form_check{
-    margin: {
-        top: 10px;
-    };
+.invalid-feedback{
+	display: block;
 }
-.btn-register{
-    margin: {
-        top: 10px;
-    }
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
 }
-#RememberMe{
-    width: unset;
-    margin: {
-        top: 0;
-        bottom: 5px;
-        left: 40px;
-        right: 10px;
-    }
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+.float-right {
+  float: right!important;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
 }
