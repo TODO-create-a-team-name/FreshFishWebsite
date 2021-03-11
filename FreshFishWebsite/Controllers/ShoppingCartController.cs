@@ -43,6 +43,9 @@ namespace FreshFishWebsite.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+        public IActionResult Payment(){
+            return View();
+        }
 
         public async Task<IActionResult> Edit(int id)
         {
