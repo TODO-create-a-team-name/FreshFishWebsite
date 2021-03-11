@@ -8,7 +8,7 @@ namespace FreshFishWebsite.Models
         public FreshFishDbContext(DbContextOptions<FreshFishDbContext> options) : base(options) {}
 
         public DbSet<StorageAdmin> StorageAdmins { get; set; }
-        public virtual DbSet<Driver> Drivers { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
@@ -25,11 +25,25 @@ namespace FreshFishWebsite.Models
                 .WithOne(u => u.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //builder.Entity<ShoppingCart>()
-            //    .HasMany(s => s.Products)
-            //    .WithOne(s => s.ShoppingCart)
-            //    .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<User>()
+                .HasMany(o => o.Orders)
+                .WithOne(u => u.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Storage>()
+                .HasMany(p => p.Products)
+                .WithOne(s => s.Storage)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.Entity<Storage>()
+                .HasMany(d => d.Drivers)
+                .WithOne(s => s.Storage)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Storage>()
+               .HasMany(o => o.OrderItems)
+               .WithOne(s => s.Storage)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

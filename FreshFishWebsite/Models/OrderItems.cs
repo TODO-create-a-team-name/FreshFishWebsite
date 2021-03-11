@@ -1,4 +1,5 @@
-﻿namespace FreshFishWebsite.Models
+﻿
+namespace FreshFishWebsite.Models
 {
     public enum OrderStatus
     {
@@ -17,7 +18,7 @@
         public int StorageId { get; set; }
 
         public Storage Storage { get; set; }
-
+       
         public string DriverId { get; set; }
 
         public Driver Driver { get; set; }

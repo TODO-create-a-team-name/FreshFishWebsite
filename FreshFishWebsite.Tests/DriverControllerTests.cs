@@ -39,7 +39,7 @@ namespace FreshFishWebsite.Tests
             mockSet.As<IQueryable<Driver>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             var mockContext = new Mock<FreshFishDbContext>();
-            mockContext.Setup(c => c.Drivers).Returns(mockSet.Object);
+           // mockContext.Setup(c => c.Drivers).Returns(mockSet.Object);
 
             //var service = new BlogService(mockContext.Object);
             //var blogs = await service.GetAllBlogsAsync();
@@ -51,4 +51,4 @@ namespace FreshFishWebsite.Tests
         }
         }
     }
-}
+

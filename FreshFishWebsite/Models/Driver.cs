@@ -11,7 +11,7 @@ namespace FreshFishWebsite.Models
     {
         public int OrderItemsId { get; set; }
         public List<OrderItems> OrderItems { get; set; } = new();
-        public int StorageId { get; set; }
+        public int? StorageId { get; set; }
         public Storage Storage { get; set; }
         public bool IsDelivering { get; set; } = false;
     }

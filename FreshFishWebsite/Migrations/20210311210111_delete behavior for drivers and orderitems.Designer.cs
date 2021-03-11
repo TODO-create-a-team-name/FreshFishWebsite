@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210311210111_delete behavior for drivers and orderitems")]
+    partial class deletebehaviorfordriversandorderitems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,7 +417,7 @@ namespace FreshFishWebsite.Migrations
                     b.Property<int>("OrderItemsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StorageId")
+                    b.Property<int>("StorageId")
                         .HasColumnType("int");
 
                     b.HasIndex("StorageId");
@@ -444,7 +446,8 @@ namespace FreshFishWebsite.Migrations
                 {
                     b.HasOne("FreshFishWebsite.Models.Driver", "Driver")
                         .WithMany("OrderItems")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("FreshFishWebsite.Models.Order", "Order")
                         .WithMany()
@@ -580,7 +583,8 @@ namespace FreshFishWebsite.Migrations
                     b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
                         .WithMany("Drivers")
                         .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Storage");
                 });

@@ -190,15 +190,22 @@ namespace FreshFishWebsite.Controllers
             }
             else
             {
-                var callbackUrl = Url.Action(
-                        "RegisterStorageAdmin",
-                        "Account",
-                        new { storageId = storage.Id, adminEmail = model.StorageAdminEmail },
-                        protocol: HttpContext.Request.Scheme);
+                if (storage.StorageAdmin.Email == model.StorageAdminEmail)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var callbackUrl = Url.Action(
+                            "RegisterStorageAdmin",
+                            "Account",
+                            new { storageId = storage.Id, adminEmail = model.StorageAdminEmail },
+                            protocol: HttpContext.Request.Scheme);
 
-                await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
-                   $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
-                return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
+                    await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
+                       $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                    return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
+                }
             }
         }
         [Authorize(Roles = "MainAdmin")]

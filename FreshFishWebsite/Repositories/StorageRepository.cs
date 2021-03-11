@@ -75,7 +75,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var storage = GetById(id);
+            var storage = GetByIdWithWorkers(id);
             if (storage != null)
             {
                 _.Storages.Remove(storage);
@@ -110,9 +110,8 @@ namespace FreshFishWebsite.Repositories
             storage.Address = model.Address;
 
             var previousUser = await _userManager.FindByEmailAsync(storage.StorageAdmin.Email);
-            await _userManager.DeleteAsync(previousUser);
 
-            if(user != null)
+            if(user != null && user != previousUser)
             {
                 StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
                 storage.StorageAdmin = storageAdmin;
@@ -150,5 +149,11 @@ namespace FreshFishWebsite.Repositories
             return storageAdmin;
 
         }
+
+        //private async Task DeleteStorageReferenceForDrivers(Storage storage)
+        //{
+        //    storage.Drivers = null;
+        //    await _.SaveChangesAsync();
+        //}
     }
 }
