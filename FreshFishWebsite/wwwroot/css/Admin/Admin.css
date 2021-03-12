@@ -1,1 +1,10 @@
-/* No CSS *//*# sourceMappingURL=Admin.css.map */
+#map {
+  height: 60vh;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.w-95 {
+  width: 97%;
+}
+/*# sourceMappingURL=Admin.css.map */

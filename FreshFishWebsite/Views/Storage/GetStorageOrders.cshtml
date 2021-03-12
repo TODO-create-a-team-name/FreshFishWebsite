@@ -1,17 +1,28 @@
 ﻿@model Storage
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    ViewData["Title"] = "Замовлення";
 }
-<table class="table">
-    <tr>
-        <td>Замовник</td>
-        <td>Дата замовлення</td>
-    </tr>
-    @foreach (var item in Model.OrderItems)
+
+<div class="container-xxl">
+    <h4 class="text-secondary">Список замовлень</h4>
+    <div class="table-responsive-sm position-relative">
+        <table class="table basic-table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col" class="h6 col-sm-1">#</th>
+                    <th scope="col" class="h6">Дата замовлення</th>
+                    <th scope="col" class="h6 col-sm-3">Користувач</th>
+                    <th scope="col" class="h6 col-sm-3">Дія</th>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach (var item in Model.OrderItems)
     {
         @if (!@item.Order.IsOrderAssigned)
         {
             <tr>
+                <td>@item.Order.Id</td>
                 <td>@item.Order.User.Email</td>
                 <td>@item.Order.OrderDate</td>
                 <td>
@@ -21,19 +32,29 @@
         }
 
     }
-</table>
-<hr />
-<h3>Призначені замовлення</h3>
-<table class="table">
-    <tr>
-        <td>Замовник</td>
-        <td>Дата замовлення</td>
-    </tr>
-    @foreach (var item in Model.OrderItems)
+
+            </tbody>
+        </table>
+    </div>
+    <hr class="mb-3" />
+    <h4 class="text-secondary">Призначені замовлення</h4>
+    <div class="table-responsive-sm position-relative">
+         <table class="table basic-table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col" class="h6 col-sm-1">#</th>
+                    <th scope="col" class="h6">Дата замовлення</th>
+                    <th scope="col" class="h6 col-sm-3">Користувач</th>
+                    <th scope="col" class="h6 col-sm-3">Дія</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.OrderItems)
     {
         @if (@item.Order.IsOrderAssigned)
         {
             <tr>
+                <td>@item.Order.Id</td>
                 <td>@item.Order.User.Email</td>
                 <td>@item.Order.OrderDate</td>
                 <td>
@@ -43,4 +64,7 @@
         }
 
     }
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
