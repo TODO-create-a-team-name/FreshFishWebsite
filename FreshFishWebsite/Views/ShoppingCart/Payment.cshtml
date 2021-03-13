@@ -1,0 +1,134 @@
+@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оплата - FreshFishWebsite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../css/Payment/Paymentform.css" type="text/css" media="screen" runat="server" />
+</head>
+
+<body class="my-login-page">
+    <section>
+        <div class="container">
+            <div class="brand">
+                <a asp-controller="Home" asp-action="Index"><img src="~/img/Big-Webshop-logo.png" class="main-logo" alt="logo"></a>
+            </div>
+            <div class="row ">
+                <div class="col-md-4 order-md-2 mb-4 sticky-top">
+                    <div class="card fat sticky-top">
+                        <div class="card-body">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-muted">Твій кошик</span>
+                                <span class="badge bg-primary rounded-pill fs-6">кількість П в кошику</span>
+                            </h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">Назва продукта</h6>
+                                        <small class="text-muted">Кількість</small>
+                                    </div>
+                                    <span class="text-muted">185грн</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Загалом</span>
+                                    <strong>185грн</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 order-md-1 mb-4">
+                    <div class="card fat">
+                        <div class="card-body">
+                            <h4 class="mb-3">Платіжна адреса </h4>
+                            <form class="needs-validation">
+                                <div class="row">
+                                    <div class="form-group mb-2 col-md-6">
+                                        <label for="firstName" class="form-label">Ім'я</label>
+                                        <input type="text" class="form-control" id="firstName" value="" required="" />
+                                    </div>
+                                    <div class="form-group mb-2 col-md-6">
+                                        <label for="lastName" class="form-label">Прізвище</label>
+                                        <input type="text" class="form-control" id="lastName" value="" required="" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email">Електронна пошта</label>
+                                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required="">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address">Адреса доставки</label>
+                                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                                </div>
+                                <div class="row">
+                                    <span class="text-muted">В розробці</span>
+                                    <div class="col-md-5 mb-2">
+                                        <label for="country">Область</label>
+                                        <select class="form-select d-block w-100" id="Region" required="">
+                                            <option value="">Виберіть...</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label for="state">Місто/Село</label>
+                                        <select class="form-select d-block w-100" id="city" required="">
+                                            <option value="">Виберіть...</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label for="zip">Поштовий індекс</label>
+                                        <input type="text" class="form-control" id="zip" placeholder="70001" required="">
+                                    </div>
+                                </div>
+                                <hr class="mb-3">
+
+                                <h4 class="mb-3">Payment</h4>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cc-name">Ім'я власника карти</label>
+                                        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                                        <small class="text-muted">Повне ім’я, вказане на картці </small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cc-number">Номер карти</label>
+                                        <input type="text" class="form-control" id="cc-number" placeholder="0000 0000 0000 0000" required="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label>Термін дії</label>
+                                        <div class="input-group">
+                                             <input type="text" class="form-control"  placeholder="ММ" required="">
+                                             <input type="text" class="form-control"  placeholder="РР" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="cc-expiration">CVV</label>
+                                        <input type="text" class="form-control" id="cc-cvv" placeholder="000" required="">
+                                        <small class="text-muted">CVV, вказане на задній стороні картки</small>
+                                    </div>
+                                </div>
+                                <hr class="mb-4">
+                                <div class="d-flex justify-content-end">
+                                    <div class="mx-2 my-2 text-center">
+                                        <a asp-controller="Home" asp-action="Index">Скасувати</a>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Здійснити оплата</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
