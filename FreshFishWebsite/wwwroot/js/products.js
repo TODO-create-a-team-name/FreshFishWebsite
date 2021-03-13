@@ -1,3 +1,5 @@
+import loadShoppingCartModal  from './Products/ShoppingCart.js'
+
 const card = document.querySelectorAll(".product-card-content"),
     cardTrigger = document.querySelectorAll(".product-card label"),
     cardRegisters = document.querySelector(".product-register");
@@ -42,31 +44,28 @@ cardTrigger.forEach(currentCardTrigger => {
     });
 });
 
-// const btnShoppingCart = document.querySelector('.shopping-card'),
-//     btnCloseModal = document.querySelector('.close'),
-//     shoppingCartModal = document.querySelector('.modal');
-    
+const addToShoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
+addToShoppingCartButton.addEventListener("click", () => {
+    addProductToCart(selectedId);
+});
 
+const addToShoppingCartButtonFromScroll = document.querySelectorAll(".addToCart");
+addToShoppingCartButtonFromScroll.forEach((b) => {
+b.addEventListener("click", () => {
+    addProductToCart(b.dataset.id);
+    });
+})
 
-// btnShoppingCart.addEventListener('click', function (event) {
-//     event.preventDefault();
-//     shoppingCartModal.classList.toggle('open');
-//     btnCloseModal.addEventListener('click', () => { shoppingCartModal.classList.remove('open') });
-
-// });
-
-const shoppingCartBtn = document.querySelector("#addToShoppingCartSelectedProductButton");
-shoppingCartBtn.addEventListener("click", () => {
-   
+function addProductToCart(id) {
     $.ajax({
         type: "POST",
-        url: `/ShoppingCart/AddToCart/${selectedId}`,
-        complete: function (res) {
-            window.location.href = "/ShoppingCart/ShowAllProducts";
+        url: `/ShoppingCart/AddToCart/${id}`,
+        complete: function () {
+            loadShoppingCartModal();
         },
         error: function (errormessage) {
+            console.log(errormessage.status);
             alert(errormessage.responseText);
         }
     })
-})
-
+}

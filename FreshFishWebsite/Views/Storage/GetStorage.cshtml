@@ -4,6 +4,12 @@
     ViewData["Title"] = "@Model.StorageNumber @Model.Address";
 }
 
+@if (Model == null)
+{
+    <h2>Склад вже не працює</h2>
+}
+else
+{
 <div class="container">
     <h2>Склад: #@Model.StorageNumber @Model.Address</h2>
 </div>
@@ -88,3 +94,5 @@
         </table>
     </div>
 </div>
+}
+

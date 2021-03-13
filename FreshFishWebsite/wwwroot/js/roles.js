@@ -18,7 +18,7 @@ form.addEventListener("submit", (e) => {
 });
 
 function changeRoles(id) {
-    let url = `/Roles/Edit?userId=${id}`;
+    const url = `/Roles/Edit?userId=${id}`;
     $("#changeRoleModal").load(url, function () {
         $("#exampleAddRoleModal").modal("show");
     });

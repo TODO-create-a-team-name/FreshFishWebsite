@@ -1,5 +1,8 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Services;
+using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +13,15 @@ namespace FreshFishWebsite.Repositories
     public class StorageRepository : IStorageRepository
     {
         private readonly FreshFishDbContext _;
-        public StorageRepository(FreshFishDbContext context)
+        private readonly UserManager<User> _userManager;
+        public StorageRepository(FreshFishDbContext context,
+            UserManager<User> userManager)
         {
             _ = context;
+            _userManager = userManager;
         }
         public IEnumerable<Storage> GetAll()
-        => _.Storages.Include(p => p.Products).Include(d => d.Drivers);
+        => _.Storages.Include(p => p.Products).Include(d => d.Drivers).Include(a => a.StorageAdmin);
 
         public IEnumerable<Storage> GetStoragesWithWorkers()
         => _.Storages.Include(d => d.Drivers);
@@ -69,7 +75,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var storage = GetById(id);
+            var storage = GetByIdWithWorkers(id);
             if (storage != null)
             {
                 _.Storages.Remove(storage);
@@ -81,5 +87,73 @@ namespace FreshFishWebsite.Repositories
                 return false;
             }
         }
+
+        public async Task<bool> AddStorageAdmin(User user, Storage storage, StorageViewModel model)
+        {
+            if (user != null && storage.StorageAdmin == null)
+            {
+                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
+                storage.StorageAdmin = storageAdmin;
+                await AddAsync(storage);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateStorageAsync(Storage storage, StorageViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+            storage.StorageNumber = model.StorageNumber;
+            storage.Address = model.Address;
+
+            var previousUser = await _userManager.FindByEmailAsync(storage.StorageAdmin.Email);
+
+            if(user != null && user != previousUser)
+            {
+                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
+                storage.StorageAdmin = storageAdmin;
+                await UpdateAsync(storage);
+                return true;
+            }
+            else
+            {
+
+                await UpdateAsync(storage);
+                return false;
+            }
+
+        }
+
+        private async Task<StorageAdmin> MakeUserAdminAsync(User user)
+        {
+            StorageAdmin storageAdmin = new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Usersurname = user.Usersurname,
+                Company = user.Company,
+                CompanyAddress = user.CompanyAddress,
+                UserName = user.UserName,
+                Email = user.Email,
+                EmailConfirmed = true,
+                PasswordHash = user.PasswordHash,
+                SecurityStamp = user.SecurityStamp,
+                ConcurrencyStamp = user.ConcurrencyStamp
+            };
+            await _userManager.DeleteAsync(user);
+            await _userManager.CreateAsync(storageAdmin);
+            await _userManager.AddToRoleAsync(storageAdmin, "AdminAssistant");
+            return storageAdmin;
+
+        }
+
+        //private async Task DeleteStorageReferenceForDrivers(Storage storage)
+        //{
+        //    storage.Drivers = null;
+        //    await _.SaveChangesAsync();
+        //}
     }
 }

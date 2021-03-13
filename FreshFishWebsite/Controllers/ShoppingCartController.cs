@@ -1,5 +1,7 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -39,7 +41,14 @@ namespace FreshFishWebsite.Controllers
             if(_signInManager.IsSignedIn(User))
             {
                 var user = await _userManager.GetUserAsync(User);
-                return PartialView("_Shopping_Cart",_repo.GetShoppingCartItems(user));
+                var model = new ShoppingCartViewModel
+                {
+                    Products = _repo.GetShoppingCartItems(user)
+                };
+                model.TotalPrice = model.Products.Sum(p => p.Product.PricePerKg * p.Quantity);
+                model.Count = model.Products.Count();
+
+                return PartialView("_Shopping_Cart", model);
             }
             return RedirectToAction("Login", "Account");
         }
@@ -66,6 +75,7 @@ namespace FreshFishWebsite.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
@@ -73,7 +83,7 @@ namespace FreshFishWebsite.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 await _repo.AddProductToShoppingCart(user, id);
-                return RedirectToAction("Index");
+                return Ok();
             }
             return RedirectToAction("Login", "Account");
             //return Unauthorized();
@@ -88,6 +98,12 @@ namespace FreshFishWebsite.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task IncrementOrDecrementQuantity(int id, int quantity)
+        {
+            await _repo.IncrementDecrementQuantity(id, quantity);
         }
 
         public JsonResult GetProductsData()

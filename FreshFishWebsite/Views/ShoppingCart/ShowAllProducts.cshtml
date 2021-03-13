@@ -70,7 +70,7 @@
                 <div class="product-card-content">
                     <input type="radio" class="product-register" id="@item.Id" name="fish">
                     <div>
-                            <button type="submit" class="btn-add">
+                            <button class="btn-add addToCart" type="button" data-id="@item.Id">
                                 <span class="iconify btn-add-content" data-inline="false"
                                       data-icon="akar-icons:plus"></span>
                             </button>
@@ -99,5 +99,5 @@
     </div>
 </div>
 </div>
-<script src="~/js/products.js"></script>
+<script type="module" src="~/js/products.js"></script>
 <script src="~/js/Products/productCard.js"></script>

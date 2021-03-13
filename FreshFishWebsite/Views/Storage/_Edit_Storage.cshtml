@@ -1,9 +1,7 @@
 ﻿@model FreshFishWebsite.ViewModels.StorageViewModel
-@{
-    ViewBag.Title = "Додати склад";
-    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
-}
-<form asp-action="Create" asp-controller="Storage">
+
+<form asp-action="Edit" asp-controller="Storage">
+    <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="StorageNumber" class="control-label">Номер складу</label>

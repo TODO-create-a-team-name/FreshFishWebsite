@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307141603_provided deleting behavior fro user, shopping cart and shopping cart items")]
+    partial class provideddeletingbehaviorfrousershoppingcartandshoppingcartitems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,7 +417,7 @@ namespace FreshFishWebsite.Migrations
                     b.Property<int>("OrderItemsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StorageId")
+                    b.Property<int>("StorageId")
                         .HasColumnType("int");
 
                     b.HasIndex("StorageId");
@@ -434,8 +436,7 @@ namespace FreshFishWebsite.Migrations
                 {
                     b.HasOne("FreshFishWebsite.Models.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -500,7 +501,8 @@ namespace FreshFishWebsite.Migrations
 
                     b.HasOne("FreshFishWebsite.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Products")
-                        .HasForeignKey("ShoppingCartId");
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Order");
 
@@ -580,7 +582,8 @@ namespace FreshFishWebsite.Migrations
                     b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
                         .WithMany("Drivers")
                         .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Storage");
                 });

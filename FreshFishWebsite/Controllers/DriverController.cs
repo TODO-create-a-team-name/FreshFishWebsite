@@ -60,23 +60,9 @@ namespace FreshFishWebsite.Controllers
         }
         public async Task<JsonResult> GetRequiredData(int id)
         {
-            var userId =  _userManager.GetUserId(User);
-            Driver driver = _context.Drivers
-                .Include(s => s.Storage)
-                .FirstOrDefault(x => x.Id == userId);
+            var userId = _userManager.GetUserId(User);
 
-            var order = await _repo.GetOrderDetails(id);
-
-            
-            var storageAddress = driver.Storage.Address;
-            var receiverAddress = order.Order.User.CompanyAddress;
-            return new JsonResult(new
-            {
-                storageAddress,
-                receiverAddress
-            });
+            return await _repo.GetOrderDetailsJson(id, userId);
         }
-
-        //TODO: make a method that returns required data to build map route
     }
 }

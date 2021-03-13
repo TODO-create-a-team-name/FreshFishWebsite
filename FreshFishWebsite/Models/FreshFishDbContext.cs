@@ -16,5 +16,34 @@ namespace FreshFishWebsite.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<User>()
+                .HasOne(s => s.ShoppingCart)
+                .WithOne(u => u.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<User>()
+                .HasMany(o => o.Orders)
+                .WithOne(u => u.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Storage>()
+                .HasMany(p => p.Products)
+                .WithOne(s => s.Storage)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.Entity<Storage>()
+                .HasMany(d => d.Drivers)
+                .WithOne(s => s.Storage)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Storage>()
+               .HasMany(o => o.OrderItems)
+               .WithOne(s => s.Storage)
+               .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
