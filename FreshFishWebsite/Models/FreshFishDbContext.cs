@@ -15,6 +15,7 @@ namespace FreshFishWebsite.Models
         public DbSet<Storage> Storages { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<Pool> Pools { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

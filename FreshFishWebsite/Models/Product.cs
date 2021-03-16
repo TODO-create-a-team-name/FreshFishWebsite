@@ -23,5 +23,7 @@ namespace FreshFishWebsite.Models
         public IFormFile ImageFile { get; set; }
         public List<ShoppingCartProduct> ShoppingCartProducts { get; set; }
             = new List<ShoppingCartProduct>();
+        public int? PoolId { get; set; }
+        public Pool Pool { get; set; }
     }
 }

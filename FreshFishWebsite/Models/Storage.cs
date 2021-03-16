@@ -12,5 +12,6 @@ namespace FreshFishWebsite.Models
         public List<Product> Products { get; set; } = new();
         public List<Driver> Drivers { get; set; } = new();
         public List<OrderItems> OrderItems { get; set; } = new();
+        public List<Pool> Pools { get; set; } = new();
     }
 }
