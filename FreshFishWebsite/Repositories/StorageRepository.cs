@@ -103,15 +103,22 @@ namespace FreshFishWebsite.Repositories
             }
         }
 
+        /// <summary>
+        /// Method that updates a storage
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <param name="model"></param>
+        /// <returns>true, so that controller sends email with registration form for a brand new storage admin and a storage is updated</returns>
+        /// <returns>false, so that controller update a storage (without updating a storage admin)</returns>
+        /// <seealso cref="Controllers.StorageController.Edit(int?)"/>
         public async Task<bool> UpdateStorageAsync(Storage storage, StorageViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.StorageAdminEmail);
+
             storage.StorageNumber = model.StorageNumber;
             storage.Address = model.Address;
 
-            var previousUser = await _userManager.FindByEmailAsync(storage.StorageAdmin.Email);
-
-            if(user != null && user != previousUser)
+            if(user != null && user.Email != storage.StorageAdmin.Email)
             {
                 StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
                 storage.StorageAdmin = storageAdmin;
@@ -120,7 +127,6 @@ namespace FreshFishWebsite.Repositories
             }
             else
             {
-
                 await UpdateAsync(storage);
                 return false;
             }
@@ -149,11 +155,5 @@ namespace FreshFishWebsite.Repositories
             return storageAdmin;
 
         }
-
-        //private async Task DeleteStorageReferenceForDrivers(Storage storage)
-        //{
-        //    storage.Drivers = null;
-        //    await _.SaveChangesAsync();
-        //}
     }
 }

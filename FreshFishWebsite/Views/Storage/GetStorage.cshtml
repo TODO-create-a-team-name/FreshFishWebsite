@@ -14,6 +14,7 @@ else
     <h2>Склад: #@Model.StorageNumber @Model.Address</h2>
 </div>
 <a class="btn btn-sm btn-primary" asp-action="GetStorageOrders" asp-controller="Storage" asp-route-storageId="@Model.Id">Замовлення</a>
+<a class="btn btn-sm btn-primary" asp-action="Index" asp-controller="Pool" asp-route-storageId="@Model.Id">Басейни</a>
 <div class="container-xxl">
     <h4 class="text-secondary">Список продуктів</h4><hr />
     <div class="table-responsive-sm position-relative">
