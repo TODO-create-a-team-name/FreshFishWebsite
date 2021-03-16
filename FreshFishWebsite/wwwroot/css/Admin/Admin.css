@@ -7,4 +7,104 @@
 .w-95 {
   width: 97%;
 }
+
+.water-waves {
+  cursor: pointer;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid silver;
+  text-align: center;
+  -webkit-animation: water-waves linear infinite;
+          animation: water-waves linear infinite;
+}
+
+.water-waves p {
+  position: relative;
+  z-index: 2;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 35%;
+  font-size: 20px;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.water-waves p .card-fish {
+  color: #fff;
+  font-size: 30px;
+}
+
+.water-wave1 {
+  position: absolute;
+  top: 30%;
+  left: -25%;
+  background: #33cfff;
+  opacity: 0.7;
+  width: 200%;
+  height: 200%;
+  border-radius: 40%;
+  -webkit-animation: inherit;
+          animation: inherit;
+  -webkit-animation-duration: 5s;
+          animation-duration: 5s;
+}
+
+.water-wave2 {
+  position: absolute;
+  top: 35%;
+  left: -35%;
+  background: #0eaffe;
+  opacity: 0.5;
+  width: 200%;
+  height: 200%;
+  border-radius: 35%;
+  -webkit-animation: inherit;
+          animation: inherit;
+  -webkit-animation-duration: 7s;
+          animation-duration: 7s;
+}
+
+.water-wave3 {
+  position: absolute;
+  top: 40%;
+  left: -35%;
+  background: #0f7ae4;
+  opacity: 0.3;
+  width: 200%;
+  height: 200%;
+  border-radius: 33%;
+  -webkit-animation: inherit;
+          animation: inherit;
+  -webkit-animation-duration: 11s;
+          animation-duration: 11s;
+}
+
+@-webkit-keyframes water-waves {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes water-waves {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
 /*# sourceMappingURL=Admin.css.map */
