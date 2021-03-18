@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FreshFishWebsite.Interfaces
+namespace FreshFishWebsite.Interfaces.Registering
 {
-    public interface IAccountRepository<T>
+    public interface IRegisterClaim
     {
-        public Task<IEnumerable<IdentityError>> RegisterUser(RegisterStorageWorker model);
+        public Task<IEnumerable<IdentityError>> Register();
     }
 }

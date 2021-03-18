@@ -1,6 +1,7 @@
-﻿using FreshFishWebsite.Models;
-using FreshFishWebsite.Repositories;
+﻿using FreshFishWebsite.Interfaces.Registering;
+using FreshFishWebsite.Models;
 using FreshFishWebsite.Services;
+using FreshFishWebsite.Services.ClaimsRegistration;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,14 +18,18 @@ namespace FreshFishWebsite.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly FreshFishDbContext _context;
+        private readonly IAccountRepository _repo;
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            FreshFishDbContext context)
+            FreshFishDbContext context,
+            IAccountRepository repo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _repo = repo;
         }
+
         [HttpGet]
         public ActionResult Register()
         {
@@ -36,7 +41,7 @@ namespace FreshFishWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User
+                User user = new()
                 {
                     Email = model.Email,
                     UserName = model.Email,
@@ -94,11 +99,10 @@ namespace FreshFishWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await new AccountRepository<StorageAdmin>(_userManager, _context).RegisterUser(model);
-
+                var result = await _repo.RegisterClaim(new StorageAdminRegistration(model, _context, _userManager));
                 if (!result.Any())
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Storage");
                 }
                 else
                 {
@@ -135,7 +139,7 @@ namespace FreshFishWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await new AccountRepository<Driver>(_userManager, _context).RegisterUser(model);
+                var result = await _repo.RegisterClaim(new DriverRegistration(model, _context, _userManager));
 
                 if (!result.Any())
                 {
@@ -148,40 +152,40 @@ namespace FreshFishWebsite.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-            
+
             }
             return View(model);
-    } 
+        }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null) 
+            if (userId == null || code == null)
             {
-                return View("Error"); 
+                return View("Error");
             }
-            
+
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) 
+            if (user == null)
             {
-                return View("Error"); 
+                return View("Error");
             }
-            
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home"); 
-            else 
-                return View("Error"); 
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string returnUrl = null) 
+        public async Task<IActionResult> Login(string returnUrl = null)
             => View(new LoginViewModel
-           {
-               ReturnUrl = returnUrl,
-               ExternalLogin = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-           });
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogin = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            });
 
         #region External login
         [AllowAnonymous]
@@ -274,31 +278,31 @@ namespace FreshFishWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
-                if (user != null) 
+                if (user != null)
                 {
-                    
+
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        
+
                         ModelState.AddModelError(string.Empty, "Ви не підтвердили свою пошту!");
                         return View(model);
                     }
                 }
-                
+
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
-                { 
+                {
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                { 
+                {
                     ModelState.AddModelError("", "Невірний логін або(і) пароль");
                 }
             }
-            
+
             return View(model);
         }
 
@@ -331,14 +335,14 @@ namespace FreshFishWebsite.Controllers
                 {
                     return View("ForgotPasswordConfirmation");
                 }
-                
+
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-               
+
                 var callbackUrl = Url.Action("ResetPassword",
                     "Account",
                     new { userId = user.Id, code = code },
                     protocol: HttpContext.Request.Scheme);
-               
+
                 EmailService emailService = new EmailService();
 
                 await emailService.SendEmailAsync(model.Email,
@@ -361,24 +365,24 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        
+
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-          
+
             if (!ModelState.IsValid)
-            { 
-            
+            {
+
                 return View(model);
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null) 
+            if (user == null)
             {
                 return View("ResetPasswordConfirmation");
             }
-            
+
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
                 return View("ResetPasswordConfirmation");
             }
@@ -386,7 +390,7 @@ namespace FreshFishWebsite.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-            return View(model);        
+            return View(model);
         }
     }
 }

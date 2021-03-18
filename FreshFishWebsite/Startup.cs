@@ -1,4 +1,5 @@
 using FreshFishWebsite.Interfaces;
+using FreshFishWebsite.Interfaces.Registering;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,8 @@ namespace FreshFishWebsite
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IPoolRepository, PoolRepository>();
 
             services.AddDbContext<FreshFishDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

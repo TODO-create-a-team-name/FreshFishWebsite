@@ -11,6 +11,7 @@ namespace FreshFishWebsite.Models
         public int Id { get; set; }
         public string ProductName { get; set; }
         public double PricePerKg { get; set; }
+        //public int Weight { get; set; }
         public DateTime Date { get; set; }
         public double QuantityKg { get; set; }
         public bool IsSold { get; set; } = false;
@@ -21,7 +22,7 @@ namespace FreshFishWebsite.Models
         public int Calories { get; set; }
         [NotMapped]
         public IFormFile ImageFile { get; set; }
-        public List<ShoppingCartProduct> ShoppingCartProducts { get; set; }
-            = new List<ShoppingCartProduct>();
+        public List<ShoppingCartProduct> ShoppingCartProducts { get; set; } = new();
+        public List<ProductInPool> ProductsInPool { get; set; } = new();
     }
 }

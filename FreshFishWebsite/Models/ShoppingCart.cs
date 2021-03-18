@@ -10,6 +10,6 @@ namespace FreshFishWebsite.Models
 
         public User User { get; set; }
 
-        public List<ShoppingCartProduct> Products { get; set; } = new List<ShoppingCartProduct>();
+        public List<ShoppingCartProduct> Products { get; set; } = new ();
     }
 }

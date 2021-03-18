@@ -78,6 +78,38 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Pool", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("IsFishFed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MaxProductsKg")
+                        .HasColumnType("int");
+
+                    b.Property<double>("NitrogenLevel")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PoolNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("WaterTemperatureCelsius")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StorageId");
+
+                    b.ToTable("Pools");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -117,6 +149,31 @@ namespace FreshFishWebsite.Migrations
                     b.HasIndex("StorageId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.ProductInPool", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("PoolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalProductWeight")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PoolId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductsInPool");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCart", b =>
@@ -465,6 +522,17 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("Storage");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Pool", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
+                        .WithMany("Pools")
+                        .HasForeignKey("StorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Storage");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.Storage", "Storage")
@@ -474,6 +542,25 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
 
                     b.Navigation("Storage");
+                });
+
+            modelBuilder.Entity("FreshFishWebsite.Models.ProductInPool", b =>
+                {
+                    b.HasOne("FreshFishWebsite.Models.Pool", "Pool")
+                        .WithMany("ProductsInPool")
+                        .HasForeignKey("PoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshFishWebsite.Models.Product", "Product")
+                        .WithMany("ProductsInPool")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Pool");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.ShoppingCart", b =>
@@ -599,8 +686,15 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("FreshFishWebsite.Models.Pool", b =>
+                {
+                    b.Navigation("ProductsInPool");
+                });
+
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
                 {
+                    b.Navigation("ProductsInPool");
+
                     b.Navigation("ShoppingCartProducts");
                 });
 
@@ -614,6 +708,8 @@ namespace FreshFishWebsite.Migrations
                     b.Navigation("Drivers");
 
                     b.Navigation("OrderItems");
+
+                    b.Navigation("Pools");
 
                     b.Navigation("Products");
                 });
