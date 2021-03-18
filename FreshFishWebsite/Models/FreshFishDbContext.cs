@@ -5,7 +5,7 @@ namespace FreshFishWebsite.Models
 {
     public class FreshFishDbContext : IdentityDbContext<User>
     {
-        public FreshFishDbContext(DbContextOptions<FreshFishDbContext> options) : base(options) {}
+        public FreshFishDbContext(DbContextOptions<FreshFishDbContext> options) : base(options) { }
 
         public DbSet<StorageAdmin> StorageAdmins { get; set; }
         public DbSet<Driver> Drivers { get; set; }
@@ -16,6 +16,7 @@ namespace FreshFishWebsite.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
         public DbSet<Pool> Pools { get; set; }
+        public DbSet<ProductInPool> ProductsInPool { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,7 +36,7 @@ namespace FreshFishWebsite.Models
                 .HasMany(p => p.Products)
                 .WithOne(s => s.Storage)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             builder.Entity<Storage>()
                 .HasMany(d => d.Drivers)
                 .WithOne(s => s.Storage)
@@ -45,6 +46,12 @@ namespace FreshFishWebsite.Models
                .HasMany(o => o.OrderItems)
                .WithOne(s => s.Storage)
                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ProductInPool>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.ProductsInPool)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(p => p.ProductId);
         }
     }
 }
