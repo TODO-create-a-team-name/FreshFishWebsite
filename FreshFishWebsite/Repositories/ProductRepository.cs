@@ -1,6 +1,8 @@
 ﻿
+using FreshFishWebsite.AbstractClasses;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
@@ -10,26 +12,30 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Repositories
 {
-    public class ProductRepository : IRepository<Product>
+    public class ProductRepository : IProductRepository
     {
-        private readonly FreshFishDbContext _;
+        private readonly FreshFishDbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
-        public ProductRepository(FreshFishDbContext context, IWebHostEnvironment hostEnvironment)
+        public ProductRepository(FreshFishDbContext context,
+            IWebHostEnvironment hostEnvironment = null)
         {
             _hostEnvironment = hostEnvironment;
-            _ = context;
+            _context = context;
         }
-        public IEnumerable<Product> GetAll()
-        => _.Products;
 
-        public Product GetById(int? id)
-        => _.Products.FirstOrDefault(p => p.Id == id);
+        public IEnumerable<Product> GetAll()
+        => _context.Products;
+
+        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+        {
+            return await getter.GetByIdAsync();
+        }
 
         public async Task AddAsync(Product newItem)
         {
             await SaveImageAsync(newItem);
-            await _.Products.AddAsync(newItem);
-            await _.SaveChangesAsync();
+            await _context.Products.AddAsync(newItem);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Product item)
@@ -39,17 +45,17 @@ namespace FreshFishWebsite.Repositories
                 DeleteImage(item);
                 await SaveImageAsync(item);
             }
-            _.Products.Update(item);
-            await _.SaveChangesAsync();
+            _context.Products.Update(item);
+            await _context.SaveChangesAsync();
         }
         public async Task<bool> DeleteAsync(int id)
         {
-            var product = GetById(id);
-            if(product != null)
+            var product = await GetByIdAsync(new ProductGetterById(id, _context));
+            if (product != null)
             {
                 DeleteImage(product);
-                _.Products.Remove(product);
-                await _.SaveChangesAsync();
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
                 return true;
             }
             else

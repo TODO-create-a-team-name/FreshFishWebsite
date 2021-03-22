@@ -1,85 +1,57 @@
-﻿using FreshFishWebsite.Interfaces;
+﻿using FreshFishWebsite.AbstractClasses;
+using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services;
+using FreshFishWebsite.Services.GettingById.StorageByIdGetters;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Repositories
 {
     public class StorageRepository : IStorageRepository
     {
-        private readonly FreshFishDbContext _;
+        private readonly FreshFishDbContext _context;
         private readonly UserManager<User> _userManager;
         public StorageRepository(FreshFishDbContext context,
             UserManager<User> userManager)
         {
-            _ = context;
+            _context = context;
             _userManager = userManager;
         }
+
+        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+        {
+           return await getter.GetByIdAsync();
+        }
+
         public IEnumerable<Storage> GetAll()
-        => _.Storages.Include(p => p.Products).Include(d => d.Drivers).Include(a => a.StorageAdmin);
+        => _context.Storages.Include(p => p.Products).Include(d => d.Drivers).Include(a => a.StorageAdmin);
 
         public IEnumerable<Storage> GetStoragesWithWorkers()
-        => _.Storages.Include(d => d.Drivers);
+        => _context.Storages.Include(d => d.Drivers);
 
-        public Storage GetById(int? id)
-        => GetAll().FirstOrDefault(x => x.Id == id);
-
-        public Storage GetByIdWithWorkers(int id)
-        => GetStoragesWithWorkers().FirstOrDefault(x => x.Id == id);
-
-        public async Task<OrderItems> GetByIdOrderItems(int id)
-        => await _.OrderItems
-            .Include(o => o.Order)
-            .ThenInclude(u => u.User)
-            .Include(o => o.Order)
-            .ThenInclude(p => p.Products)
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        public async Task<OrderItems> GetByIdWithOrderAndProducts(int storageId, int id)
-        => await _.OrderItems
-            .Include(o => o.Order)
-            .ThenInclude(u => u.User)
-            .Include(o => o.Order)
-            .ThenInclude(p => p.Products.Where(p => p.Product.StorageId == storageId))
-            .ThenInclude(p => p.Product)
-            .FirstOrDefaultAsync(x => x.Id == id && x.StorageId == storageId);
-
-        public async Task<Storage> GetByIdWithOrderItems(int id)
-        => await _.Storages
-            .Include(o => o.OrderItems)
-            .ThenInclude(o => o.Order)
-            .ThenInclude(u => u.User)
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        public async Task<Storage> GetByAdmin(string id)
-        => await _.Storages
-            .Include(p => p.Products)
-            .Include(w => w.Drivers)
-            .FirstOrDefaultAsync(x => x.StorageAdminId == id);
+       
 
         public async Task AddAsync(Storage newItem)
         {
-            await _.Storages.AddAsync(newItem);
-            await _.SaveChangesAsync();
+            await _context.Storages.AddAsync(newItem);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(Storage item)
         {
-            _.Storages.Update(item);
-            await _.SaveChangesAsync();
+            _context.Storages.Update(item);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var storage = GetByIdWithWorkers(id);
+            var storage = await new StorageGetterById(id, _context).GetByIdAsync();
             if (storage != null)
             {
-                _.Storages.Remove(storage);
-                await _.SaveChangesAsync();
+                _context.Storages.Remove(storage);
+                await _context.SaveChangesAsync();
                 return true;
             }
             else
@@ -92,7 +64,7 @@ namespace FreshFishWebsite.Repositories
         {
             if (user != null && storage.StorageAdmin == null)
             {
-                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
+                StorageAdmin storageAdmin = await MakeUserAdminAndDeletePreviousAdminAsync(user);
                 storage.StorageAdmin = storageAdmin;
                 await AddAsync(storage);
                 return true;
@@ -120,7 +92,7 @@ namespace FreshFishWebsite.Repositories
 
             if(user != null && user.Email != storage.StorageAdmin.Email)
             {
-                StorageAdmin storageAdmin = await MakeUserAdminAsync(user);
+                StorageAdmin storageAdmin = await MakeUserAdminAndDeletePreviousAdminAsync(user);
                 storage.StorageAdmin = storageAdmin;
                 await UpdateAsync(storage);
                 return true;
@@ -133,7 +105,7 @@ namespace FreshFishWebsite.Repositories
 
         }
 
-        private async Task<StorageAdmin> MakeUserAdminAsync(User user)
+        private async Task<StorageAdmin> MakeUserAdminAndDeletePreviousAdminAsync(User user)
         {
             StorageAdmin storageAdmin = new()
             {

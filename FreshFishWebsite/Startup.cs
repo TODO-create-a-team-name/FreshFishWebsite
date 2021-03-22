@@ -24,12 +24,13 @@ namespace FreshFishWebsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IPoolRepository, PoolRepository>();
+            services.AddScoped<IProductInPoolRepository, ProductInPoolRepository>();
 
             services.AddDbContext<FreshFishDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -1,23 +1,25 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
+using FreshFishWebsite.Services.GettingById.StorageByIdGetters;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Controllers
 {
     public class ProductsController : Controller
     {
-        private IRepository<Product> _repo;
-        private IStorageRepository _storageRepo;
-        public ProductsController(IRepository<Product> repo,
-            IStorageRepository storageRepo)
+        private readonly IProductRepository _repo;
+        private readonly IStorageRepository _storageRepo;
+        private readonly FreshFishDbContext _context;
+        public ProductsController(IProductRepository repo,
+            IStorageRepository storageRepo,
+            FreshFishDbContext context)
         {
             _repo = repo;
             _storageRepo = storageRepo;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -30,7 +32,7 @@ namespace FreshFishWebsite.Controllers
             {
                 StorageId = storageId
             };
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -43,13 +45,14 @@ namespace FreshFishWebsite.Controllers
                 PricePerKg = model.Price,
                 Date = model.Date,
                 QuantityKg = model.Amount,
+                RemainingQuantityKg = model.Amount,
                 ImageFile = model.ImageFile,
                 Calories = model.Calories,
                 Description = model.Description
             };
             if (ModelState.IsValid)
             {
-                var storage = _storageRepo.GetById(model.StorageId);
+                var storage = await _storageRepo.GetByIdAsync(new StorageGetterById(model.StorageId, _context));
                 product.Storage = storage;
                 await _repo.AddAsync(product);
                 return RedirectToAction("GetStorage", "Storage");
@@ -77,14 +80,14 @@ namespace FreshFishWebsite.Controllers
         //    return View(product);
         //}
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if(!id.HasValue)
             {
                 return BadRequest();
             }
 
-            var product = _repo.GetById(id);
+            var product = await _repo.GetByIdAsync(new ProductGetterById(id, _context));
             if(product == null)
             {
                 return NotFound();

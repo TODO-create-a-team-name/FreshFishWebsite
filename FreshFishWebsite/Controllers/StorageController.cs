@@ -2,14 +2,14 @@
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Repositories;
 using FreshFishWebsite.Services;
+using FreshFishWebsite.Services.GettingById.OrderItemsByIdGetters;
+using FreshFishWebsite.Services.GettingById.StorageByIdGetters;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-using System.Data.OleDb;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +51,7 @@ namespace FreshFishWebsite.Controllers
                     StorageNumber = model.StorageNumber,
                     Address = model.Address
                 };
-                if(await new StorageRepository(_context, _userManager).AddStorageAdmin(user, storage, model))
+                if (await new StorageRepository(_context, _userManager).AddStorageAdmin(user, storage, model))
                 {
                     await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
                        $"Ви тепер адміністратор складу №{storage.StorageNumber}");
@@ -106,7 +106,8 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> AddDriver(CreateStorageWorkerViewModel model)
         {
-            var storage = _repo.GetByIdWithWorkers(model.StorageId);
+
+            var storage = await _repo.GetByIdAsync(new StorageWithWorkersGetterById(model.StorageId, _context));
             if (storage == null)
             {
                 return NotFound();
@@ -158,14 +159,14 @@ namespace FreshFishWebsite.Controllers
         }
 
         [Authorize(Roles = "MainAdmin")]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (!id.HasValue)
             {
                 return BadRequest();
             }
 
-            var storage = _repo.GetById(id);
+            var storage = await _repo.GetByIdAsync(new StorageGetterById(id, _context));
             var model = new StorageViewModel
             {
                 StorageNumber = storage.StorageNumber,
@@ -183,8 +184,8 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(StorageViewModel model)
         {
-            var storage = _repo.GetById(model.Id);
-            if(await _repo.UpdateStorageAsync(storage, model))
+            var storage = await _repo.GetByIdAsync(new StorageGetterById(model.Id, _context));
+            if (await _repo.UpdateStorageAsync(storage, model))
             {
                 return RedirectToAction("Index");
             }
@@ -219,9 +220,9 @@ namespace FreshFishWebsite.Controllers
         }
         [Authorize(Roles = "MainAdmin")]
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View(_repo.GetById(id));
+            return View(await _repo.GetByIdAsync(new StorageGetterById(id, _context)));
         }
 
         [HttpGet]
@@ -230,21 +231,21 @@ namespace FreshFishWebsite.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            return View(await _repo.GetByAdmin(user.Id));
+            return View(await _repo.GetByIdAsync(new StorageGetterByAdminId(user.Id, _context)));
         }
 
         [HttpGet]
         [Authorize(Roles = "AdminAssistant")]
-        public async Task<IActionResult> GetStorageOrders(int storageId)
+        public async Task<IActionResult> GetStorageOrders(int? storageId)
         {
-            return View(await _repo.GetByIdWithOrderItems(storageId));
+            return View(await _repo.GetByIdAsync(new StorageWithOrderItemsGetterById(storageId, _context)));
         }
 
         [HttpGet]
         [Authorize(Roles = "AdminAssistant")]
         public async Task<IActionResult> GetOrderDetails(int storageId, int orderItemsId)
         {
-            var info = await _repo.GetByIdWithOrderAndProducts(storageId, orderItemsId);
+            var info = await _repo.GetByIdAsync(new OrderItemsWithProductsGetterById(storageId, orderItemsId, _context));
             var model = new OrderDetailsViewModel
             {
                 OrderItemsId = orderItemsId,

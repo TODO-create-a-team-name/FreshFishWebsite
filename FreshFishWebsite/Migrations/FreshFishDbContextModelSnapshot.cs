@@ -97,6 +97,9 @@ namespace FreshFishWebsite.Migrations
                     b.Property<int>("PoolNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("RemainingSpaceForProducts")
+                        .HasColumnType("int");
+
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
 
@@ -138,8 +141,11 @@ namespace FreshFishWebsite.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("QuantityKg")
-                        .HasColumnType("float");
+                    b.Property<int>("QuantityKg")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RemainingQuantityKg")
+                        .HasColumnType("int");
 
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
@@ -164,7 +170,7 @@ namespace FreshFishWebsite.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalProductWeight")
+                    b.Property<int>("TotalProductQuantityKg")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

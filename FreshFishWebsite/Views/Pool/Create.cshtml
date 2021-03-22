@@ -1,0 +1,21 @@
+﻿@model FreshFishWebsite.ViewModels.PoolVM.PoolViewModel
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    ViewData["Title"] = "Створити басейн";
+}
+<form asp-action="Create">
+    <input type="hidden" asp-for="StorageId" />
+    <div class="form-group">
+        <label asp-for="PoolNumber" class="control-label">Номер басейну</label>
+        <input type="text" asp-for="PoolNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MaxProductsKg" class="control-label">Максимальна ємність(кг)</label>
+        <input type="number" asp-for="MaxProductsKg" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Додати" class="btn btn-default" />
+    </div>
+</form>
+
+<progress id="file" value="32" max="100"> 32% </progress>
