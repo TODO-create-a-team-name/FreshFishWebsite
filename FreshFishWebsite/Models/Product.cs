@@ -13,7 +13,8 @@ namespace FreshFishWebsite.Models
         public double PricePerKg { get; set; }
         //public int Weight { get; set; }
         public DateTime Date { get; set; }
-        public double QuantityKg { get; set; }
+        public int QuantityKg { get; set; }
+        public int RemainingQuantityKg { get; set; }
         public bool IsSold { get; set; } = false;
         public int StorageId { get; set; }
         public Storage Storage { get; set; }

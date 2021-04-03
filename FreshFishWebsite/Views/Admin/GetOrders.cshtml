@@ -62,7 +62,7 @@
             <tbody>
                   @foreach (var item in Model)
     {
-        @if (item.IsOrderAssigned)
+        @if (!item.IsOrderAssigned)
         {
             <tr>
                 <td>@item.Id</td>

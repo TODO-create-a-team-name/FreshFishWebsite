@@ -8,6 +8,7 @@ namespace FreshFishWebsite.Models
         public int Id { get; set; }
         public int PoolNumber { get; set; }
         public int MaxProductsKg { get; set; }
+        public int RemainingSpaceForProducts { get; set; }
         public double WaterTemperatureCelsius { get; set; }
         public double NitrogenLevel { get; set; }
         public bool IsFishFed { get; set; } = false;

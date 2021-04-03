@@ -4,13 +4,13 @@ const card = document.querySelectorAll(".product-card-content"),
     cardTrigger = document.querySelectorAll(".product-card label"),
     cardRegisters = document.querySelector(".product-register");
 
-    var selectedId;
+var selectedId;
 
 function addClass(element, className) {
     element.classList.add(className);
 }
 fetchGetData();
-// get ajax request data
+
 function fetchGetData(id) {
     fetch('GetProductsData')
         .then(response => response.json())

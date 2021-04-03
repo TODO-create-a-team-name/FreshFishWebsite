@@ -1,8 +1,10 @@
-﻿@{
+﻿@model FreshFishWebsite.ViewModels.LitePoolViewModel
+@{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
     ViewData["Title"] = "Басейни";
 }
 
+<a asp-action="ManagePoolsIndex" asp-route-storageId="@Model.StorageId">Керувати бесейнами</a>
 @* Pools setcion *@
 <section>
     <div class="container">

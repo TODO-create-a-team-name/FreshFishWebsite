@@ -1,6 +1,9 @@
-﻿using FreshFishWebsite.Interfaces;
+﻿using FreshFishWebsite.AbstractClasses;
+using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using Microsoft.EntityFrameworkCore;
+using FreshFishWebsite.Services.GettingById.PoolByIdGetters;
+using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
+using FreshFishWebsite.ViewModels.PoolVM;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,51 +12,88 @@ namespace FreshFishWebsite.Repositories
 {
     public class PoolRepository : IPoolRepository
     {
-        private readonly FreshFishDbContext _;
+        private readonly FreshFishDbContext _context;
         public PoolRepository(FreshFishDbContext context)
         {
-            _ = context;
+            _context = context;
         }
-        public IEnumerable<Pool> GetAll()
+        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
         {
-            return _.Pools;
-        }
-        public IEnumerable<Pool> GetStoragePools(int id)
-        {
-            return _.Pools.Where(p => p.StorageId == id);
+            return await getter.GetByIdAsync();
         }
 
-        public Pool GetById(int? id)
+        
+        public IEnumerable<Pool> GetAll()
         {
-            return GetAll().FirstOrDefault(x => x.Id == id);
+            return _context.Pools;
         }
 
         public async Task AddAsync(Pool pool)
         {
-            _.Pools.Add(pool);
-            await _.SaveChangesAsync();
+            _context.Pools.Add(pool);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Pool pool)
         {
-            _.Pools.Update(pool);
-            await _.SaveChangesAsync();
+            _context.Pools.Update(pool);
+            await _context.SaveChangesAsync();
             
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var pool = GetById(id);
+            var pool = await GetByIdAsync(new PoolGetterById(id, _context));
             if (pool != null)
             {
-                _.Pools.Remove(pool);
-                await _.SaveChangesAsync();
+                _context.Pools.Remove(pool);
+                await _context.SaveChangesAsync();
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+        public int GetProductsKgSum(Pool pool)
+        {
+            return pool.ProductsInPool.Sum(t => t.TotalProductQuantityKg);
+        }
+
+        public async Task<int> GetMaxAmountOfProductsInPool(int id)
+        {
+            var pool = await GetByIdAsync(new PoolGetterById(id, _context));
+            if(pool.RemainingSpaceForProducts == pool.MaxProductsKg)
+            {
+                return pool.MaxProductsKg;
+            }
+            else
+            {
+                return pool.RemainingSpaceForProducts;
+            }
+        }
+
+        public async Task AddProductsToPool(ProductsForPoolViewModel model)
+        {
+            var pool = await GetByIdAsync(new PoolGetterById(model.PoolId, _context));
+            var product = await GetByIdAsync(new ProductGetterById(model.ProductId, _context));
+
+            if(product.QuantityKg != 0 && pool.RemainingSpaceForProducts != 0)
+            {
+                product.RemainingQuantityKg -= model.QuantityKg;
+                pool.RemainingSpaceForProducts -= model.QuantityKg;
+            }
+            var productInPool = new ProductInPool
+            {
+                Product = product,
+                Pool = pool,
+                TotalProductQuantityKg = model.QuantityKg
+            };
+
+            await new ProductInPoolRepository(_context).AddAsync(productInPool);
+            await new ProductRepository(_context).UpdateAsync(product);
+            await new PoolRepository(_context).UpdateAsync(pool);
+
         }
     }
 }

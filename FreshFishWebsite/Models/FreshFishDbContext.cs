@@ -52,6 +52,7 @@ namespace FreshFishWebsite.Models
                 .WithMany(p => p.ProductsInPool)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(p => p.ProductId);
+                
         }
     }
 }

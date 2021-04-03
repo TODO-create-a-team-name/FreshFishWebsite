@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
         type: "POST",
         url: `Roles/Create?name=${roleName}`,
         complete: function () {
-            window.location.href = "Roles/Index";
+            window.location.reload();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -23,3 +23,4 @@ function changeRoles(id) {
         $("#exampleAddRoleModal").modal("show");
     });
 }
+

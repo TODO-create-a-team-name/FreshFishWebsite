@@ -3,12 +3,8 @@ using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : ICrud<T>
     {
-        IEnumerable<T> GetAll();
         T GetById(int? id);
-        Task AddAsync(T newItem);
-        Task UpdateAsync(T item);
-        Task<bool> DeleteAsync(int id);
     }
 }

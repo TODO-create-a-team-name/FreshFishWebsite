@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FreshFishWebsite.Models;
 
 namespace FreshFishWebsite.ViewModels
 {
     public class DetailedPoolViewModel
     {
+        public Pool Pool { get; set; }
+        public int ProductsKgSum { get; set; }
     }
 }

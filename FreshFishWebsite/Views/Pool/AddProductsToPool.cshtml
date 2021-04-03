@@ -1,0 +1,66 @@
+﻿@model FreshFishWebsite.ViewModels.PoolVM.ProductsForPoolViewModel
+@{
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    ViewData["Title"] = "Додати рибу в басейн";
+}
+@if (!Model.Products.Any())
+{
+    <h3>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h3>
+    <p class="text-warning">
+        Немає доступних продуктів на складі
+        <a asp-action="Create" asp-controller="Products" asp-route-storageId="@Model.StorageId">Створити продукт</a>
+    </p>
+}
+else if (Model.Pool.RemainingSpaceForProducts == 0)
+{
+    <h2>Басейн заповнений повністю</h2>
+}
+else
+{
+    <h3>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h3>
+    <form asp-action="AddProductsToPool" method="post">
+        <input id="poolIdInput" type="hidden" asp-for="PoolId" />
+        <input id="storageIdInput" type="hidden" asp-for="StorageId" />
+        <input id="maxQuantityInput" type="text" asp-for="QuantityKg" min="1" />
+        @foreach (var p in Model.Products)
+        {
+            <input type="radio" id="@p.Id" asp-for="ProductId" value="@p.Id">@p.ProductName
+        }
+        <input class="btn btn-sm btn-primary" type="submit" value="Додати" />
+    </form>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/Pools/poolQuantityValidator.js"></script>
+}
+
+<div class="table-responsive-sm position-relative">
+    <table class="table basic-table table-striped table-bordered ">
+        <thead>
+            <tr>
+                <th scope="col" class="h6">Назва продукції</th>
+                <th scope="col" class="h6 col-sm-3">Кількість в басейні</th>
+                <th scope="col" class="h6 col-sm-3">Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Pool.ProductsInPool)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.TotalProductQuantityKg</td>
+                    <td>
+                        <form asp-action="DeleteProductInPool" asp-route-id="@item.Id"
+                              asp-route-storageId="@Model.StorageId" asp-route-poolId="@Model.PoolId" method="post">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Видалити
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+
+            }
+
+        </tbody>
+    </table>
+</div>
