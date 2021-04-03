@@ -1,10 +1,8 @@
-﻿using FreshFishWebsite.AbstractClasses;
+﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.StorageByIdGetters;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,18 +19,40 @@ namespace FreshFishWebsite.Repositories
             _userManager = userManager;
         }
 
-        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+        public async Task<Storage> GetStorageByIdAsync(int storageId)
         {
-           return await getter.GetByIdAsync();
+            return await _context.Storages.GetStorageByIdAsync(storageId);
+        }
+
+        public async Task<Storage> GetStorageByAdminIdAsync(string adminId)
+        {
+            return await _context.Storages.GetStorageByAdminIdAsync(adminId);
+        }
+
+        public async Task<Storage> GetStorageWithOrderItemsAsync(int storageId)
+        {
+            return await _context.Storages.GetStorageWithOrderItemsByIdAsync(storageId);
+        }
+
+        public async Task<Storage> GetStorageWithDriversAsync(int storageId)
+        {
+            return await _context.Storages.GetStorageWithDriversByIdAsync(storageId);
+        }
+        public async Task<OrderItems> GetOrderItemsByIdAsync(int orderItemsId)
+        {
+            return await _context.OrderItems.GetOrderItemsByIdAsync(orderItemsId);
+        }
+
+        public async Task<OrderItems> GetOrderItemsWithProductsByIdAsync(int orderItemsId, int storageId)
+        {
+            return await _context.OrderItems.GetOrderItemsWithProductsByIdAsync(orderItemsId, storageId);
         }
 
         public IEnumerable<Storage> GetAll()
-        => _context.Storages.Include(p => p.Products).Include(d => d.Drivers).Include(a => a.StorageAdmin);
+        => _context.Storages.GetStorages();
 
-        public IEnumerable<Storage> GetStoragesWithWorkers()
-        => _context.Storages.Include(d => d.Drivers);
-
-       
+        public IEnumerable<Storage> GetStoragesWithDrivers()
+        => _context.Storages.GetStoragesWithDrivers();
 
         public async Task AddAsync(Storage newItem)
         {
@@ -47,7 +67,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var storage = await new StorageGetterById(id, _context).GetByIdAsync();
+            var storage = await GetStorageByIdAsync(id);
             if (storage != null)
             {
                 _context.Storages.Remove(storage);
@@ -60,7 +80,7 @@ namespace FreshFishWebsite.Repositories
             }
         }
 
-        public async Task<bool> AddStorageAdmin(User user, Storage storage, StorageViewModel model)
+        public async Task<bool> AddStorageAdminAsync(User user, Storage storage, StorageViewModel model)
         {
             if (user != null && storage.StorageAdmin == null)
             {

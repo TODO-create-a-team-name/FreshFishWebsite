@@ -1,8 +1,6 @@
-﻿
-using FreshFishWebsite.AbstractClasses;
+﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
@@ -26,9 +24,14 @@ namespace FreshFishWebsite.Repositories
         public IEnumerable<Product> GetAll()
         => _context.Products;
 
-        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await getter.GetByIdAsync();
+            return await _context.Products.GetProductByIdAsync(id);
+        }
+
+        public IEnumerable<Product> GetProductsByStorageId(int storageId)
+        {
+            return _context.Products.GetProductsByStorageId(storageId);
         }
 
         public async Task AddAsync(Product newItem)
@@ -50,7 +53,7 @@ namespace FreshFishWebsite.Repositories
         }
         public async Task<bool> DeleteAsync(int id)
         {
-            var product = await GetByIdAsync(new ProductGetterById(id, _context));
+            var product = await GetProductByIdAsync(id);
             if (product != null)
             {
                 DeleteImage(product);

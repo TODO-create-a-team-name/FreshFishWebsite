@@ -1,8 +1,6 @@
-﻿using FreshFishWebsite.AbstractClasses;
+﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.PoolByIdGetters;
-using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
 using FreshFishWebsite.ViewModels.PoolVM;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +15,26 @@ namespace FreshFishWebsite.Repositories
         {
             _context = context;
         }
-        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+
+        public IEnumerable<Pool> GetStoragePools(int storageId)
         {
-            return await getter.GetByIdAsync();
+            return _context.Pools.GetPoolsByStorage(storageId);
         }
 
-        
         public IEnumerable<Pool> GetAll()
         {
             return _context.Pools;
         }
 
+        public async Task<Pool> GetPoolByIdAsync(int poolId)
+        {
+            return await _context.Pools.GetPoolByIdAsync(poolId);
+        }
+
+        public async Task<Pool> GetPoolWithProductsAsync(int poolId)
+        {
+            return await _context.Pools.GetPoolWithProductsAsync(poolId);
+        }
         public async Task AddAsync(Pool pool)
         {
             _context.Pools.Add(pool);
@@ -43,7 +50,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var pool = await GetByIdAsync(new PoolGetterById(id, _context));
+            var pool = await GetPoolByIdAsync(id);
             if (pool != null)
             {
                 _context.Pools.Remove(pool);
@@ -62,7 +69,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<int> GetMaxAmountOfProductsInPool(int id)
         {
-            var pool = await GetByIdAsync(new PoolGetterById(id, _context));
+            var pool = await GetPoolByIdAsync(id);
             if(pool.RemainingSpaceForProducts == pool.MaxProductsKg)
             {
                 return pool.MaxProductsKg;
@@ -75,8 +82,8 @@ namespace FreshFishWebsite.Repositories
 
         public async Task AddProductsToPool(ProductsForPoolViewModel model)
         {
-            var pool = await GetByIdAsync(new PoolGetterById(model.PoolId, _context));
-            var product = await GetByIdAsync(new ProductGetterById(model.ProductId, _context));
+            var pool = await GetPoolByIdAsync(model.PoolId);
+            var product = await new ProductRepository(_context).GetProductByIdAsync(model.ProductId);
 
             if(product.QuantityKg != 0 && pool.RemainingSpaceForProducts != 0)
             {

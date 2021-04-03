@@ -1,10 +1,8 @@
-﻿using FreshFishWebsite.AbstractClasses;
+﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.ProductsInPoolByIdGetters;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreshFishWebsite.Repositories
@@ -20,9 +18,14 @@ namespace FreshFishWebsite.Repositories
             => _context.ProductsInPool
             .Include(p => p.Product);
 
-        public async Task<T> GetByIdAsync<T>(GetterById<T> getter)
+        public async Task<ProductInPool> GetProductInPoolById(int productInPoolId)
         {
-            return await getter.GetByIdAsync();
+            return await _context.ProductsInPool.GetProductInPoolByIdAsync(productInPoolId);
+        }
+
+        public async Task<ProductInPool> GetProdyctInPoolWithPoolById(int productInPoolId)
+        {
+            return await _context.ProductsInPool.GetProductInPoolWithPoolByIdAsync(productInPoolId);
         }
 
         public async Task AddAsync(ProductInPool productInPool)
@@ -38,7 +41,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var productInPool = await GetByIdAsync(new ProductsInPoolWithPoolsGetterById(id, _context));
+            var productInPool = await GetProductInPoolById(id);
             if (productInPool != null)
             {
                  ReturnPoolCapacityOfProductInPoolSize(productInPool);
