@@ -16,7 +16,6 @@ namespace FreshFishWebsite.Controllers
         private readonly IPoolRepository _repo;
         private readonly IProductRepository _productRepo;
         private readonly IProductInPoolRepository _productInPoolRepo;
-        private readonly FreshFishDbContext _context;
 
         public PoolController(IPoolRepository repo,
             FreshFishDbContext context,
@@ -24,7 +23,6 @@ namespace FreshFishWebsite.Controllers
             IProductInPoolRepository productInPoolRepo)
         {
             _repo = repo;
-            _context = context;
             _productRepo = productRepository;
             _productInPoolRepo = productInPoolRepo;
         }
@@ -71,7 +69,7 @@ namespace FreshFishWebsite.Controllers
                 StorageId = model.StorageId
             };
             await _repo.AddAsync(pool);
-            return RedirectToAction("ManagePoolsIndex");
+            return RedirectToAction("ManagePoolsIndex", new { storageId = model.StorageId});
         }
 
         [HttpGet]
@@ -87,9 +85,11 @@ namespace FreshFishWebsite.Controllers
         }
 
         [HttpPost] 
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(DetailedPoolViewModel model)
         {
-            return Ok();
+            var pool = await _repo.ChangeRemainingSpaceForProducts(model.Pool.Id, model.Pool.MaxProductsKg);
+            await _repo.UpdateAsync(pool);
+            return RedirectToAction("ManagePoolsIndex", new { storageId = model.Pool.StorageId});
         }
 
         [HttpGet]

@@ -41,7 +41,7 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var productInPool = await GetProductInPoolById(id);
+            var productInPool = await GetProdyctInPoolWithPoolById(id);
             if (productInPool != null)
             {
                  ReturnPoolCapacityOfProductInPoolSize(productInPool);

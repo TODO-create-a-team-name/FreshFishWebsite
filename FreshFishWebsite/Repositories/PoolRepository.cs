@@ -1,6 +1,7 @@
 ﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
+using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,31 @@ namespace FreshFishWebsite.Repositories
             await new ProductRepository(_context).UpdateAsync(product);
             await new PoolRepository(_context).UpdateAsync(pool);
 
+        }
+
+        public async Task<Pool> ChangeRemainingSpaceForProducts(int poolId, int maxProductsKg)
+        {
+            var pool = await GetPoolWithProductsAsync(poolId);
+
+            if(pool.MaxProductsKg == maxProductsKg)
+            {
+                return pool;
+            }
+            else
+            {
+                pool.MaxProductsKg = maxProductsKg;
+                var productsQuantityInPool = pool.ProductsInPool.Sum(x => x.TotalProductQuantityKg);
+                var remainingSpaceForProducts = maxProductsKg - productsQuantityInPool;
+                if(remainingSpaceForProducts < 0)
+                {
+                    pool.RemainingSpaceForProducts = 0;
+                }
+                else
+                {
+                    pool.RemainingSpaceForProducts = remainingSpaceForProducts;
+                }
+                return pool;
+            }
         }
     }
 }

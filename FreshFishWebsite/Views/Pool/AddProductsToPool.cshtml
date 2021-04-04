@@ -32,12 +32,12 @@ else
         @foreach (var p in Model.Products)
         {
             <div class="form-check">
-                <input class="form-check-input" asp-for="ProductId" type="radio" name="exampleRadios" id="@p.Id"  value="@p.Id">
-                <label class="form-check-label" asp-for="ProductId">
-                    p.ProductName
+                <input class="form-check-input" asp-for="ProductId" type="radio" id="@p.Id"  value="@p.Id">
+                <label class="form-check-label">
+                    @p.ProductName
                 </label>
             </div>
-            @* <input type="radio" id="@p.Id" asp-for="ProductId" value="@p.Id">@p.ProductName *@
+             @*<input type="radio" id="@p.Id" asp-for="ProductId" value="@p.Id">@p.ProductName*@ 
         }
         <div class="form-group mb-1 text-end">
             <button class="btn btn-primary btn-sm" type="submit">Додати</button>
