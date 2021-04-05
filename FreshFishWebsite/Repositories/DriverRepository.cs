@@ -12,19 +12,19 @@ namespace FreshFishWebsite.Repositories
 {
     public class DriverRepository : IDriverRepository
     {
-        private readonly FreshFishDbContext _;
+        private readonly FreshFishDbContext _context;
         public DriverRepository(FreshFishDbContext context)
         {
-            _ = context;
+            _context = context;
         }
         public IEnumerable<OrderItems> GetAssignedOrders(string driverId)
-        => _.OrderItems
+        => _context.OrderItems
             .Include(o => o.Order)
             .ThenInclude(u => u.User)
             .Where(o => o.DriverId == driverId && !o.IsDelivered)
             .AsNoTracking();
         public IEnumerable<OrderItems> GetDriverOrdersArchive(string driverId)
-        => _.OrderItems
+        => _context.OrderItems
             .Include(o => o.Order)
             .ThenInclude(u => u.User)
             .Where(o => o.DriverId == driverId && o.IsDelivered)
@@ -32,12 +32,12 @@ namespace FreshFishWebsite.Repositories
 
         public async Task<JsonResult> GetOrderDetailsJson(int orderId, string userId)
         {
-            var order = await _.OrderItems
+            var order = await _context.OrderItems
               .Include(o => o.Order)
               .ThenInclude(u => u.User)
               .FirstOrDefaultAsync(x => x.Id == orderId);
            
-            Driver driver = _.Drivers
+            Driver driver = _context.Drivers
                .Include(s => s.Storage)
                .FirstOrDefault(x => x.Id == userId);
 
@@ -52,17 +52,24 @@ namespace FreshFishWebsite.Repositories
             });
         }
 
-        public async Task ChangeOrderStatus(int orderId, OrderStatus status)
+        public async Task ChangeOrderStatus(int orderId, OrderStatus status, string driverId)
         {
+            var driver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == driverId);
             var order = await GetOrderDetails(orderId);
             order.Status = status;
-            _.OrderItems.Update(order);
-            await _.SaveChangesAsync();
+            if(status == OrderStatus.Delivered)
+            {
+                driver.IsDelivering = false;
+                _context.Drivers.Update(driver);
+                order.IsDelivered = true;
+            }
+            _context.OrderItems.Update(order);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<OrderItems> GetOrderDetails(int orderId)
         {
-            return await _.OrderItems
+            return await _context.OrderItems
               .Include(o => o.Order)
               .ThenInclude(u => u.User)
               .FirstOrDefaultAsync(x => x.Id == orderId);

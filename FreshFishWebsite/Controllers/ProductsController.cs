@@ -1,7 +1,5 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
-using FreshFishWebsite.Services.GettingById.StorageByIdGetters;
 using FreshFishWebsite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -52,7 +50,7 @@ namespace FreshFishWebsite.Controllers
             };
             if (ModelState.IsValid)
             {
-                var storage = await _storageRepo.GetByIdAsync(new StorageGetterById(model.StorageId, _context));
+                var storage = await _storageRepo.GetStorageByIdAsync(model.StorageId);
                 product.Storage = storage;
                 await _repo.AddAsync(product);
                 return RedirectToAction("GetStorage", "Storage");
@@ -80,14 +78,14 @@ namespace FreshFishWebsite.Controllers
         //    return View(product);
         //}
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if(!id.HasValue)
+            if(id == 0)
             {
                 return BadRequest();
             }
 
-            var product = await _repo.GetByIdAsync(new ProductGetterById(id, _context));
+            var product = await _repo.GetProductByIdAsync(id);
             if(product == null)
             {
                 return NotFound();

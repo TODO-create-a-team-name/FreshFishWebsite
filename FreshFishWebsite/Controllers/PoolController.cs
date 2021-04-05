@@ -1,7 +1,6 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.Services.GettingById.PoolByIdGetters;
-using FreshFishWebsite.Services.GettingById.ProductByIdGetters;
+
 using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +16,6 @@ namespace FreshFishWebsite.Controllers
         private readonly IPoolRepository _repo;
         private readonly IProductRepository _productRepo;
         private readonly IProductInPoolRepository _productInPoolRepo;
-        private readonly FreshFishDbContext _context;
 
         public PoolController(IPoolRepository repo,
             FreshFishDbContext context,
@@ -25,28 +23,27 @@ namespace FreshFishWebsite.Controllers
             IProductInPoolRepository productInPoolRepo)
         {
             _repo = repo;
-            _context = context;
             _productRepo = productRepository;
             _productInPoolRepo = productInPoolRepo;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(int storageId)
+        public IActionResult Index(int storageId)
         {
             LitePoolViewModel model = new()
             {
                 StorageId = storageId,
-                Pools = await _repo.GetByIdAsync(new StoragePoolsGetterById(storageId, _context))
+                Pools = _repo.GetStoragePools(storageId)
             };
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> ManagePoolsIndex(int storageId)
+        public IActionResult ManagePoolsIndex(int storageId)
         {
             LitePoolViewModel model = new()
             {
                 StorageId = storageId,
-                Pools = await _repo.GetByIdAsync(new StoragePoolsGetterById(storageId, _context))
+                Pools = _repo.GetStoragePools(storageId)
             };
             return View(model);
         }
@@ -72,13 +69,13 @@ namespace FreshFishWebsite.Controllers
                 StorageId = model.StorageId
             };
             await _repo.AddAsync(pool);
-            return RedirectToAction("ManagePoolsIndex");
+            return RedirectToAction("ManagePoolsIndex", new { storageId = model.StorageId});
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var pool = await _repo.GetByIdAsync(new PoolWithProductsGetterById(id, _context));
+            var pool = await _repo.GetPoolByIdAsync(id);
             var model = new DetailedPoolViewModel
             {
                 Pool = pool,
@@ -88,18 +85,20 @@ namespace FreshFishWebsite.Controllers
         }
 
         [HttpPost] 
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(DetailedPoolViewModel model)
         {
-            return Ok();
+            var pool = await _repo.ChangeRemainingSpaceForProducts(model.Pool.Id, model.Pool.MaxProductsKg);
+            await _repo.UpdateAsync(pool);
+            return RedirectToAction("ManagePoolsIndex", new { storageId = model.Pool.StorageId});
         }
 
         [HttpGet]
         public async Task<IActionResult> AddProductsToPool(int storageId, int poolId)
         {
-            var products = (await _productRepo.GetByIdAsync(new ProductGetterByStorageId(storageId, _context)))
+            var products = _productRepo.GetProductsByStorageId(storageId)
                 .Where(x => x.RemainingQuantityKg != 0);
 
-            var pool = await _repo.GetByIdAsync(new PoolWithProductsGetterById(poolId, _context));
+            var pool = await _repo.GetPoolWithProductsAsync(poolId);
             var model = new ProductsForPoolViewModel
             {
                 Products = products,
@@ -126,7 +125,7 @@ namespace FreshFishWebsite.Controllers
 
         public async Task<JsonResult> GetProductsForPoolData(int storageId, int poolId)
         {
-            var products = (await _productRepo.GetByIdAsync(new ProductGetterByStorageId(storageId, _context)))
+            var products = _productRepo.GetProductsByStorageId(storageId)
                 .Select(x => new { x.Id, x.RemainingQuantityKg});
 
             int maxQuantity = await _repo.GetMaxAmountOfProductsInPool(poolId);

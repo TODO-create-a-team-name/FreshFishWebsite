@@ -4,14 +4,16 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210405010905_added Feeding table")]
+    partial class addedFeedingtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,10 +112,6 @@ namespace FreshFishWebsite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<int>("FishQuantly")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsFishFed")
                         .HasColumnType("bit");

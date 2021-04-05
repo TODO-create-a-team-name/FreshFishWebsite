@@ -16,12 +16,22 @@
         }
     </ul>
     <div class="container">
+     @if (!Model.IsOrderDelivered && !Model.IsOrderAssigned)
+     {
         <form asp-action="AssignOrderToDriver" class="row justify-content-end" method="post" asp-route-orderItemsid="@Model.OrderItemsId">
             <select class="form-select col-4 mx-1 w-50" id="driversDropdown" asp-for="DriverId" asp-items="@Model.Drivers"></select>
             <button class="btn btn-sm btn-primary col-1" type="submit">Призначити</button>
         </form>
+     }
+     else if(Model.IsOrderDelivered)
+     {
+         <p class="text-success">Доставлено</p>
+     }
+     else if(Model.IsOrderAssigned)
+     {
+    <p class="text-success">Замовлення призначено</p>
+     }
     </div>
-    
   </div>
 </div>
 </div>

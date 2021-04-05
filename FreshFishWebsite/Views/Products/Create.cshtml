@@ -1,42 +1,51 @@
 ﻿@model FreshFishWebsite.ViewModels.ProductViewModel
 @{
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    ViewData["Title"] = "Створити продукт";
 }
-<form asp-action="Create"  enctype="multipart/form-data">
-    <input type="hidden" asp-for="StorageId" />
-    <div class="form-group">
-        <label asp-for="ProductName" class="control-label">Назва</label>
-        <input type="text" asp-for="ProductName" class="form-control" />
+<div class="container">
+    <div class="card col m-1">
+        <div class="card-body">
+            <h5 class="card-title text-center">Створити продукт</h5>
+            <form asp-action="Create" enctype="multipart/form-data">
+                <input type="hidden" asp-for="StorageId" />
+                <div class="form-group mb-2">
+                    <label asp-for="ProductName" class="form-label mb-1">Назва</label>
+                    <input type="text" asp-for="ProductName" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Price" class="form-label mb-1">Ціна</label>
+                    <input type="number" asp-for="Price" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Date" class="form-label mb-1">Дата виготовлення</label>
+                    <input type="date" asp-for="Date" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Amount" class="form-label mb-1">Кількість</label>
+                    <input type="text" asp-for="Amount" class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Calories" class="form-label mb-1">Калорії</label>
+                    <input type="number" asp-for="Calories" class="form-control" />
+                </div>
+                <div class="input-group mb-2 text-center">
+                    <label class="input-group-text" asp-for="ImageFile">Зображення</label>
+                    <input asp-for="ImageFile" accept="image/*" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Description" class="form-label mb-1">Опис</label>
+                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                </div>
+            
+                <div class="form-group mb-2 text-center">
+                    <input type="checkbox" asp-for="IsSold" class="form-check-input" />
+                    <label asp-for="IsSold" class="form-check-label">Продано</label>
+                </div>
+                <div class="form-group mb-1 text-end">
+                    <button class="btn btn-primary" type="submit">Додати</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Price" class="control-label">Ціна</label>
-        <input type="number" asp-for="Price" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Date" class="control-label">Дата виготовлення</label>
-        <input type="date" asp-for="Date" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Amount" class="control-label">Кількість</label>
-        <input type="text" asp-for="Amount" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Calories" class="control-label">Калорії</label>
-        <input type="number" asp-for="Calories" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Description" class="control-label">Опис</label>
-        <textarea  asp-for="Description" ></textarea>
-    </div>
-    <div class="form-group">
-        <label asp-for="IsSold" class="control-label">Продано</label>
-        <input type="checkbox" asp-for="IsSold" class="custom-checkbox" />
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageFile" class="control-label">Зображення</label>
-        <input  asp-for="ImageFile" accept="image/*" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Додати" class="btn btn-default" />
-    </div>
-</form>
+</div>

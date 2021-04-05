@@ -3,9 +3,12 @@
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
     ViewData["Title"] = "Додати рибу в басейн";
 }
+<div class="container">
+<div class="card col m-1">
+  <div class="card-body">
 @if (!Model.Products.Any())
 {
-    <h3>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h3>
+    <h4>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h4>
     <p class="text-warning">
         Немає доступних продуктів на складі
         <a asp-action="Create" asp-controller="Products" asp-route-storageId="@Model.StorageId">Створити продукт</a>
@@ -13,26 +16,36 @@
 }
 else if (Model.Pool.RemainingSpaceForProducts == 0)
 {
-    <h2>Басейн заповнений повністю</h2>
+    <h4 class="text-center">Басейн заповнений повністю</h4>
 }
 else
 {
     <h3>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h3>
     <form asp-action="AddProductsToPool" method="post">
-        <input id="poolIdInput" type="hidden" asp-for="PoolId" />
-        <input id="storageIdInput" type="hidden" asp-for="StorageId" />
-        <input id="maxQuantityInput" type="text" asp-for="QuantityKg" min="1" />
+        <div class="form-group mb-2">
+            <input id="poolIdInput" type="hidden" asp-for="PoolId" />
+            <input id="storageIdInput" type="hidden" asp-for="StorageId" />
+            <label asp-for="QuantityKg" class="form-label mb-1">Кількість</label>
+            <input id="maxQuantityInput" class="form-control" type="text" asp-for="QuantityKg" min="1" />
+        </div>
+        
         @foreach (var p in Model.Products)
         {
-            <input type="radio" id="@p.Id" asp-for="ProductId" value="@p.Id">@p.ProductName
+            <div class="form-check">
+                <input class="form-check-input" asp-for="ProductId" type="radio" id="@p.Id"  value="@p.Id">
+                <label class="form-check-label">
+                    @p.ProductName
+                </label>
+            </div>
+             @*<input type="radio" id="@p.Id" asp-for="ProductId" value="@p.Id">@p.ProductName*@ 
         }
-        <input class="btn btn-sm btn-primary" type="submit" value="Додати" />
+        <div class="form-group mb-1 text-end">
+            <button class="btn btn-primary btn-sm" type="submit">Додати</button>
+        </div>
     </form>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/Pools/poolQuantityValidator.js"></script>
 }
-
+  <hr class="mb-3">
 <div class="table-responsive-sm position-relative">
     <table class="table basic-table table-striped table-bordered ">
         <thead>
@@ -64,3 +77,8 @@ else
         </tbody>
     </table>
 </div>
+  </div>
+  </div>
+  </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/Pools/poolQuantityValidator.js"></script>

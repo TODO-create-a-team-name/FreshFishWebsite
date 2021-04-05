@@ -12,7 +12,7 @@ namespace FreshFishWebsite.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartRepository _repo;
-        private readonly IRepository<Product> _productsRepo;
+        private readonly IProductRepository _productsRepo;
         private readonly FreshFishDbContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
@@ -20,7 +20,7 @@ namespace FreshFishWebsite.Controllers
         public ShoppingCartController(IShoppingCartRepository repo,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IRepository<Product> productsRepo,
+            IProductRepository productsRepo,
             FreshFishDbContext context)
         {
             _repo = repo;
@@ -52,7 +52,8 @@ namespace FreshFishWebsite.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
-        public IActionResult Payment(){
+        public IActionResult Payment()
+        {
             return View();
         }
 
@@ -72,7 +73,7 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _repo.DeleteProductInShoppingCart(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ShowAllProducts");
         }
 
         [Authorize]
@@ -97,7 +98,7 @@ namespace FreshFishWebsite.Controllers
                 await _repo.OrderProducts(_userManager.GetUserId(User));
             }
 
-            return RedirectToAction("Index");
+            return Content("Замовлення оформлено! Зовсім скоро наші оператори зв'яжуться з вами для підтвердження деталей.");
         }
 
         [HttpPost]
