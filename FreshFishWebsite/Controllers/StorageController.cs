@@ -253,6 +253,8 @@ namespace FreshFishWebsite.Controllers
                 CompanyName = info.Order.User.Company,
                 Address = info.Order.User.CompanyAddress,
                 Products = info.Order.Products,
+                IsOrderDelivered = info.IsDelivered,
+                IsOrderAssigned = info.IsAssigned,
                 Drivers = _context.Drivers
                           .Where(x => !x.IsDelivering)
                           .Select(x => new SelectListItem()
@@ -279,7 +281,7 @@ namespace FreshFishWebsite.Controllers
             _context.OrderItems.Update(order);
             _context.Drivers.Update(driver);
             await _context.SaveChangesAsync();
-            return Ok();
+            return RedirectToAction("GetStorageOrders");
         }
     }
 }

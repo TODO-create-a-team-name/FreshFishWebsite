@@ -53,7 +53,8 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeOrderStatus(OrderDetailsForDriverViewModel model)
         {
-            await _repo.ChangeOrderStatus(model.OrderItemsId, model.Status);
+            var driverId = _userManager.GetUserId(User);
+            await _repo.ChangeOrderStatus(model.OrderItemsId, model.Status, driverId);
             return RedirectToAction("Index");
         }
         public async Task<JsonResult> GetRequiredData(int id)

@@ -11,6 +11,6 @@ namespace FreshFishWebsite.Interfaces
         public IEnumerable<OrderItems> GetDriverOrdersArchive(string driverId);
         public Task<JsonResult> GetOrderDetailsJson(int orderId, string userId);
         public Task<OrderItems> GetOrderDetails(int id);
-        public Task ChangeOrderStatus(int orderId, OrderStatus status);
+        public Task ChangeOrderStatus(int orderId, OrderStatus status, string driverId);
     }
 }

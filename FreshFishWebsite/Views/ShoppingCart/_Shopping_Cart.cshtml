@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
 
-@if (Model.Products == null)
+@if (!Model.Products.Any())
 {
     <h2>Корзина порожня</h2>
 }
@@ -61,7 +61,6 @@ else
             }
         </div>
     </div>
-}
 <div class="modal-footer d-flex justify-content-between">
         <div>
             <h5>Кінцева ціна - @Model.TotalPrice</h5>
@@ -75,5 +74,6 @@ else
         </div>
 
 </div>
+}
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/innerShoppingCart.js"></script>

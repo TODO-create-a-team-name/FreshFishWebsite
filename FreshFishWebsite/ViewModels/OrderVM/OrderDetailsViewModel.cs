@@ -19,6 +19,10 @@ namespace FreshFishWebsite.ViewModels
 
         public string DriverId { get; set; }
 
+        public bool IsOrderDelivered { get; set; }
+        
+        public bool IsOrderAssigned { get; set; }
+
         public List<SelectListItem> Drivers { get; set; }
 
         public IEnumerable<ShoppingCartProduct> Products { get; set; }

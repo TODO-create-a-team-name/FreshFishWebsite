@@ -73,7 +73,7 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _repo.DeleteProductInShoppingCart(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ShowAllProducts");
         }
 
         [Authorize]
@@ -98,7 +98,7 @@ namespace FreshFishWebsite.Controllers
                 await _repo.OrderProducts(_userManager.GetUserId(User));
             }
 
-            return RedirectToAction("Index");
+            return Content("Замовлення оформлено! Зовсім скоро наші оператори зв'яжуться з вами для підтвердження деталей.");
         }
 
         [HttpPost]
