@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreshFishWebsite.Models
 {
@@ -9,6 +10,12 @@ namespace FreshFishWebsite.Models
         public int PoolNumber { get; set; }
         public int MaxProductsKg { get; set; }
         public int RemainingSpaceForProducts { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int FishQuantly
+        {
+            get { return MaxProductsKg - RemainingSpaceForProducts; }
+            private set {}
+        }
         public double WaterTemperatureCelsius { get; set; }
         public double NitrogenLevel { get; set; }
         public bool IsFishFed { get; set; } = false;
