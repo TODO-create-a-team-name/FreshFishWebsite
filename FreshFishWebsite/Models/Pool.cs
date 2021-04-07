@@ -22,6 +22,7 @@ namespace FreshFishWebsite.Models
         public int StorageId { get; set; }
         public Storage Storage { get; set; }
         public List<ProductInPool> ProductsInPool { get; set; } = new();
+        public List<PoolState> PoolState{ get; set; } = new();
         public List<Feeding> Feeding { get; set; } = new();
 
     }
