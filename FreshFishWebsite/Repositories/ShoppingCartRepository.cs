@@ -2,7 +2,6 @@
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Services;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace FreshFishWebsite.Repositories
                 .ThenInclude(p => p.Product)
                 .FirstOrDefault(u => u.User.Id == user.Id);
 
-            return shoppingCart?.Products ?? null;
+            return shoppingCart?.Products;
         }
 
         public async Task<ShoppingCartProduct> GetById(int id)

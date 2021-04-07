@@ -246,6 +246,7 @@ namespace FreshFishWebsite.Controllers
             var info = await _repo.GetOrderItemsWithProductsByIdAsync(orderItemsId, storageId);
             var model = new OrderDetailsViewModel
             {
+                StorageId = storageId,
                 OrderItemsId = orderItemsId,
                 UserEmail = info.Order.User.Email,
                 UserName = info.Order.User.Name,
@@ -281,7 +282,7 @@ namespace FreshFishWebsite.Controllers
             _context.OrderItems.Update(order);
             _context.Drivers.Update(driver);
             await _context.SaveChangesAsync();
-            return RedirectToAction("GetStorageOrders");
+            return RedirectToAction("GetStorageOrders", new { storageId = model.StorageId});
         }
     }
 }
