@@ -13,21 +13,18 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly IShoppingCartRepository _repo;
         private readonly IProductRepository _productsRepo;
-        private readonly FreshFishDbContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
         public ShoppingCartController(IShoppingCartRepository repo,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IProductRepository productsRepo,
-            FreshFishDbContext context)
+            IProductRepository productsRepo)
         {
             _repo = repo;
             _signInManager = signInManager;
             _userManager = userManager;
             _productsRepo = productsRepo;
-            _context = context;
         }
 
         public IActionResult ShowAllProducts()
@@ -43,7 +40,7 @@ namespace FreshFishWebsite.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var model = new ShoppingCartViewModel
                 {
-                    Products = _repo.GetShoppingCartItems(user)
+                    Products = _repo.GetShoppingCartItems(user.Id)
                 };
                 model.TotalPrice = model.Products.Sum(p => p.Product.PricePerKg * p.Quantity);
                 model.Count = model.Products.Count();
@@ -104,14 +101,12 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task IncrementOrDecrementQuantity(int id, int quantity)
         {
-            await _repo.IncrementDecrementQuantity(id, quantity);
+            await _repo.ChangeQuantity(id, quantity);
         }
 
         public JsonResult GetProductsData()
         {
-            return new JsonResult(_context
-            .Products
-            .Select(p => new { p.Id, p.ProductName, p.PricePerKg, p.Date, p.Image, p.Description, p.Calories }));
+            return _repo.GetProductsDataJson();
         }
     }
 }

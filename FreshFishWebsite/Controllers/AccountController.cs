@@ -1,4 +1,5 @@
-﻿using FreshFishWebsite.Interfaces.Registering;
+﻿using FreshFishWebsite.Helpers;
+using FreshFishWebsite.Interfaces.Registering;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Services;
 using FreshFishWebsite.Services.ClaimsRegistration;
@@ -59,11 +60,10 @@ namespace FreshFishWebsite.Controllers
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
-                        new { userId = user.Id, code = code },
+                        new { userId = user.Id, code },
                         protocol: HttpContext.Request.Scheme);
 
-                    await new EmailService().SendEmailAsync(model.Email, "Підтвердіть свій акаунт",
-                        $"Підтвердіть свій акаунт за наступним посиланням: <a href='{callbackUrl}'>Підтвердити акаунт</a>");
+                    await EmailMessageSender.SendEmailConfirmationMessageAsync(callbackUrl, model.Email);
 
                     return Content("Для завершення реєстрації, перейдіть за посиланням, яке було надіслане вам на пошту.");
                 }
@@ -205,7 +205,7 @@ namespace FreshFishWebsite.Controllers
         {
             returnUrl = returnUrl ?? Url.Content("~/"); //визначаємо посилання перенаправлення
 
-            LoginViewModel loginViewModel = new LoginViewModel
+            LoginViewModel loginViewModel = new()
             {
                 ReturnUrl = returnUrl,
                 ExternalLogin = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
@@ -343,12 +343,7 @@ namespace FreshFishWebsite.Controllers
                     new { userId = user.Id, code = code },
                     protocol: HttpContext.Request.Scheme);
 
-                EmailService emailService = new EmailService();
-
-                await emailService.SendEmailAsync(model.Email,
-                    "Зміна паролю",
-                    $"Перейдіть за наступним посиланням, щоб змінити ваш пароль:" +
-                    $" <a href='{callbackUrl}'>Змінити пароль</a>");
+                await EmailMessageSender.SendChangePasswordMessageAsync(model.Email, callbackUrl);
 
                 return View("ForgotPasswordConfirmation");
             }
