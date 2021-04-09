@@ -3,50 +3,6 @@
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
     ViewData["Title"] = "Замовлення";
 }
-@*  <table class="table">
-    <tr>
-        <td>Дата замовлення</td>
-        <td>Користувач</td>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        @if(!item.IsOrderAssigned)
-        {
-        <tr>
-            <td>@item.OrderDate</td>
-            <td>@item.User.Email</td>
-            <td>
-                <a class="btn btn-sm btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Деталі</a>
-            </td>
-        </tr>
-
-        }
-    }
-</table> 
-<hr />
-<h3>Призначені замовлення</h3>
-<table class="table">
-    <tr>
-        <td>Дата замовлення</td>
-        <td>Користувач</td>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        @if (item.IsOrderAssigned)
-        {
-            <tr>
-                <td>@item.OrderDate</td>
-                <td>@item.User.Email</td>
-                <td>
-                    <a class="btn btn-sm btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Деталі</a>
-                </td>
-            </tr>
-
-        }
-    }
-</table> *@
 <div class="container-xxl">
     <h4 class="text-secondary">Список замовлень</h4>
     <div class="table-responsive-sm position-relative">
@@ -64,14 +20,19 @@
     {
         @if (!item.IsOrderAssigned)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.OrderDate</td>
-                <td>@item.User.Email</td>
-                <td>
-                    <a class="btn btn-sm btn-primary" asp-action="OrderDetails" asp-route-id="@item.Id">Деталі</a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.OrderDate</td>
+                    <td>@item.User.Email</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" asp-action="OrderDetails" asp-route-id="@item.Id">Деталі</a>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" method="post">
+                            <input type="submit" value="Скасувати" />
+                        </form>
+                    </td>
+                </tr>
 
         }
     }

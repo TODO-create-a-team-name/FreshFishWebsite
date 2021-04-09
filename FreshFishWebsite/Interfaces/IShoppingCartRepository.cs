@@ -1,4 +1,5 @@
 ﻿using FreshFishWebsite.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace FreshFishWebsite.Interfaces
 {
     public interface IShoppingCartRepository
     {
-        public IEnumerable<ShoppingCartProduct> GetShoppingCartItems(User user);
+        public IEnumerable<ShoppingCartProduct> GetShoppingCartItems(string userId);
 
         public Task<ShoppingCartProduct> GetById(int id);
 
@@ -18,6 +19,8 @@ namespace FreshFishWebsite.Interfaces
 
         public Task DeleteProductInShoppingCart(int id);
 
-        public Task IncrementDecrementQuantity(int id, int quantity);
+        public Task ChangeQuantity(int id, int quantity);
+
+        public JsonResult GetProductsDataJson();
     }
 }

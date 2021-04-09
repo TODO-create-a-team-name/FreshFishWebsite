@@ -1,4 +1,5 @@
-﻿using FreshFishWebsite.Interfaces;
+﻿using FreshFishWebsite.Helpers;
+using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.Repositories;
 using FreshFishWebsite.Services;
@@ -51,8 +52,7 @@ namespace FreshFishWebsite.Controllers
                 };
                 if (await new StorageRepository(_context, _userManager).AddStorageAdminAsync(user, storage, model))
                 {
-                    await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
-                       $"Ви тепер адміністратор складу №{storage.StorageNumber}");
+                    await EmailMessageSender.SendThatUserBecameStorageAdminMessageAsync(model.StorageAdminEmail, model.StorageNumber);
                     return RedirectToAction("Index");
                 }
                 else
@@ -64,8 +64,7 @@ namespace FreshFishWebsite.Controllers
                         new { storageId = storage.Id, adminEmail = model.StorageAdminEmail },
                         protocol: HttpContext.Request.Scheme);
 
-                    await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
-                       $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                    await EmailMessageSender.SendStorageAdminStatusConfirmationMessage(model.StorageAdminEmail, model.StorageNumber, callbackUrl);
                     return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
                 }
             }
@@ -135,8 +134,7 @@ namespace FreshFishWebsite.Controllers
                     await _userManager.AddToRoleAsync(storageDriver, "Driver");
                     storage.Drivers.Add(storageDriver);
                     await _repo.UpdateAsync(storage);
-                    await new EmailService().SendEmailAsync(storageDriver.Email, "Водій складу FreshFish",
-                       $"Ви тепер водій складу №{storage.StorageNumber}");
+                    await EmailMessageSender.SendThatUserBecameDriverMessageAsync(model.Email, storage.StorageNumber);
                     return RedirectToAction("GetStorage");
                 }
                 else
@@ -147,8 +145,7 @@ namespace FreshFishWebsite.Controllers
                        new { storageId = storage.Id, email = model.Email },
                        protocol: HttpContext.Request.Scheme);
 
-                    await new EmailService().SendEmailAsync(model.Email, "Водій складу FreshFish",
-                       $"Тепер ви водій складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                    await EmailMessageSender.SendDriverStatusConfirmationMessage(model.Email, storage.StorageNumber, callbackUrl);
                     return Content("Водій складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
                 }
             }
@@ -201,8 +198,7 @@ namespace FreshFishWebsite.Controllers
                             new { storageId = storage.Id, adminEmail = model.StorageAdminEmail },
                             protocol: HttpContext.Request.Scheme);
 
-                    await new EmailService().SendEmailAsync(model.StorageAdminEmail, "Адміністратор складу FreshFish",
-                       $"Тепер ви адміністратор складу №{storage.StorageNumber}: <a href='{callbackUrl}'>Підтвердити</a>");
+                    await EmailMessageSender.SendStorageAdminStatusConfirmationMessage(model.StorageAdminEmail, model.StorageNumber, callbackUrl);
                     return Content("Адміністратор складу, якого ви призначили, скоро отримає повідомлення про реєстрацію на електронній пошті.");
                 }
             }
@@ -246,6 +242,7 @@ namespace FreshFishWebsite.Controllers
             var info = await _repo.GetOrderItemsWithProductsByIdAsync(orderItemsId, storageId);
             var model = new OrderDetailsViewModel
             {
+                StorageId = storageId,
                 OrderItemsId = orderItemsId,
                 UserEmail = info.Order.User.Email,
                 UserName = info.Order.User.Name,
@@ -281,7 +278,7 @@ namespace FreshFishWebsite.Controllers
             _context.OrderItems.Update(order);
             _context.Drivers.Update(driver);
             await _context.SaveChangesAsync();
-            return RedirectToAction("GetStorageOrders");
+            return RedirectToAction("GetStorageOrders", new { storageId = model.StorageId});
         }
     }
 }
