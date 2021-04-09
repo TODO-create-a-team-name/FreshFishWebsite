@@ -10,14 +10,11 @@ namespace FreshFishWebsite.Controllers
     {
         private readonly IProductRepository _repo;
         private readonly IStorageRepository _storageRepo;
-        private readonly FreshFishDbContext _context;
         public ProductsController(IProductRepository repo,
-            IStorageRepository storageRepo,
-            FreshFishDbContext context)
+            IStorageRepository storageRepo)
         {
             _repo = repo;
             _storageRepo = storageRepo;
-            _context = context;
         }
         public IActionResult Index()
         {
@@ -57,26 +54,6 @@ namespace FreshFishWebsite.Controllers
             }
             return View(product);
         }
-
-        //public async Task<IActionResult> Create(ProductViewModel model)
-        //{
-        //    var product = new Product
-        //    {
-        //        ProductName = model.ProductName,
-        //        PricePerKg = model.Price,
-        //        Date = model.Date,
-        //        QuantityKg = model.Amount,
-        //        ImageFile = model.ImageFile
-        //    };
-        //    if (ModelState.IsValid)
-        //    {
-        //        var storage = _storageRepo.GetById(model.StorageId);
-        //        product.Storage = storage;
-        //        await _repo.AddAsync(product);
-        //        return RedirectToAction("GetStorage", "Storage");
-        //    }
-        //    return View(product);
-        //}
 
         public async Task<IActionResult> Edit(int id)
         {
