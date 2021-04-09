@@ -4,46 +4,22 @@ using FreshFishWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FreshFishWebsite.Migrations
 {
     [DbContext(typeof(FreshFishDbContext))]
-    partial class FreshFishDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210403154952_Added new filed FishQuantly to Pool")]
+    partial class AddednewfiledFishQuantlytoPool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
-
-            modelBuilder.Entity("FreshFishWebsite.Models.Feeding", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeFed")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTimeFeedingExpired")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PoolId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PoolId");
-
-                    b.ToTable("Feedings");
-                });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
@@ -141,32 +117,6 @@ namespace FreshFishWebsite.Migrations
                     b.HasIndex("StorageId");
 
                     b.ToTable("Pools");
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.PoolState", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("Nitrogen")
-                        .HasColumnType("float");
-
-                    b.Property<int>("PoolId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Temperature")
-                        .HasColumnType("float");
-
-                    b.Property<double>("WaterLevel")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PoolId");
-
-                    b.ToTable("PoolState");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
@@ -549,17 +499,6 @@ namespace FreshFishWebsite.Migrations
                     b.ToTable("StorageAdmins");
                 });
 
-            modelBuilder.Entity("FreshFishWebsite.Models.Feeding", b =>
-                {
-                    b.HasOne("FreshFishWebsite.Models.Pool", "Pool")
-                        .WithMany("Feeding")
-                        .HasForeignKey("PoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pool");
-                });
-
             modelBuilder.Entity("FreshFishWebsite.Models.Order", b =>
                 {
                     b.HasOne("FreshFishWebsite.Models.User", "User")
@@ -604,17 +543,6 @@ namespace FreshFishWebsite.Migrations
                         .IsRequired();
 
                     b.Navigation("Storage");
-                });
-
-            modelBuilder.Entity("FreshFishWebsite.Models.PoolState", b =>
-                {
-                    b.HasOne("FreshFishWebsite.Models.Pool", "Pool")
-                        .WithMany("PoolState")
-                        .HasForeignKey("PoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pool");
                 });
 
             modelBuilder.Entity("FreshFishWebsite.Models.Product", b =>
@@ -772,10 +700,6 @@ namespace FreshFishWebsite.Migrations
 
             modelBuilder.Entity("FreshFishWebsite.Models.Pool", b =>
                 {
-                    b.Navigation("Feeding");
-
-                    b.Navigation("PoolState");
-
                     b.Navigation("ProductsInPool");
                 });
 

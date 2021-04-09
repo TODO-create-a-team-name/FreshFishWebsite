@@ -1,4 +1,4 @@
-﻿using FreshFishWebsite.Controllers;
+﻿/*using FreshFishWebsite.Controllers;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Repositories;
 using FreshFishWebsite.Models;
@@ -23,7 +23,7 @@ namespace FreshFishWebsite.Tests
             var storage = new Mock<IStorageRepository>();
             product.Setup(repo => repo.GetAll()).Returns(GetTestProducts());
             storage.Setup(storage => storage.GetAll()).Returns(GetTestStorages);
-            var controller = new ProductsController(product.Object,storage.Object);
+            var controller = new ProductsController(product.Object, storage.Object);
 
             // Act
             var result = controller.Index();
@@ -33,7 +33,7 @@ namespace FreshFishWebsite.Tests
             var model = Assert.IsAssignableFrom<IEnumerable<Product>>(viewResult.Model);
             Assert.Equal(GetTestProducts().Count, model.Count());
         }
-       private List<Product> GetTestProducts()
+        private List<Product> GetTestProducts()
         {
             var products = new List<Product>
             {
@@ -42,7 +42,8 @@ namespace FreshFishWebsite.Tests
                 new Product { Id=3, ProductName="fish3", QuantityKg = 300, PricePerKg = 300},
             };
             return products;
-        } private List<Storage> GetTestStorages()
+        }
+        private List<Storage> GetTestStorages()
         {
             var storages = new List<Storage>
             {
@@ -57,15 +58,15 @@ namespace FreshFishWebsite.Tests
         public void GetProductReturnsNotFoundResultWhenProductNotFound()
         {
             // Arrange
-            int testSeedlingId = 1;
+            int testProductId = 1;
             var product = new Mock<IRepository<Product>>();
-            product.Setup(repo => repo.GetById(testSeedlingId))
+            product.Setup(repo => repo.GetById(testProductId))
                 .Returns(null as Product);
             var storage = new Mock<IStorageRepository>();
             var controller = new ProductsController(product.Object, storage.Object);
 
             // Act
-            var result = controller.Edit(testSeedlingId);
+            var result = controller.Edit(testProductId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -75,59 +76,49 @@ namespace FreshFishWebsite.Tests
         public void GetProductReturnsViewResultWithProduct()
         {
             // Arrange
-            int testSeedlingId = 1;
+            int testPtoductId = 1;
             var product = new Mock<IRepository<Product>>();
-            product.Setup(repo => repo.GetById(testSeedlingId))
-                .Returns(GetTestProducts().FirstOrDefault(p => p.Id == testSeedlingId));
+            product.Setup(repo => repo.GetById(testPtoductId))
+                .Returns(GetTestProducts().FirstOrDefault(p => p.Id == testPtoductId));
             var storage = new Mock<IStorageRepository>();
             var controller = new ProductsController(product.Object, storage.Object);
 
             // Act
-            var result = controller.Edit(testSeedlingId);
+            var result = controller.Edit(testPtoductId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<Product>(viewResult.ViewData.Model);
             Assert.Equal("fish", model.ProductName);
             Assert.Equal(100, model.QuantityKg);
-            Assert.Equal(testSeedlingId, model.Id);
+            Assert.Equal(testPtoductId, model.Id);
         }
-            /*
-                    [Fact]
-                    public void AddUserReturnsViewResultWithUserModel()
-                    {
-                        // Arrange
-                        var product = new Mock<IRepository<Product>>();
-                        var storage = new Mock<IStorageRepository>();
-                        var controller = new ProductsController(product.Object,storage.Object);
-                        controller.ModelState.AddModelError("ProductName", "Required");
-                        Product newProduct = new Product();
-                        ProductViewModel productViewModel = new ProductViewModel();
-
-                        // Act
-                        var result = controller.Create(1);
-                        // Assert
-                        var viewResult = Assert.IsType<ViewResult>(result);
-                        Assert.Equal(productViewModel, viewResult?.Model);
-                    }
-                     [Fact]
-                  public void AddSeedlingReturnsViewResultWithSeedlingModel()
-                  {
-                      // Arrange
-                      var mock = new Mock<IRepository<Product>>();
-                      var storage = new Mock<IStorageRepository>();
-                      var controller = new ProductsController(mock.Object, storage.Object);
-                      controller.ModelState.AddModelError("Name", "Required");
-                      Product newProduct = new Product();
-                      ProductViewModel productViewModel = new ProductViewModel();
-                      productViewModel.StorageId = 1;
-                      // Act
-                      var result = controller.Create(productViewModel);
-
-                      // Assert
-                      var viewResult = Assert.IsType<ViewResult>(result);
-                      Assert.Equal(productViewModel, viewResult?.Model);
-                  }
-            */
+        [Fact]
+        public async void DeletePostAction_SaveModel()
+        {
+            // arrange
+            var product = new Mock<IRepository<Product>>();
+            var storage = new Mock<IStorageRepository>();
+            int productId = 1;
+            var controller = new ProductsController(product.Object,storage.Object);
+            // act
+            RedirectToRouteResult result = await controller.Delete(productId) as RedirectToRouteResult;
+            // assert
+            product.Verify(a => a.DeleteAsync(productId));
         }
+        [Fact]
+        public async void EditPostAction_SaveModel()
+        {
+            // arrange
+            var products = new Mock<IRepository<Product>>();
+            var storage = new Mock<IStorageRepository>();
+            var product = new Product();
+            var controller = new ProductsController(products.Object, storage.Object);
+            // act
+            RedirectToRouteResult result = await controller.Edit(product) as RedirectToRouteResult;
+            // assert
+            products.Verify(a => a.UpdateAsync(product));
+        }
+    }
 }
+*/

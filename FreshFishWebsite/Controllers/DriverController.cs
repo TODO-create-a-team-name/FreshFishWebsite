@@ -16,8 +16,7 @@ namespace FreshFishWebsite.Controllers
         private readonly IDriverRepository _repo;
         private readonly UserManager<User> _userManager;
         public DriverController(IDriverRepository repo,
-            UserManager<User> userManager,
-            FreshFishDbContext context)
+            UserManager<User> userManager)
         {
             _repo = repo;
             _userManager = userManager;
