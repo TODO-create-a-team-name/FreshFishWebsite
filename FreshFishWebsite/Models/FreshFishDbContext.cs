@@ -18,7 +18,7 @@ namespace FreshFishWebsite.Models
         public DbSet<Pool> Pools { get; set; }
         public DbSet<ProductInPool> ProductsInPool { get; set; }
         public DbSet<Feeding> Feedings { get; set; }
-        public DbSet<PoolState> PoolState { get; set; }
+        public DbSet<PoolState> PoolStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
