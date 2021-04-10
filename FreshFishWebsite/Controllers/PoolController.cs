@@ -4,6 +4,7 @@ using FreshFishWebsite.Models;
 using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace FreshFishWebsite.Controllers
         private readonly IPoolRepository _repo;
         private readonly IProductRepository _productRepo;
         private readonly IProductInPoolRepository _productInPoolRepo;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
         public PoolController(IPoolRepository repo,
             FreshFishDbContext context,
@@ -27,14 +30,28 @@ namespace FreshFishWebsite.Controllers
             _productInPoolRepo = productInPoolRepo;
         }
         [HttpGet]
-        public IActionResult Index(int storageId)
+        public async Task<IActionResult> IndexAsync(int storageId)
         {
-            LitePoolViewModel model = new()
+          /*  LitePoolViewModel model = new()
             {
                 StorageId = storageId,
                 Pools = _repo.GetStoragePools(storageId)
-            };
-            return View(model);
+            };*/
+            if (_signInManager.IsSignedIn(User))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                LitePoolViewModel model = new()
+                {
+                    StorageId = storageId,
+                    Pools = _repo.GetStoragePools(storageId)
+                };
+                //model.TotalPrice = model.Products.Sum(p => p.Product.PricePerKg * p.Quantity);
+                //model.Count = model.Products.Count();
+
+                return PartialView("_Pool_chart", model);
+            }
+            return RedirectToAction("Login", "Account");
+           // return View(model);
         }
 
         [HttpGet]
