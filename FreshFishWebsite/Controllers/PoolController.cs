@@ -17,11 +17,8 @@ namespace FreshFishWebsite.Controllers
         private readonly IPoolRepository _repo;
         private readonly IProductRepository _productRepo;
         private readonly IProductInPoolRepository _productInPoolRepo;
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
 
         public PoolController(IPoolRepository repo,
-            FreshFishDbContext context,
             IProductRepository productRepository,
             IProductInPoolRepository productInPoolRepo)
         {
@@ -30,28 +27,31 @@ namespace FreshFishWebsite.Controllers
             _productInPoolRepo = productInPoolRepo;
         }
         [HttpGet]
-        public async Task<IActionResult> IndexAsync(int storageId)
+        public IActionResult Index(int storageId)
         {
-          /*  LitePoolViewModel model = new()
+            LitePoolViewModel model = new()
             {
                 StorageId = storageId,
                 Pools = _repo.GetStoragePools(storageId)
-            };*/
-            if (_signInManager.IsSignedIn(User))
-            {
-                var user = await _userManager.GetUserAsync(User);
-                LitePoolViewModel model = new()
-                {
-                    StorageId = storageId,
-                    Pools = _repo.GetStoragePools(storageId)
-                };
-                //model.TotalPrice = model.Products.Sum(p => p.Product.PricePerKg * p.Quantity);
-                //model.Count = model.Products.Count();
+            };
+            return View(model);
+        }
 
-                return PartialView("_Pool_chart", model);
-            }
-            return RedirectToAction("Login", "Account");
-           // return View(model);
+        public IActionResult FeedFish(int poolId, int storageId)
+        {
+            FeedFishViewModel model = new()
+            {
+                PoolId = poolId,
+                StorageId = storageId
+            };
+            return PartialView("_Feed_Fish", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FeedFish(FeedFishViewModel model)
+        {
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

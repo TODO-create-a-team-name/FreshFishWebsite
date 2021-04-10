@@ -1,0 +1,37 @@
+﻿@model FreshFishWebsite.ViewModels.PoolVM.FeedFishViewModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+<form asp-action="FeedFish" method="post">
+    <input type="hidden" asp-for="@Model.StorageId" />
+    <input type="hidden" asp-for="@Model.PoolId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="FeedName" class="control-label">Назва корму</label>
+        <input type="text" asp-for="FeedName" class="form-control" />
+    </div>
+    <div class="form-group date">
+        <label asp-for="ExpireFeedDate" class="control-label">Дата наступного годування</label>
+        <input type="date" asp-for="ExpireFeedDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Temperature" class="control-label">Температура у басейні</label>
+        <input type="text" asp-for="Temperature" class="form-control" />
+        <span asp-validation-for="Temperature" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Nitrogen" class="control-label">Рівень азоту у басейні</label>
+        <input type="text" asp-for="Nitrogen" class="form-control" />
+        <span asp-validation-for="Nitrogen" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="WaterLevel" class="control-label">Рівень води у басейні</label>
+        <input type="text" asp-for="WaterLevel" class="form-control" />
+        <span asp-validation-for="WaterLevel" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Додати" class="btn btn-default" />
+    </div>
+</form>
