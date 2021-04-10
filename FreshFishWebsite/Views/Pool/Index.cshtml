@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
     ViewData["Title"] = "Басейни";
 }
-<div class="modal fade" id="columnchart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@*<div class="modal fade" id="columnchart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,39 +23,56 @@
             </form>
         </div>
     </div>
+    </div>*@
+<section>
+    <div id="poolChartModalDiv" class="modal" data-modal="trigger-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Годування</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="poolChartDiv" class="modal-body">
+
+                </div>
+            </div>
+        </div>
     </div>
+</section>
+
 <a asp-action="ManagePoolsIndex" asp-route-storageId="@Model.StorageId">Керувати бесейнами</a>
 @* Pools setcion *@
 <section>
     <div class="container">
         <div class="container">
 
-            
-            <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3">
-                @foreach (var pool in Model.Pools) 
-                {
-                <div class="card text-center col m-1">
-                    <div class="card-body">
-                        <h5 class="card-title">Басейн @pool.PoolNumber</h5>
-                        <p class="card-text">
-                            <div class="water-waves">
-                                <div class="water-wave1"></div>
-                                <div class="water-wave2"></div>
-                                <div class="water-wave3"></div>
-                            </div>
-                        <p><span class="iconify card-fish" data-inline="false" data-icon="la:fish"></span>@pool.FishQuantly/@pool.MaxProductsKg</p>
-                    </div>
-                    @*</p>*@
-                    <p class="card-text">Потребує годування: <span class="text-success">@pool.IsFishFed</span></p>
 
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-secondary btn-sm">Керувати</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#columnchart" class="btn btn-primary btn-sm">Погодувати</button>
-                    </div>
-                </div>}
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3">
+                @foreach (var pool in Model.Pools)
+                {
+                    <div class="card text-center col m-1">
+                        <div class="card-body">
+                            <h5 class="card-title">Басейн @pool.PoolNumber</h5>
+                            <p class="card-text">
+                                <div class="water-waves">
+                                    <div class="water-wave1"></div>
+                                    <div class="water-wave2"></div>
+                                    <div class="water-wave3"></div>
+                                </div>
+                            <p><span class="iconify card-fish" data-inline="false" data-icon="la:fish"></span>@pool.FishQuantly/@pool.MaxProductsKg</p>
+                        </div>
+                        @*</p>*@
+                        <p class="card-text">Потребує годування: <span class="text-success">@pool.IsFishFed</span></p>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-secondary btn-sm">Керувати</button>
+                            <button id="feed" type="button" class="btn btn-primary btn-sm">Погодувати</button>
+                        </div>
+                    </div>}
             </div>
         </div>
-        </div>
+    </div>
 
     </div>
     </div>

@@ -46,7 +46,7 @@ cardTrigger.forEach(currentCardTrigger => {
 
 const addToShoppingCartButton = document.querySelector("#addToShoppingCartSelectedProductButton");
 addToShoppingCartButton.addEventListener("click", () => {
-    addProductToCart(selectedId);
+    addProductToCart( );
 });
 
 const addToShoppingCartButtonFromScroll = document.querySelectorAll(".addToCart");
