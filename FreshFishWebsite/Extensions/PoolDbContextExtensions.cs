@@ -24,5 +24,10 @@ namespace FreshFishWebsite.Extensions
                 .ThenInclude(p => p.Product)
                 .FirstOrDefaultAsync(x => x.Id == poolId);
         }
+
+        public static async Task<Pool> GetPoolById(this DbSet<Pool> pools, int id)
+        {
+            return await pools.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

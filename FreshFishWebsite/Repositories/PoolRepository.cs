@@ -1,7 +1,6 @@
 ﻿using FreshFishWebsite.Extensions;
 using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
 using System;
 using System.Collections.Generic;
@@ -132,14 +131,27 @@ namespace FreshFishWebsite.Repositories
 
         public async Task AddFeedInfo(FeedFishViewModel model)
         {
+            await UpdatePoolExpireFeedingDate(model);
+            await AddFeedAsync(model);
+            await AddPoolStateAsync(model);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task AddFeedAsync(FeedFishViewModel model)
+        {
             Feeding feed = new()
             {
                 Name = model.FeedName,
                 DateTimeFed = DateTime.Now,
-                DateTimeFeedingExpired = model.ExpireFeedDate,
                 PoolId = model.PoolId,
 
             };
+
+            await _context.Feedings.AddAsync(feed);
+        }
+
+        private async Task AddPoolStateAsync(FeedFishViewModel model)
+        {
             PoolState poolState = new()
             {
                 Temperature = model.Temperature,
@@ -147,9 +159,14 @@ namespace FreshFishWebsite.Repositories
                 WaterLevel = model.WaterLevel,
                 PoolId = model.PoolId
             };
-            await _context.Feedings.AddAsync(feed);
             await _context.PoolStates.AddAsync(poolState);
-            await _context.SaveChangesAsync();
+        }
+        private async Task UpdatePoolExpireFeedingDate(FeedFishViewModel model)
+        {
+            var pool = await _context.Pools.GetPoolById(model.PoolId);
+            var expireFeedDate = DateTime.Parse(model.ExpireFeedDate.ToString("MM/dd/yyyy"));
+            pool.DateTimeFeedingExpired = expireFeedDate;
+            await UpdateAsync(pool);
         }
     }
 }

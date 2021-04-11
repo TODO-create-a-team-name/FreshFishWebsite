@@ -12,23 +12,23 @@
         <label asp-for="FeedName" class="control-label">Назва корму</label>
         <input type="text" asp-for="FeedName" class="form-control" />
     </div>
-    <div class="form-group date">
+    <div class="form-group">
         <label asp-for="ExpireFeedDate" class="control-label">Дата наступного годування</label>
-        <input type="date" asp-for="ExpireFeedDate" class="form-control" />
+        <input type="datetime-local" asp-for="ExpireFeedDate" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="Temperature" class="control-label">Температура у басейні</label>
-        <input type="text" asp-for="Temperature" class="form-control" />
+        <input type="number" asp-for="Temperature" class="form-control" />
         <span asp-validation-for="Temperature" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Nitrogen" class="control-label">Рівень азоту у басейні</label>
-        <input type="text" asp-for="Nitrogen" class="form-control" />
+        <input type="number" asp-for="Nitrogen" class="form-control" />
         <span asp-validation-for="Nitrogen" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="WaterLevel" class="control-label">Рівень води у басейні</label>
-        <input type="text" asp-for="WaterLevel" class="form-control" />
+        <input type="number" asp-for="WaterLevel" class="form-control" />
         <span asp-validation-for="WaterLevel" class="text-danger"></span>
     </div>
     <div class="form-group">

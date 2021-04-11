@@ -51,7 +51,7 @@ namespace FreshFishWebsite.Controllers
         public async Task<IActionResult> FeedFish(FeedFishViewModel model)
         {
             await _repo.AddFeedInfo(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { storageId = model.StorageId});
         }
 
         [HttpGet]

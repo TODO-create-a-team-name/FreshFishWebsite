@@ -3,27 +3,6 @@
     Layout = "~/Views/Shared/_Admin_Layout.cshtml";
     ViewData["Title"] = "Басейни";
 }
-@*<div class="modal fade" id="columnchart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Годування</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="createRoleForm" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">Назва корму</label>
-                        <input id="roleInput" name="name" class="form-control" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Погодувати</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>*@
 <section>
     <div id="poolChartModalDiv" class="modal" data-modal="trigger-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -51,25 +30,33 @@
             <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-md-3">
                 @foreach (var pool in Model.Pools)
                 {
-                    <div class="card text-center col m-1">
-                        <div class="card-body">
-                            <h5 class="card-title">Басейн @pool.PoolNumber</h5>
-                            <p class="card-text">
-                                <div class="water-waves">
-                                    <div class="water-wave1"></div>
-                                    <div class="water-wave2"></div>
-                                    <div class="water-wave3"></div>
-                                </div>
-                            <p><span class="iconify card-fish" data-inline="false" data-icon="la:fish"></span>@pool.FishQuantly/@pool.MaxProductsKg</p>
-                        </div>
-                        @*</p>*@
-                        <p class="card-text">Потребує годування: <span class="text-success">@pool.IsFishFed</span></p>
+                <div class="card text-center col m-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Басейн @pool.PoolNumber</h5>
+                        <p class="card-text">
+                            <div class="water-waves">
+                                <div class="water-wave1"></div>
+                                <div class="water-wave2"></div>
+                                <div class="water-wave3"></div>
+                            </div>
+                        <p><span class="iconify card-fish" data-inline="false" data-icon="la:fish"></span>@pool.FishQuantly/@pool.MaxProductsKg</p>
+                    </div>
+                    @if (pool.IsFishFed.Value == true)
+                    {
+                        <p class="card-text">Потребує годування: <span class="text-success">НІ</span></p>
+                        <p>Наступне годування після @pool.DateTimeFeedingExpired.ToString("MM/dd/yyyy hh:mm tt")</p>
+                    }
+                    else if(pool.IsFishFed.Value == false || !pool.IsFishFed.HasValue)
+                    {
+                        <p class="card-text">Потребує годування: <span class="text-danger">ТАК</span></p>
+                    }
 
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-secondary btn-sm">Керувати</button>
-                            <button id="feed" type="button" class="btn btn-primary btn-sm" onclick="feedFish(@pool.Id, @Model.StorageId)">Погодувати</button>
-                        </div>
-                    </div>}
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary btn-sm" asp-action="AddProductsToPool"
+                           asp-route-storageId="@Model.StorageId" asp-route-poolId="@pool.Id">Керувати</a>
+                        <button id="feed" type="button" class="btn btn-primary btn-sm" onclick="feedFish(@pool.Id, @Model.StorageId)">Погодувати</button>
+                    </div>
+                </div>}
             </div>
         </div>
     </div>
