@@ -3,6 +3,7 @@ using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
 using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -127,6 +128,28 @@ namespace FreshFishWebsite.Repositories
                 }
                 return pool;
             }
+        }
+
+        public async Task AddFeedInfo(FeedFishViewModel model)
+        {
+            Feeding feed = new()
+            {
+                Name = model.FeedName,
+                DateTimeFed = DateTime.Now,
+                DateTimeFeedingExpired = model.ExpireFeedDate,
+                PoolId = model.PoolId,
+
+            };
+            PoolState poolState = new()
+            {
+                Temperature = model.Temperature,
+                Nitrogen = model.Nitrogen,
+                WaterLevel = model.WaterLevel,
+                PoolId = model.PoolId
+            };
+            await _context.Feedings.AddAsync(feed);
+            await _context.PoolStates.AddAsync(poolState);
+            await _context.SaveChangesAsync();
         }
     }
 }

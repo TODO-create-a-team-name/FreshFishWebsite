@@ -50,7 +50,7 @@ namespace FreshFishWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> FeedFish(FeedFishViewModel model)
         {
-
+            await _repo.AddFeedInfo(model);
             return RedirectToAction("Index");
         }
 
