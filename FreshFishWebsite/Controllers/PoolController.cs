@@ -1,10 +1,8 @@
 ﻿using FreshFishWebsite.Interfaces;
 using FreshFishWebsite.Models;
-
 using FreshFishWebsite.ViewModels;
 using FreshFishWebsite.ViewModels.PoolVM;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,6 +50,13 @@ namespace FreshFishWebsite.Controllers
         {
             await _repo.AddFeedInfo(model);
             return RedirectToAction("Index", new { storageId = model.StorageId});
+        }
+
+        [HttpGet]
+        public IActionResult WatchStatistics(int poolId)
+        {
+            var model = new PoolStatisticsViewModel() { PoolId = poolId };
+            return PartialView("_Pool_Statistics", model);
         }
 
         [HttpGet]
@@ -142,12 +147,19 @@ namespace FreshFishWebsite.Controllers
 
         public async Task<JsonResult> GetProductsForPoolData(int storageId, int poolId)
         {
+            //TODO: refactor this
             var products = _productRepo.GetProductsByStorageId(storageId)
                 .Select(x => new { x.Id, x.RemainingQuantityKg});
+            
 
             int maxQuantity = await _repo.GetMaxAmountOfProductsInPool(poolId);
 
             return new JsonResult(new { products, maxQuantity });
+        }
+
+        public JsonResult GetDataForStatistics(int poolId)
+        {
+            return new JsonResult(_repo.GetPoolStatesData(poolId));
         }
     }
 }

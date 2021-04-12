@@ -6,6 +6,7 @@
 <div class="container">
 <div class="card col m-1">
   <div class="card-body">
+      <a asp-action="Edit" asp-route-id="@Model.PoolId">Редагувати басейн</a>
 @if (!Model.Products.Any())
 {
     <h4>Залишилося місця в басейні: @Model.Pool.RemainingSpaceForProducts</h4>

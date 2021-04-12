@@ -4,12 +4,29 @@
     ViewData["Title"] = "Басейни";
 }
 <section>
-    <div id="poolChartModalDiv" class="modal" data-modal="trigger-1">
+    <div id="feedFishModalDiv" class="modal" data-modal="trigger-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <h5 class="modal-title">Годування</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="feedFishDiv" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div id="poolChartModalDiv" class="modal" data-modal="trigger-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Статистика</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div id="poolChartDiv" class="modal-body">
@@ -19,7 +36,6 @@
         </div>
     </div>
 </section>
-
 <a asp-action="ManagePoolsIndex" asp-route-storageId="@Model.StorageId">Керувати бесейнами</a>
 @* Pools setcion *@
 <section>
@@ -34,7 +50,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Басейн @pool.PoolNumber</h5>
                         <p class="card-text">
-                            <div class="water-waves">
+                            <div class="water-waves" onclick="watchStatistics(@pool.Id)">
                                 <div class="water-wave1"></div>
                                 <div class="water-wave2"></div>
                                 <div class="water-wave3"></div>

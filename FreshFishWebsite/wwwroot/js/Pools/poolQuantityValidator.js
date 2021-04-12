@@ -16,11 +16,7 @@ $.ajax({
         data = result.products;
     },
     complete: function () {
-        /*console.log(storageId);
-        console.log(maxQuantity);
-        console.log(poolId);
-        console.log(data);
-        console.log(productId);*/
+
         setMaxQuantity(maxQuantity);
     },
     error: function (xhr, status, error) {

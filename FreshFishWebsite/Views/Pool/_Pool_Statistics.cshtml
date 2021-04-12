@@ -1,0 +1,9 @@
+﻿@model FreshFishWebsite.ViewModels.PoolVM.PoolStatisticsViewModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<input type="hidden" asp-for="PoolId" id="poolIdInput" />
+<div id="statisticsChart">Pool Statistics</div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="~/js/Pools/statistics.js"></script>

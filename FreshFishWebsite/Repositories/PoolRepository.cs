@@ -164,9 +164,14 @@ namespace FreshFishWebsite.Repositories
         private async Task UpdatePoolExpireFeedingDate(FeedFishViewModel model)
         {
             var pool = await _context.Pools.GetPoolById(model.PoolId);
-            var expireFeedDate = DateTime.Parse(model.ExpireFeedDate.ToString("MM/dd/yyyy"));
+            var expireFeedDate = DateTime.Parse(model.ExpireFeedDate.ToString("MM/dd/yyyy HH:mm:ss"));
             pool.DateTimeFeedingExpired = expireFeedDate;
             await UpdateAsync(pool);
+        }
+
+        public IEnumerable<PoolState> GetPoolStatesData(int poolId)
+        {
+            return _context.PoolStates.GetPoolStatesByPoolId(poolId);
         }
     }
 }

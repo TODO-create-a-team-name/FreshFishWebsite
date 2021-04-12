@@ -16,5 +16,6 @@ namespace FreshFishWebsite.Interfaces
         public Task AddProductsToPool(ProductsForPoolViewModel model);
         public Task<Pool> ChangeRemainingSpaceForProducts(int poolId, int maxProductsKg);
         public Task AddFeedInfo(FeedFishViewModel model);
+        public IEnumerable<PoolState> GetPoolStatesData(int poolId);
     }
 }
