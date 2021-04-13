@@ -1,4 +1,5 @@
 ﻿using FreshFishWebsite.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace FreshFishWebsite.ViewModels
 {
@@ -6,5 +7,6 @@ namespace FreshFishWebsite.ViewModels
     {
         public Pool Pool { get; set; }
         public int ProductsKgSum { get; set; }
+        public int FishQuantly { get; set; }
     }
 }

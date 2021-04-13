@@ -101,7 +101,8 @@ namespace FreshFishWebsite.Controllers
             var model = new DetailedPoolViewModel
             {
                 Pool = pool,
-                ProductsKgSum = _repo.GetProductsKgSum(pool)
+                ProductsKgSum = _repo.GetProductsKgSum(pool),
+                FishQuantly = pool.FishQuantly
             };
             return View(model);
         }
